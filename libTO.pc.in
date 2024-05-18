@@ -1,0 +1,9 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+Name: libTO
+Description: Trusted Objects Secure Element library
+Version: @VERSION@
+Libs: -L${libdir} -lTO -lTO_i2c_wrapper
+Cflags: -I${includedir} -I${includedir}/trusted-objects @EXPORT_CFLAGS@

@@ -1,0 +1,172 @@
+/* libTO_config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* AES/HMAC secure link protocol */
+#undef ENABLE_SECLINK_AESHMAC
+
+/* ARC4 secure link protocol */
+#undef ENABLE_SECLINK_ARC4
+
+/* Define to 1 if you have the <byteswap.h> header file. */
+#undef HAVE_BYTESWAP_H
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to 1 if you have the <endian.h> header file. */
+#undef HAVE_ENDIAN_H
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* stdint.h missing */
+#undef HAVE_NO_STDINT_H
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
+#undef LT_OBJDIR
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* endianness accepts ENDIAN configuration */
+#undef TO_BIG_ENDIAN
+
+/* command max. parameters number */
+#undef TO_CMD_MAX_PARAMS
+
+/* logs enabled */
+#undef TO_DEBUG
+
+/* disable AES encrypt APIs */
+#undef TO_DISABLE_AES_ENCRYPT
+
+/* disable get_random API */
+#undef TO_DISABLE_API_GET_RANDOM
+
+/* disable certificates APIs */
+#undef TO_DISABLE_CERT_MGMT
+
+/* disable CMAC APIs */
+#undef TO_DISABLE_CMAC
+
+/* disable DTLS retransmission */
+#undef TO_DISABLE_DTLS_RETRANSMISSION
+
+/* disable ECIES helper */
+#undef TO_DISABLE_ECIES_HELPER
+
+/* disable fingerprint APIs */
+#undef TO_DISABLE_FINGERPRINT
+
+/* disable HMAC APIs */
+#undef TO_DISABLE_HMAC
+
+/* disable keys APIs */
+#undef TO_DISABLE_KEYS_MGMT
+
+/* disable LoRa APIs */
+#undef TO_DISABLE_LORA
+
+/* disable LoRa optimized APIs */
+#undef TO_DISABLE_LORA_OPTIMIZED
+
+/* disable NVM storage APIs */
+#undef TO_DISABLE_NVM
+
+/* disable secure messaging APIs */
+#undef TO_DISABLE_SEC_MSG
+
+/* disable SHA256 APIs */
+#undef TO_DISABLE_SHA256
+
+/* disable signing APIs */
+#undef TO_DISABLE_SIGNING
+
+/* disable Secure Element status notification PIO configuration */
+#undef TO_DISABLE_STATUS_PIO_CONFIG
+
+/* disable TLS */
+#undef TO_DISABLE_TLS
+
+/* disable TLS helper */
+#undef TO_DISABLE_TLS_HELPER
+
+/* disable TLS optimized APIs */
+#undef TO_DISABLE_TLS_OPTIMIZED
+
+/* disable Secure Element info APIs */
+#undef TO_DISABLE_TO_INFO
+
+/* enable DTLS */
+#undef TO_ENABLE_DTLS
+
+/* I2C net_bridge TLS enabled */
+#undef TO_ENABLE_I2C_NET_BRIDGE_TLS
+
+/* wrapper Linux I2C device to use */
+#undef TO_I2C_DEVICE
+
+/* wrapper accepts I2C configuration */
+#undef TO_I2C_WRAPPER_CONFIG
+
+/* wrapper accepts I2C last command duration */
+#undef TO_I2C_WRAPPER_LAST_COMMAND_DURATION
+
+/* internal I/O buffer size */
+#undef TO_LIB_INTERNAL_IO_BUFFER_SIZE
+
+/* internal TLS flight buffer size */
+#undef TO_LIB_INTERNAL_TLS_FLIGHT_BUFFER_SIZE
+
+/* internal TLS I/O buffer size */
+#undef TO_LIB_INTERNAL_TLS_IO_BUFFER_SIZE
+
+/* endianness accepts ENDIAN configuration */
+#undef TO_LITTLE_ENDIAN
+
+/* Version number of package */
+#undef VERSION
