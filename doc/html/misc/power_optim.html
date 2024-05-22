@@ -1,0 +1,661 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Power optimization &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TO library migration guide from 4.4.x to 4.5.x" href="../migration/migration_from_4.4.x_to_4.5.x.html" />
+    <link rel="prev" title="Types and definitions" href="../api/defs.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Power optimization</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#wake-up-methods">Wake up methods</a><ul>
+<li><a class="reference internal" href="#first-wake-up-method-use-secure-element-status-pio">First wake up method: use Secure Element status PIO</a><ul>
+<li><a class="reference internal" href="#signalling-method-open-drain-or-push-pull">Signalling method: open drain or push pull</a><ul>
+<li><a class="reference internal" href="#to136-wiring-for-the-open-drain-method">TO136 wiring for the open drain method</a></li>
+<li><a class="reference internal" href="#to136-wiring-for-the-push-pull-method">TO136 wiring for the push pull method</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#status-pio-settings">Status PIO settings</a><ul>
+<li><a class="reference internal" href="#example-diagrams-accoding-to-settings">Example diagrams accoding to settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#second-wake-up-method-scheduled-time-wake-up">Second wake up method: scheduled time wake up</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#implement-the-choosen-wake-up-method">Implement the choosen wake up method</a><ul>
+<li><a class="reference internal" href="#wake-up-with-status-pio">Wake up with status PIO</a><ul>
+<li><a class="reference internal" href="#sequence-diagram-for-such-use-case">Sequence diagram for such use case</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wake-up-with-timer">Wake up with timer</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#appendix-a-commands-busy-duration">Appendix A: commands BUSY duration</a><ul>
+<li><a class="reference internal" href="#timings-with-to136-secure-element">Timings with TO136 Secure Element</a><ul>
+<li><a class="reference internal" href="#aes-encrypt-aes-decrypt">aes_encrypt() / aes_decrypt()</a></li>
+<li><a class="reference internal" href="#compute-cmac-verify-cmac">compute_cmac() / verify_cmac()</a></li>
+<li><a class="reference internal" href="#compute-hmac-verify-hmac">compute_hmac() / verify_hmac()</a></li>
+<li><a class="reference internal" href="#secure-message">secure_message()</a></li>
+<li><a class="reference internal" href="#unsecure-message">unsecure_message()</a></li>
+<li><a class="reference internal" href="#sha256">sha256()</a></li>
+<li><a class="reference internal" href="#sign">sign()</a></li>
+<li><a class="reference internal" href="#verify">verify()</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="power-optimization">
+<h1>Power optimization<a class="headerlink" href="#power-optimization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>When sending commands to Secure Element, you may want to switch on MCU standby
+mode while waiting the response availability, in order to optimize power
+consumption.
+This guide will help you to optimize your MCU power consumption when working
+with Trusted Objects Secure Element, and explains how to integrate this in your
+client application relying on libTO.</p>
+</div>
+<div class="section" id="wake-up-methods">
+<h2>Wake up methods<a class="headerlink" href="#wake-up-methods" title="Permalink to this headline">¶</a></h2>
+<p>Two methods are detailed below, choose the more suitable for your project.</p>
+<div class="section" id="first-wake-up-method-use-secure-element-status-pio">
+<h3>First wake up method: use Secure Element status PIO<a class="headerlink" href="#first-wake-up-method-use-secure-element-status-pio" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is the recommended method.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To use this method, Secure Element status PIO feature must be enabled
+in your Secure Element release.</p>
+</div>
+<p>The Secure Element PIO pin can be used to be notified about the following
+states:</p>
+<ul class="simple">
+<li>IDLE: the Secure Element is ready to receive a new command</li>
+<li>BUSY: a command is currently processed by the Secure Element</li>
+<li>READY: a command response is ready to be read</li>
+</ul>
+<p>IDLE can be signalled either the same way as ready, else by status PIO high
+impedance.</p>
+<p>We assume below the Secure Element status PIO is connected to a PIO of your MCU
+on which interrupts can be configured to wake up from standby on state change.</p>
+<div class="section" id="signalling-method-open-drain-or-push-pull">
+<h4>Signalling method: open drain or push pull<a class="headerlink" href="#signalling-method-open-drain-or-push-pull" title="Permalink to this headline">¶</a></h4>
+<p>The PIO level can be signalled by open drain or by push pull.</p>
+<div class="section" id="to136-wiring-for-the-open-drain-method">
+<h5>TO136 wiring for the open drain method<a class="headerlink" href="#to136-wiring-for-the-open-drain-method" title="Permalink to this headline">¶</a></h5>
+<p>This method is suitable if you have several devices able to wake up your MCU
+using the same PIO.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../_images/wakeup_pio_wiring_opendrain.png"><img alt="Open drain method wiring" src="../_images/wakeup_pio_wiring_opendrain.png" style="width: 50%;" /></a>
+</div>
+</div>
+<div class="section" id="to136-wiring-for-the-push-pull-method">
+<h5>TO136 wiring for the push pull method<a class="headerlink" href="#to136-wiring-for-the-push-pull-method" title="Permalink to this headline">¶</a></h5>
+<p>This method is suitable if TO136 is the only device able to wake up your MCU
+using this PIO, because it avoids the TO136 open drain internal pull up power
+consumption.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../_images/wakeup_pio_wiring_pushpull.png"><img alt="Open drain method wiring" src="../_images/wakeup_pio_wiring_pushpull.png" style="width: 50%;" /></a>
+</div>
+</div>
+</div>
+<div class="section" id="status-pio-settings">
+<h4>Status PIO settings<a class="headerlink" href="#status-pio-settings" title="Permalink to this headline">¶</a></h4>
+<p>Include the libTO header in your code:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;TO.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>and initialize the Secure Element I2C bus with <a class="reference internal" href="../api/se.html#c.TO_init" title="TO_init"><code class="xref c c-func docutils literal"><span class="pre">TO_init()</span></code></a>.</p>
+<p>The status PIO behavior can be customized to fit your needs through the
+following libTO API:</p>
+<dl class="function">
+<dt id="c.TO_set_status_PIO_config">
+<span class="target" id="group__statuspio_1gafd305c49c67066a46c39597b4e4dc4b9"></span>int <code class="descname">TO_set_status_PIO_config</code><span class="sig-paren">(</span>int<em>&nbsp;enable</em>, int<em>&nbsp;opendrain</em>, int<em>&nbsp;ready_level</em>, int<em>&nbsp;idle_hz</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_set_status_PIO_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure Secure Element status PIO notification behavior. </p>
+<p>
+The configuration is stored permanently by the Secure Element, and then persists across reboots.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">enable</span></code>: Set to 1 to enable status PIO notifications (default: 1) </li>
+<li><code class="docutils literal"><span class="pre">opendrain</span></code>: Set to 1 for open drain, 0 for push pull (default: 1) </li>
+<li><code class="docutils literal"><span class="pre">ready_level</span></code>: Set to 1 to signal readyness with high PIO level, 0 to signal it with low PIO level (default: 1). </li>
+<li><code class="docutils literal"><span class="pre">idle_hz</span></code>: Set to 1 to have idle state signalled by PIO high impedance signal it with a low level (default: 1)</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Note: this function do not have BUSY / READY states, the PIO remains in the IDLE state when called. But if the pushed settings change the PIO levels or signalling method, the PIO state can change when this function is called.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>The open drain signalling method is interesting to be used if you plan to have
+several devices able to wake up your MCU using the same PIO.
+In the other hand, push pull method is interesting if the Secure Element is the
+only device able to wake up the MCU, because the internal pull up resistor is
+disabled and then consomes no power.</p>
+<p>The READY signalling level allows you to choose if you want to wake up on a
+rising or a falling edge.</p>
+<p>You can check the current settings by calling the following function:</p>
+<dl class="function">
+<dt id="c.TO_get_status_PIO_config">
+<span class="target" id="group__statuspio_1ga50bdebaed21b863dac8e87400ef8f360"></span>int <code class="descname">TO_get_status_PIO_config</code><span class="sig-paren">(</span>int *<em>&nbsp;enable</em>, int *<em>&nbsp;opendrain</em>, int *<em>&nbsp;ready_level</em>, int *<em>&nbsp;idle_hz</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_status_PIO_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Secure Element status PIO notification configuration. </p>
+<p>
+Note: this function do not have BUSY / READY states, the PIO remains in the IDLE state when called.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">enable</span></code>: Set to 1 if status PIO notification enabled </li>
+<li><code class="docutils literal"><span class="pre">opendrain</span></code>: Method to signal level, see <a class="reference internal" href="#group__statuspio_1gafd305c49c67066a46c39597b4e4dc4b9"><span class="std std-ref">TO_set_status_PIO_config()</span></a> </li>
+<li><code class="docutils literal"><span class="pre">ready_level</span></code>: PIO level to signal ready state, see <a class="reference internal" href="#group__statuspio_1gafd305c49c67066a46c39597b4e4dc4b9"><span class="std std-ref">TO_set_status_PIO_config()</span></a> </li>
+<li><code class="docutils literal"><span class="pre">idle_hz</span></code>: Idle state signalled by PIO high impedance, see <a class="reference internal" href="#group__statuspio_1gafd305c49c67066a46c39597b4e4dc4b9"><span class="std std-ref">TO_set_status_PIO_config()</span></a></li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<div class="section" id="example-diagrams-accoding-to-settings">
+<h5>Example diagrams accoding to settings<a class="headerlink" href="#example-diagrams-accoding-to-settings" title="Permalink to this headline">¶</a></h5>
+<p>Open drain, ready level high, idle high impedance:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../_images/wakeup_pio_state_graph_1111.png"><img alt="Open drain method wiring" src="../_images/wakeup_pio_state_graph_1111.png" style="width: 75%;" /></a>
+</div>
+<p>Push pull, ready level low, idle high impedance:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../_images/wakeup_pio_state_graph_1001.png"><img alt="Open drain method wiring" src="../_images/wakeup_pio_state_graph_1001.png" style="width: 75%;" /></a>
+</div>
+<p>Push pull, ready level low:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../_images/wakeup_pio_state_graph_1000.png"><img alt="Open drain method wiring" src="../_images/wakeup_pio_state_graph_1000.png" style="width: 75%;" /></a>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="second-wake-up-method-scheduled-time-wake-up">
+<h3>Second wake up method: scheduled time wake up<a class="headerlink" href="#second-wake-up-method-scheduled-time-wake-up" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method is to be considered only if you have not the possibility
+to use <a class="reference internal" href="#first-wake-up-method-use-secure-element-status-pio">First wake up method: use Secure Element status PIO</a>.</p>
+</div>
+<p>This method consists to enable the MCU standby mode, having scheduled a wake up
+time on an interrupt based timer. The standby duration can be sized according
+to current Secure Element working command, and to its data size.</p>
+<p>See <a class="reference internal" href="#appendix-a-commands-busy-duration">Appendix A: commands BUSY duration</a> to have an estimated duration of the
+BUSY state for some significative commands.</p>
+</div>
+</div>
+<div class="section" id="implement-the-choosen-wake-up-method">
+<h2>Implement the choosen wake up method<a class="headerlink" href="#implement-the-choosen-wake-up-method" title="Permalink to this headline">¶</a></h2>
+<p>The libTO provides hooks to call your client application code automatically at
+particular library internal steps. The interesting hooks here are PRE COMMAND
+and POST WRITE, which are called respectively just before sending a command and
+just after a command has been written to the Secure Element.</p>
+<p>You have to define functions having the right hook prototype, and then declare
+your hooks to libTO. Refer to libTO hook APIs for more details.</p>
+<p>You can also see to the <cite>hook.c</cite> example provided with the library to have an
+overview of a generic implementation.</p>
+<p>So the idea is, in your hook functions implementation, to switch on your MCU
+standby mode according to one of the <a class="reference internal" href="#wake-up-methods">Wake up methods</a>, and then to wake up
+according to the expected event, then the Secure Element response will be read
+from the I2C bus by libTO.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do NOT call any libTO function from inside PRE COMMAND or POST
+WRITE hooks</p>
+</div>
+<div class="section" id="wake-up-with-status-pio">
+<h3>Wake up with status PIO<a class="headerlink" href="#wake-up-with-status-pio" title="Permalink to this headline">¶</a></h3>
+<p>Just before sending a command, use the PRE COMMAND hook to prepare PIO wake up
+interrupt. The POST WRITE hook will be used just after writing the command and
+before reading the response, to sleep until it is available to be read.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;TO.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;TO_cmd.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">my_pre_command_hook</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">cmd</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">cmd_data_len</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="c1">// TODO: arm standby wake up mechanism, here you prepare the</span>
+        <span class="c1">// wake up interrupt to be sure to do not miss the event after</span>
+        <span class="c1">// going to standby.</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">my_post_write_hook</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">cmd</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">cmd_data_len</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="c1">// TODO: go to standby from this function, and return on wakeup</span>
+        <span class="c1">// to allow libTO to read the Secure Element response.</span>
+<span class="p">}</span>
+
+<span class="cm">/* Declare these hooks to libTO */</span>
+<span class="n">TO_set_lib_hook_pre_command</span><span class="p">(</span><span class="n">my_pre_command_hook</span><span class="p">);</span>
+<span class="n">TO_set_lib_hook_post_write</span><span class="p">(</span><span class="n">my_post_write_hook</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="sequence-diagram-for-such-use-case">
+<h4>Sequence diagram for such use case<a class="headerlink" href="#sequence-diagram-for-such-use-case" title="Permalink to this headline">¶</a></h4>
+<div><img height="979" src="../_images/seqdiag-4dd8ae4b461aa1fb0dfe8b202fa049ffb0fbfcf8.png" width="832" /></div></div>
+</div>
+<div class="section" id="wake-up-with-timer">
+<h3>Wake up with timer<a class="headerlink" href="#wake-up-with-timer" title="Permalink to this headline">¶</a></h3>
+<p>Just after writing the command to the Secure Element, go to standby, and wait a
+timer interrupt to wake up and let libTO read the response.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;TO.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;TO_cmd.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/* Your hook which will be called just after writing command */</span>
+<span class="kt">void</span> <span class="nf">my_post_write_hook</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">cmd</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">cmd_data_len</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="c1">// TODO: arm the timer interrupt with a delay sized according</span>
+        <span class="c1">// to &#39;cmd&#39; and &#39;cmd_data_len&#39;.</span>
+        <span class="c1">// TODO: go to standby mode.</span>
+        <span class="c1">// TODO: return function on wake up.</span>
+<span class="p">}</span>
+
+<span class="cm">/* Declare this hook to libTO */</span>
+<span class="n">TO_set_lib_hook_post_write</span><span class="p">(</span><span class="n">my_post_write_hook</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="#appendix-a-commands-busy-duration">Appendix A: commands BUSY duration</a> to have an estimated duration of the
+BUSY state for some significative commands.</p>
+</div>
+</div>
+<div class="section" id="appendix-a-commands-busy-duration">
+<h2>Appendix A: commands BUSY duration<a class="headerlink" href="#appendix-a-commands-busy-duration" title="Permalink to this headline">¶</a></h2>
+<p>Below you can find BUSY time estimations (milliseconds) for some Secure Element
+commands, with different data sizes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These value are informative and given with no guarantee, they are
+subject to change with Secure Element versions.</p>
+</div>
+<div class="section" id="timings-with-to136-secure-element">
+<h3>Timings with TO136 Secure Element<a class="headerlink" href="#timings-with-to136-secure-element" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="aes-encrypt-aes-decrypt">
+<h4>aes_encrypt() / aes_decrypt()<a class="headerlink" href="#aes-encrypt-aes-decrypt" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data size</th>
+<th class="head">16</th>
+<th class="head">32</th>
+<th class="head">64</th>
+<th class="head">128</th>
+<th class="head">256</th>
+<th class="head">512</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>BUSY duration (ms)</td>
+<td>4</td>
+<td>5</td>
+<td>7</td>
+<td>11</td>
+<td>18</td>
+<td>34</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="compute-cmac-verify-cmac">
+<h4>compute_cmac() / verify_cmac()<a class="headerlink" href="#compute-cmac-verify-cmac" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data size</th>
+<th class="head">16</th>
+<th class="head">32</th>
+<th class="head">64</th>
+<th class="head">128</th>
+<th class="head">256</th>
+<th class="head">512</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>BUSY duration (ms)</td>
+<td>8</td>
+<td>12</td>
+<td>19</td>
+<td>35</td>
+<td>66</td>
+<td>127</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="compute-hmac-verify-hmac">
+<h4>compute_hmac() / verify_hmac()<a class="headerlink" href="#compute-hmac-verify-hmac" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data size</th>
+<th class="head">16</th>
+<th class="head">32</th>
+<th class="head">64</th>
+<th class="head">128</th>
+<th class="head">256</th>
+<th class="head">512</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>BUSY duration (ms)</td>
+<td>14</td>
+<td>14</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+<td>19</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="secure-message">
+<h4>secure_message()<a class="headerlink" href="#secure-message" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data size</th>
+<th class="head">16</th>
+<th class="head">32</th>
+<th class="head">64</th>
+<th class="head">128</th>
+<th class="head">256</th>
+<th class="head">512</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>BUSY duration (ms)</td>
+<td>18</td>
+<td>19</td>
+<td>21</td>
+<td>25</td>
+<td>35</td>
+<td>53</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="unsecure-message">
+<h4>unsecure_message()<a class="headerlink" href="#unsecure-message" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data size</th>
+<th class="head">16</th>
+<th class="head">32</th>
+<th class="head">64</th>
+<th class="head">128</th>
+<th class="head">256</th>
+<th class="head">512</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>BUSY duration (ms)</td>
+<td>20</td>
+<td>21</td>
+<td>24</td>
+<td>28</td>
+<td>38</td>
+<td>57</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="sha256">
+<h4>sha256()<a class="headerlink" href="#sha256" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data size</th>
+<th class="head">16</th>
+<th class="head">32</th>
+<th class="head">64</th>
+<th class="head">128</th>
+<th class="head">256</th>
+<th class="head">512</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>BUSY duration (ms)</td>
+<td>0.7</td>
+<td>0.8</td>
+<td>1.5</td>
+<td>2</td>
+<td>3</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="sign">
+<h4>sign()<a class="headerlink" href="#sign" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data size</th>
+<th class="head">16</th>
+<th class="head">32</th>
+<th class="head">64</th>
+<th class="head">128</th>
+<th class="head">256</th>
+<th class="head">512</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>BUSY duration (ms)</td>
+<td>1080</td>
+<td>1080</td>
+<td>1080</td>
+<td>1080</td>
+<td>1080</td>
+<td>1080</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="verify">
+<h4>verify()<a class="headerlink" href="#verify" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data size</th>
+<th class="head">16</th>
+<th class="head">32</th>
+<th class="head">64</th>
+<th class="head">128</th>
+<th class="head">256</th>
+<th class="head">512</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>BUSY duration (ms)</td>
+<td>2040</td>
+<td>2040</td>
+<td>2040</td>
+<td>2040</td>
+<td>2040</td>
+<td>2040</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

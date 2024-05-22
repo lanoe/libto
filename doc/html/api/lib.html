@@ -1,0 +1,337 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Library core APIs &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Types and definitions" href="defs.html" />
+    <link rel="prev" title="I2C wrapper API" href="i2c_wrapper.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Library core APIs</a><ul>
+<li><a class="reference internal" href="#data-buffers">Data buffers</a></li>
+<li><a class="reference internal" href="#command-data-preparation">Command data preparation</a></li>
+<li><a class="reference internal" href="#send-command">Send command</a></li>
+<li><a class="reference internal" href="#hooks">Hooks</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="library-core-apis">
+<span id="api-lib"></span><h1>Library core APIs<a class="headerlink" href="#library-core-apis" title="Permalink to this headline">¶</a></h1>
+<img alt="location into library structure" class="align-right" src="../_images/lib_part_core.png" />
+<p>These APIs are available if it is needed to add some custom tuning on the
+library behavior. For example, the <a class="reference internal" href="se.html#api-to-functions"><span class="std std-ref">Secure Element functions</span></a> can be
+completely rewritten using the following APIs, if the way some of them are
+implemented doesn’t fit your needs.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;TO_cmd.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<div class="section" id="data-buffers">
+<h2>Data buffers<a class="headerlink" href="#data-buffers" title="Permalink to this headline">¶</a></h2>
+<p>The following buffers are accessible.</p>
+<dl class="variable">
+<dt id="c.TO_command_data">
+<span class="target" id="TO__cmd_8h_1a8f6abcb26c7f50d2605fe9eb5284181a"></span>unsigned char* <code class="descname">TO_command_data</code><a class="headerlink" href="#c.TO_command_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper to access internal I/O buffer command data section, only valid before <a class="reference internal" href="#TO__cmd_8h_1a248664dc38c43fddd26489f6e3ded0a3"><span class="std std-ref">TO_send_command()</span></a> call (even if an error occured while sending command). </p>
+</dd></dl>
+
+<dl class="variable">
+<dt id="c.TO_response_data">
+<span class="target" id="TO__cmd_8h_1ad72eeef9dc43e3f408ab8975ff2aa223"></span>unsigned char* <code class="descname">TO_response_data</code><a class="headerlink" href="#c.TO_response_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper to access internal I/O buffer response data section, only valid after <a class="reference internal" href="#TO__cmd_8h_1a248664dc38c43fddd26489f6e3ded0a3"><span class="std std-ref">TO_send_command()</span></a> call. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="command-data-preparation">
+<h2>Command data preparation<a class="headerlink" href="#command-data-preparation" title="Permalink to this headline">¶</a></h2>
+<p>The following functions are used to prepare data before sending command to
+TO.</p>
+<dl class="function">
+<dt id="c.TO_prepare_command_data">
+<span class="target" id="TO__cmd_8h_1ae62fc1e421b95a26f44592cc3efda86b"></span>int <code class="descname">TO_prepare_command_data</code><span class="sig-paren">(</span>uint16_t<em>&nbsp;offset</em>, const unsigned char *<em>&nbsp;data</em>, uint16_t<em>&nbsp;len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_prepare_command_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare command data. </p>
+<p>
+Insert data into the internal I/O buffer at the specified offset.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">offset</span></code>: Buffer offset where to insert data </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to be copied into the buffer </li>
+<li><code class="docutils literal"><span class="pre">len</span></code>: Data length</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Warning: do not free data pointer parameter or overwrite data before having called <a class="reference internal" href="#TO__cmd_8h_1a248664dc38c43fddd26489f6e3ded0a3"><span class="std std-ref">TO_send_command()</span></a>, or before aborted command with <a class="reference internal" href="#TO__cmd_8h_1a6bff5d258d3259616aadba7e537acc5d"><span class="std std-ref">TO_reset_command_data()</span></a>.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK on success TO_MEMORY_ERROR: data overflows internal I/O buffer, in this case internal command data buffers are invalidated (as if <a class="reference internal" href="#TO__cmd_8h_1a6bff5d258d3259616aadba7e537acc5d"><span class="std std-ref">TO_reset_command_data()</span></a> has been called). </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_prepare_command_data_byte">
+<span class="target" id="TO__cmd_8h_1aef6b53536fb21de28a1659492e323732"></span>int <code class="descname">TO_prepare_command_data_byte</code><span class="sig-paren">(</span>uint16_t<em>&nbsp;offset</em>, const char<em>&nbsp;byte</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_prepare_command_data_byte" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare command data byte. </p>
+<p>
+Insert data byte into the internal I/O buffer at the specified offset.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">offset</span></code>: Buffer offset where to insert data </li>
+<li><code class="docutils literal"><span class="pre">byte</span></code>: Data byte to be copied into the buffer</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK on success TO_MEMORY_ERROR: data byte overflows internal I/O buffer, in this case internal command data buffers are invalidated (as if <a class="reference internal" href="#TO__cmd_8h_1a6bff5d258d3259616aadba7e537acc5d"><span class="std std-ref">TO_reset_command_data()</span></a> has been called). </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_set_command_data">
+<span class="target" id="TO__cmd_8h_1ad91c062be4026c81bd5368f5646a5e55"></span>int <code class="descname">TO_set_command_data</code><span class="sig-paren">(</span>uint16_t<em>&nbsp;offset</em>, const char<em>&nbsp;byte</em>, uint16_t<em>&nbsp;len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_set_command_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set data range. </p>
+<p>
+Set internal I/O buffer range bytes to a defined value.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">offset</span></code>: Buffer offset where to begin range </li>
+<li><code class="docutils literal"><span class="pre">byte</span></code>: Value to be set for each byte in the range </li>
+<li><code class="docutils literal"><span class="pre">len</span></code>: Range length</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK on success TO_MEMORY_ERROR: range overflows internal I/O buffer, in this case internal command data buffers are invalidated (as if <a class="reference internal" href="#TO__cmd_8h_1a6bff5d258d3259616aadba7e537acc5d"><span class="std std-ref">TO_reset_command_data()</span></a> has been called). </dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>And to reset command context:</p>
+<dl class="function">
+<dt id="c.TO_reset_command_data">
+<span class="target" id="TO__cmd_8h_1a6bff5d258d3259616aadba7e537acc5d"></span>void <code class="descname">TO_reset_command_data</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_reset_command_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset command data. </p>
+<p>This function resets command data. It MUST be called if command data has been prepared without subsequent call to <a class="reference internal" href="#TO__cmd_8h_1a248664dc38c43fddd26489f6e3ded0a3"><span class="std std-ref">TO_send_command()</span></a> (if command has been aborted for example). </p>
+</dd></dl>
+
+</div>
+<div class="section" id="send-command">
+<h2>Send command<a class="headerlink" href="#send-command" title="Permalink to this headline">¶</a></h2>
+<p>The following function is used to send a command to TO, after <a class="reference internal" href="#command-data-preparation">Command data
+preparation</a>.</p>
+<dl class="function">
+<dt id="c.TO_send_command">
+<span class="target" id="TO__cmd_8h_1a248664dc38c43fddd26489f6e3ded0a3"></span>int <code class="descname">TO_send_command</code><span class="sig-paren">(</span>const uint16_t<em>&nbsp;cmd</em>, uint16_t<em>&nbsp;cmd_data_len</em>, uint16_t *<em>&nbsp;resp_data_len</em>, uint8_t *<em>&nbsp;resp_status</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_send_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send command to the Secure Element device. </p>
+<p>
+Send a command to the Secure Element device and get response data. Internal command data buffers must be considered as invalidated after calling this function.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">cmd</span></code>: Command code (see TOCMD_* definitions) </li>
+<li><code class="docutils literal"><span class="pre">cmd_data_len</span></code>: Command data len (got from internal I/O buffer) </li>
+<li><code class="docutils literal"><span class="pre">resp_data_len</span></code>: Response data len (expected) </li>
+<li><code class="docutils literal"><span class="pre">resp_status</span></code>: Status of the command</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK on success TO_MEMORY_ERROR: data overflows internal I/O buffer TO_DEVICE_WRITE_ERROR: unable to send command TO_DEVICE_READ_ERROR: unable to read response data TO_INVALID_RESPONSE_LENGTH: expected response length differs from headers </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="hooks">
+<h2>Hooks<a class="headerlink" href="#hooks" title="Permalink to this headline">¶</a></h2>
+<p>The following hooks can be set to automatically call client application
+functions when reaching particular steps in the library internal flow.
+This mechanism allows client application to run custom code interlaced with
+libTO code.</p>
+<dl class="typedef">
+<dt id="c.TO_pre_command_hook">
+<span class="target" id="group__libhooks_1ga332a13b94b1ab276b0fc551fc554846d"></span><em class="property">typedef </em>void<code class="descname">(* TO_pre_command_hook)</code><span class="sig-paren">(</span>uint16_t<em>&nbsp;cmd</em>, uint16_t<em>&nbsp;cmd_data_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_pre_command_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook function prototype to be called by <a class="reference internal" href="#TO__cmd_8h_1a248664dc38c43fddd26489f6e3ded0a3"><span class="std std-ref">TO_send_command()</span></a> just before sending a command to the Secure Element. </p>
+<p>
+Once return, the command response is read from Secure Element.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">cmd</span></code>: Command code, see Secure Element command codes </li>
+<li><code class="docutils literal"><span class="pre">cmd_data_len</span></code>: Command data length</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Warning: do NOT call any libTO function from this kind of hook. </p>
+</dd></dl>
+
+<dl class="typedef">
+<dt id="c.TO_post_write_hook">
+<span class="target" id="group__libhooks_1gac70195718360446034d630a8d0aa6d02"></span><em class="property">typedef </em>void<code class="descname">(* TO_post_write_hook)</code><span class="sig-paren">(</span>uint16_t<em>&nbsp;cmd</em>, uint16_t<em>&nbsp;cmd_data_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_post_write_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook function prototype to be called by <a class="reference internal" href="#TO__cmd_8h_1a248664dc38c43fddd26489f6e3ded0a3"><span class="std std-ref">TO_send_command()</span></a> just after writing command to the Secure Element, and before reading its response. </p>
+<p>
+This hook can be used by client application for power optimization, for example making the system sleep for a while or until Secure Element status GPIO signals response readyness. For this second use case, it is recommended to arm GPIO wakeup interrupt by setting a hook with <a class="reference internal" href="#group__libhooks_1ga332a13b94b1ab276b0fc551fc554846d"><span class="std std-ref">TO_pre_command_hook()</span></a>, to be sure to do not miss the response readyness GPIO toggle.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">cmd</span></code>: Command code, see Secure Element command codes </li>
+<li><code class="docutils literal"><span class="pre">cmd_data_len</span></code>: Command data length</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Once return, the command response is read from Secure Element.</p>
+<p>Warning: do NOT call any libTO function from this kind of hook. </p>
+</dd></dl>
+
+<dl class="typedef">
+<dt id="c.TO_post_command_hook">
+<span class="target" id="group__libhooks_1gaeadda3a5805395df91707f4086cecdc2"></span><em class="property">typedef </em>void<code class="descname">(* TO_post_command_hook)</code><span class="sig-paren">(</span>uint16_t<em>&nbsp;cmd</em>, uint16_t<em>&nbsp;cmd_data_len</em>, uint16_t<em>&nbsp;cmd_rsp_len</em>, uint8_t<em>&nbsp;cmd_status</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_post_command_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook function prototype to be called by <a class="reference internal" href="#TO__cmd_8h_1a248664dc38c43fddd26489f6e3ded0a3"><span class="std std-ref">TO_send_command()</span></a> just after reading command response from the Secure Element. </p>
+<p>
+Warning: do NOT call any libTO function from this kind of hook. <dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">cmd</span></code>: Command code, see Secure Element command codes </li>
+<li><code class="docutils literal"><span class="pre">cmd_data_len</span></code>: Command data length </li>
+<li><code class="docutils literal"><span class="pre">cmd_rsp_len</span></code>: Command response length </li>
+<li><code class="docutils literal"><span class="pre">cmd_status</span></code>: Command status</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_set_lib_hook_pre_command">
+<span class="target" id="group__libhooks_1ga598489abe53d950726783544235d60d9"></span>void <code class="descname">TO_set_lib_hook_pre_command</code><span class="sig-paren">(</span><a class="reference internal" href="#c.TO_pre_command_hook" title="TO_pre_command_hook">TO_pre_command_hook</a><em>&nbsp;hook</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_set_lib_hook_pre_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a pre command hook (see TO_pre_command_hook). </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">hook</span></code>: Pre command hook function to set (NULL to disable). </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_set_lib_hook_post_write">
+<span class="target" id="group__libhooks_1gac6904b870bf80742acb871b634376dba"></span>void <code class="descname">TO_set_lib_hook_post_write</code><span class="sig-paren">(</span><a class="reference internal" href="#c.TO_post_write_hook" title="TO_post_write_hook">TO_post_write_hook</a><em>&nbsp;hook</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_set_lib_hook_post_write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a post write hook (see TO_post_write_hook). </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">hook</span></code>: Post write hook function to set (NULL to disable). </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_set_lib_hook_post_command">
+<span class="target" id="group__libhooks_1gac2a3b5775940939b0a23ecf21df92a72"></span>void <code class="descname">TO_set_lib_hook_post_command</code><span class="sig-paren">(</span><a class="reference internal" href="#c.TO_post_command_hook" title="TO_post_command_hook">TO_post_command_hook</a><em>&nbsp;hook</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_set_lib_hook_post_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a post cmd hook (see TO_post_command_hook). </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">hook</span></code>: Post cmd hook function to set (NULL to disable). </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

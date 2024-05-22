@@ -1,0 +1,144 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Use Linux generic I2C wrapper &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="RaspberryPi (Raspbian) I2C configuration instructions" href="raspberrypi.html" />
+    <link rel="prev" title="Use CP2112 I2C adapter on Linux" href="cp2112_linux.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Use Linux generic I2C wrapper</a><ul>
+<li><a class="reference internal" href="#installation-with-autotools-recommended">Installation with autotools (recommended)</a></li>
+<li><a class="reference internal" href="#installation-without-autotools">Installation without autotools</a></li>
+<li><a class="reference internal" href="#footnotes">Footnotes</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="use-linux-generic-i2c-wrapper">
+<span id="i2c-linux-generic"></span><h1>Use Linux generic I2C wrapper<a class="headerlink" href="#use-linux-generic-i2c-wrapper" title="Permalink to this headline">¶</a></h1>
+<p>The Linux generic I2C wrapper is based on Linux <cite>i2c_dev</cite> devices, having
+devices nodes accessible from <strong>/dev/i2c-*</strong>.</p>
+<p>If your I2C driver is correctly loaded, please ensure to load <cite>i2c_dev</cite> kernel
+module in order to have a device node from <strong>/dev/i2c-*</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">modprobe</span> <span class="n">i2c_dev</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The following prerequisites are expected in this article for the
+target system:</p>
+<ul class="last simple">
+<li>it is running a Linux OS</li>
+<li>it has an I2C master device available from <strong>/dev/i2c-*</strong></li>
+</ul>
+</div>
+<div class="section" id="installation-with-autotools-recommended">
+<h2>Installation with autotools (recommended)<a class="headerlink" href="#installation-with-autotools-recommended" title="Permalink to this headline">¶</a></h2>
+<p>Just follow the <a class="reference internal" href="../autotools_env/setup_linux.html#setup-linux"><span class="std std-ref">Linux installation instructions</span></a>, but at the <cite>configure</cite> time use the
+following parameters:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">../</span><span class="n">configure</span> <span class="n">i2c</span><span class="o">=</span><span class="n">linux_generic</span> <span class="n">i2c_dev</span><span class="o">=/</span><span class="n">dev</span><span class="o">/</span><span class="n">i2c</span><span class="o">-</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>replace <strong>/dev/i2c-0</strong> with the appropriate device node path.</p>
+</div>
+<div class="section" id="installation-without-autotools">
+<h2>Installation without autotools<a class="headerlink" href="#installation-without-autotools" title="Permalink to this headline">¶</a></h2>
+<p>It is assumed the TO library is already integrated into your development
+tool. Then you have to define the following for the project:</p>
+<ul class="simple">
+<li>ENABLE_I2C_LINUX_GENERIC</li>
+<li>TO_I2C_DEVICE set to “/dev/i2c-0”</li>
+</ul>
+<p>replace <strong>/dev/i2c-0</strong> with the appropriate device node path.</p>
+</div>
+<div class="section" id="footnotes">
+<h2>Footnotes<a class="headerlink" href="#footnotes" title="Permalink to this headline">¶</a></h2>
+<p>Maybe this generic wrapper will not fit your I2C master device needs, and then
+it will be needed to fix it according to this device. The sources of this
+wrapper are available from libTO source tree, <cite>wrapper/linux_generic.c</cite>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

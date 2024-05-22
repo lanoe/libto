@@ -1,0 +1,127 @@
+/* Fonts */
+@font-face {
+	font-family: OpenSansLight;
+	src: url(OpenSans-Light.ttf);
+}
+@font-face {
+	font-family: OpenSansRegular;
+	src: url(OpenSans-Regular.ttf);
+}
+/* General */
+div.document {
+	max-width: 70em;
+}
+/* Tables */
+table.docutils {
+	border: 1px solid #dddddd;
+}
+table.docutils th.head {
+	border: 1px solid #f29047;
+	background-color: #f29047;
+	color: white;
+}
+table.docutils td {
+	border: none;
+}
+table.docutils tr:nth-child(odd) {
+	background-color: #fdf2e9;
+}
+table.docutils tr:nth-child(even) {
+	background-color: #fde9d9;
+}
+/* Watermark */
+div.body {
+	background-color: rgba(0, 0, 0, 0);
+}
+div.body:after {
+	content: "Confidential";
+	color: #FFF0F0;
+	position: fixed;
+	top: 40%;
+	left: 0;
+	min-width: 100%;
+	text-align: center;
+	z-index: -1;
+	background: white;
+	display: block;
+	font-size: 120px;
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+}
+/* API presentation */
+dl.function,
+dl.struct,
+dl.enum,
+dl.union {
+	background-color: rgba(0,0,0,0.025);
+	padding: 1em;
+}
+dl.function:nth-child(2n),
+dl.struct:nth-child(2n),
+dl.enum:nth-child(2n),
+dl.union:nth-child(2n) {
+	background-color: rgba(0,0,0,0.05);
+}
+p.blurb {
+	font-weight: bold;
+}
+/* Searchbox */
+div#searchbox {
+	background-color: #eeeeee;
+	border: 1px solid #cccccc;
+	border-radius: .2em;
+	box-shadow: 1px 1px 2px #cccccc;
+	margin-bottom: 2em;
+	padding: 0 1em 1em 1em;
+}
+div.sphinxsidebar #searchbox input[type="text"] {
+	width: 80%;
+}
+div.sphinxsidebar #searchbox input[type="submit"] {
+	width: 2em;
+	height: 2em;
+	border: none;
+	border-radius: 50%;
+	padding: 0;
+	background-color: #ee7214;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+}
+form.search {
+	white-space: nowrap;
+}
+form.search div {
+	display: inline;
+}
+/* Table of content (hiding from level 3 dropdowns) */
+div[role=navigation] ul ul ul {
+	display: none;
+}
+div[role=navigation] ul li.unrolled > ul {
+	display: list-item;
+}
+div[role=navigation] ul ul li > a:after {
+	content: ' \0025B8';
+}
+div[role=navigation] ul ul li.unrolled > a:after {
+	content: ' \0025BE';
+}
+div[role=navigation] li > a:only-child:after {
+	content: '';
+}
+div[role=navigation] ul ul li.unrolled > a:only-child:after {
+	content: '';
+}
+
+cite {
+	font-weight: bold;
+}
+
+h5 {
+	font-size: 120%!important;
+}
+
+h6 {
+	font-size: 110%!important;
+}

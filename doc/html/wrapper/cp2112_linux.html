@@ -1,0 +1,252 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Use CP2112 I2C adapter on Linux &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Use Linux generic I2C wrapper" href="linux_generic.html" />
+    <link rel="prev" title="I2C wrapper implementation guidelines" href="implementation_guidelines.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Use CP2112 I2C adapter on Linux</a><ul>
+<li><a class="reference internal" href="#make-hid-cp2112-kernel-module-compatible-with-to">Make hid_cp2112 kernel module compatible with TO</a><ul>
+<li><a class="reference internal" href="#download-kernel-sources">Download kernel sources</a></li>
+<li><a class="reference internal" href="#prepare-module-rebuild">Prepare module rebuild</a></li>
+<li><a class="reference internal" href="#build-hid-cp2112">Build hid-cp2112</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cp2112-needed-kernel-modules-setup">CP2112 needed kernel modules setup</a><ul>
+<li><a class="reference internal" href="#load-modules">Load modules</a></li>
+<li><a class="reference internal" href="#udev-rules">Udev rules</a></li>
+<li><a class="reference internal" href="#module-settings">Module settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#libto-cp2112-wrapper">libTO CP2112 wrapper</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="use-cp2112-i2c-adapter-on-linux">
+<span id="i2c-cp2112-linux"></span><h1>Use CP2112 I2C adapter on Linux<a class="headerlink" href="#use-cp2112-i2c-adapter-on-linux" title="Permalink to this headline">¶</a></h1>
+<p>In this article are detailed instructions to make CP2112 I2C adapter working on
+Linux.</p>
+<div class="section" id="make-hid-cp2112-kernel-module-compatible-with-to">
+<h2>Make hid_cp2112 kernel module compatible with TO<a class="headerlink" href="#make-hid-cp2112-kernel-module-compatible-with-to" title="Permalink to this headline">¶</a></h2>
+<p>The cp2112 I2C wrapper is using <cite>hid_cp2112</cite> Linux kernel module for TO
+communications. By default, the <cite>hid_cp2112</cite> driver hardcodes two values:</p>
+<ul class="simple">
+<li>the number of times to request transfer status before giving up waiting for
+transfer completion (set to 10)</li>
+<li>the time in milliseconds to wait for reading a response or a transfer status
+response (set to 50)</li>
+</ul>
+<p>These hardcoded values does not fit Secure Element communication needs.</p>
+<p>The attached patch
+<strong>0001-drivers-hid-hid_cp2112-transfer-status-retries-and-r.patch</strong> has to be
+applied to the hid_cp2112 kernel module, and the module has to be rebuilt.
+This patch allows to change module hardcoded values from <cite>sysfs</cite>.</p>
+<p><a class="reference download internal" href="../_downloads/0001-drivers-hid-hid_cp2112-transfer-status-retries-and-r.patch" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">the</span> <span class="pre">0001</span> <span class="pre">patch</span></code></a>.</p>
+<div class="section" id="download-kernel-sources">
+<h3>Download kernel sources<a class="headerlink" href="#download-kernel-sources" title="Permalink to this headline">¶</a></h3>
+<p>From a terminal, run</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">uname</span> <span class="o">-</span><span class="n">r</span>
+</pre></div>
+</div>
+<p>to know your kernel version.</p>
+<p>Download the right kernel sources, for example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pub</span><span class="o">/</span><span class="n">linux</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">v4</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="n">linux</span><span class="o">-</span><span class="mf">4.7</span><span class="o">.</span><span class="mf">2.</span><span class="n">tar</span><span class="o">.</span><span class="n">xz</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="prepare-module-rebuild">
+<h3>Prepare module rebuild<a class="headerlink" href="#prepare-module-rebuild" title="Permalink to this headline">¶</a></h3>
+<p>Extract the downloaded archive and go to the sources directory.</p>
+<p>Run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">mrproper</span>
+</pre></div>
+</div>
+<p>and retrieve your current kernel configuration:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>cp /lib/modules/`uname -r`/build/.config ./
+cp /lib/modules/`uname -r`/build/Module.symvers ./
+</pre></div>
+</div>
+<p>then do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">prepare</span> <span class="o">&amp;&amp;</span> <span class="n">make</span> <span class="n">scripts</span>
+</pre></div>
+</div>
+<p>Finally, apply 0001-drivers-hid-hid_cp2112-transfer-status-retries-and-r.patch:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">patch</span> <span class="o">-</span><span class="n">p1</span> <span class="o">&lt;</span> <span class="mi">0001</span><span class="o">-</span><span class="n">drivers</span><span class="o">-</span><span class="n">hid</span><span class="o">-</span><span class="n">hid_cp2112</span><span class="o">-</span><span class="n">transfer</span><span class="o">-</span><span class="n">status</span><span class="o">-</span><span class="n">retries</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">r</span><span class="o">.</span><span class="n">patch</span>
+</pre></div>
+</div>
+<p>The attached patch
+<strong>0002-drivers-hid-hid-cp2112-add-parameters-for-specials-gpios.patch</strong>
+can be applied to enable CP2112 special GPIOs functions (clock output &amp; RX/TX
+LEDs blink on transfers). This patch is optional.</p>
+<p><a class="reference download internal" href="../_downloads/0002-drivers-hid-hid-cp2112-add-parameters-for-specials-gpios.patch" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">the</span> <span class="pre">0002</span> <span class="pre">patch</span></code></a>.</p>
+</div>
+<div class="section" id="build-hid-cp2112">
+<h3>Build hid-cp2112<a class="headerlink" href="#build-hid-cp2112" title="Permalink to this headline">¶</a></h3>
+<p>Just run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">M</span><span class="o">=</span><span class="n">drivers</span><span class="o">/</span><span class="n">hid</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="cp2112-needed-kernel-modules-setup">
+<h2>CP2112 needed kernel modules setup<a class="headerlink" href="#cp2112-needed-kernel-modules-setup" title="Permalink to this headline">¶</a></h2>
+<p>We are going to properly configure modules needed by CP2112 I2C adapter.</p>
+<div class="section" id="load-modules">
+<h3>Load modules<a class="headerlink" href="#load-modules" title="Permalink to this headline">¶</a></h3>
+<p>If your system uses gziped modules (see if you have <cite>.ko.gz</cite> files into
+<cite>/lib/modules/`uname -r`/kernel/drivers/hid/</cite>), do the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>gzip drivers/hid/hid-cp2112.ko
+sudo cp drivers/hid/hid-cp2112.ko.gz /lib/modules/`uname -r`/kernel/drivers/hid/hid-cp2112.ko.gz
+</pre></div>
+</div>
+<p>else, if your system doesn’t uses gziped modules, do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>sudo cp drivers/hid/hid-cp2112.ko /lib/modules/`uname -r`/kernel/drivers/hid/hid-cp2112.ko
+</pre></div>
+</div>
+<p>Reload the module:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">rmmod</span> <span class="n">hid_cp2112</span>
+<span class="n">sudo</span> <span class="n">modprobe</span> <span class="n">hid_cp2112</span>
+</pre></div>
+</div>
+<p>Also ensure the <strong>i2c_dev</strong> module is loaded:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lsmod</span><span class="o">|</span><span class="n">grep</span> <span class="n">i2c_dev</span>
+</pre></div>
+</div>
+<p>if the module is not present, do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">modprobe</span> <span class="n">i2c_dev</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="udev-rules">
+<h3>Udev rules<a class="headerlink" href="#udev-rules" title="Permalink to this headline">¶</a></h3>
+<p>Copy the attached <strong>50-cp2112.rules</strong> udev rules file in the
+<cite>/etc/udev/rules.d</cite> directory, and run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">udevadm</span> <span class="n">control</span> <span class="o">--</span><span class="n">reload</span>
+</pre></div>
+</div>
+<p>These udev rules allows:</p>
+<ul class="simple">
+<li>every user to access read/write to the CP2112 device</li>
+<li>every user to access read/write to the hid-cp2112 driver <cite>sysfs</cite> settings
+(read <a class="reference internal" href="#module-settings">Module settings</a>)</li>
+</ul>
+<p><a class="reference download internal" href="../_downloads/50-cp2112.rules" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">the</span> <span class="pre">udev</span> <span class="pre">configuration</span> <span class="pre">file</span></code></a>.</p>
+</div>
+<div class="section" id="module-settings">
+<h3>Module settings<a class="headerlink" href="#module-settings" title="Permalink to this headline">¶</a></h3>
+<p>Now the <cite>hid_cp2112</cite> module allows to set/get previously hardcoded values from
+<cite>sysfs</cite>:</p>
+<ul class="simple">
+<li><cite>/sys/module/hid_cp2112/parameters/xfer_status_retries</cite></li>
+<li><cite>/sys/module/hid_cp2112/parameters/response_timeout</cite></li>
+</ul>
+<p>these two parameters are set by the CP2112 wrapper, and they should be set to a
+big value (10000 for example).</p>
+<p>For CP2112 LEDs:</p>
+<ul class="simple">
+<li><cite>/sys/module/hid_cp2112/parameters/enable_special_rx</cite></li>
+<li><cite>/sys/module/hid_cp2112/parameters/enable_special_tx</cite></li>
+</ul>
+<p>these two parameters are disabled by default and can be enabled (set to 1) to
+enable rx/tx LEDs (only if the appropriate patch has been applied).
+The CP2112 module has to be disconnected then connected again to have these
+settings taken into account.</p>
+</div>
+</div>
+<div class="section" id="libto-cp2112-wrapper">
+<h2>libTO CP2112 wrapper<a class="headerlink" href="#libto-cp2112-wrapper" title="Permalink to this headline">¶</a></h2>
+<p>The CP2112 wrapper is enabled by <cite>configure</cite> with the <cite>i2c=cp2112</cite> option.
+Then, configure the library build with:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">../</span><span class="n">configure</span> <span class="o">...</span> <span class="n">i2c</span><span class="o">=</span><span class="n">cp2112</span>
+</pre></div>
+</div>
+<p>This wrapper depends on <cite>libudev</cite> to automatically detect the HID/I2C device to
+use.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

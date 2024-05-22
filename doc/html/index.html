@@ -1,0 +1,173 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Trusted-Objects Secure Element library documentation &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/custom.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="libTO overview" href="overview.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="#">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Trusted-Objects Secure Element library documentation</a><ul>
+<li><a class="reference internal" href="#library-setup-and-configuration">Library setup and configuration</a></li>
+<li><a class="reference internal" href="#i2c-wrapper">I2C wrapper</a></li>
+<li><a class="reference internal" href="#provided-apis">Provided APIs</a></li>
+<li><a class="reference internal" href="#miscellany-guides">Miscellany guides</a><ul>
+<li><a class="reference internal" href="#migration">Migration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="trusted-objects-secure-element-library-documentation">
+<h1>Trusted-Objects Secure Element library documentation<a class="headerlink" href="#trusted-objects-secure-element-library-documentation" title="Permalink to this headline">¶</a></h1>
+<p>The libTO is a library used as an abstraction layer between Secure Element and
+your software, in order to make its usage as simple as possible.</p>
+<p>You can find in this documentation details about the library, installation and
+settings instructions, information on I2C wrappers, and API references.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">libTO overview</a></li>
+</ul>
+</div>
+<div class="section" id="library-setup-and-configuration">
+<h2>Library setup and configuration<a class="headerlink" href="#library-setup-and-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="autotools_env/setup_linux.html">Linux installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autotools_env/setup_windows_msys2.html">Windows installation instructions (MSYS2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autotools_env/setup_windows_mingw.html">Windows installation instructions (MinGW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autotools_env/settings.html">Library configuration with autotools</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="i2c-wrapper">
+<h2>I2C wrapper<a class="headerlink" href="#i2c-wrapper" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="wrapper/overview.html">I2C wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapper/implementation_guidelines.html">I2C wrapper implementation guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapper/cp2112_linux.html">Use CP2112 I2C adapter on Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapper/linux_generic.html">Use Linux generic I2C wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapper/raspberrypi.html">RaspberryPi (Raspbian) I2C configuration instructions</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="provided-apis">
+<span id="apis"></span><h2>Provided APIs<a class="headerlink" href="#provided-apis" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/se.html">Secure Element API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/helper.html">Helper API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/i2c_wrapper.html">I2C wrapper API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/lib.html">Library core APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/defs.html">Types and definitions</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="miscellany-guides">
+<h2>Miscellany guides<a class="headerlink" href="#miscellany-guides" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="misc/power_optim.html">Power optimization</a></li>
+</ul>
+</div>
+<div class="section" id="migration">
+<h3>Migration<a class="headerlink" href="#migration" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="migration/migration_from_4.4.x_to_4.5.x.html">TO library migration guide from 4.4.x to 4.5.x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration/migration_from_4.3.x_to_4.4.x.html">TO library migration guide from 4.3.x to 4.4.x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration/migration_from_4.1.x_to_4.2.x.html">TO library migration guide from 4.1.x to 4.2.x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration/migration_from_4.0.x_to_4.1.x.html">TO library migration guide from 4.0.x to 4.1.x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration/migration_from_3.x.x_to_4.x.x.html">TO library migration guide from 3.x.x to 4.x.x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration/migration_from_2.x.x_to_3.x.x.html">TO library migration guide from 2.x.x to 3.x.x</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

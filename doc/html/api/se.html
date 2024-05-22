@@ -1,0 +1,3050 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Secure Element API &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Helper API" href="helper.html" />
+    <link rel="prev" title="RaspberryPi (Raspbian) I2C configuration instructions" href="../wrapper/raspberrypi.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Secure Element API</a><ul>
+<li><a class="reference internal" href="#i2c-communication">I2C communication</a><ul>
+<li><a class="reference internal" href="#i2c-setup">I2C setup</a></li>
+<li><a class="reference internal" href="#basic-messaging">Basic messaging</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#secure-element-functions">Secure Element functions</a><ul>
+<li><a class="reference internal" href="#system">System</a></li>
+<li><a class="reference internal" href="#hashes">Hashes</a></li>
+<li><a class="reference internal" href="#keys">Keys</a></li>
+<li><a class="reference internal" href="#encryption">Encryption</a></li>
+<li><a class="reference internal" href="#mac">MAC</a></li>
+<li><a class="reference internal" href="#secure-messaging">Secure messaging</a></li>
+<li><a class="reference internal" href="#authentication">Authentication</a></li>
+<li><a class="reference internal" href="#nvm">NVM</a></li>
+<li><a class="reference internal" href="#tls">TLS</a></li>
+<li><a class="reference internal" href="#tls-optimized">TLS optimized</a></li>
+<li><a class="reference internal" href="#lora">LoRa</a></li>
+<li><a class="reference internal" href="#lora-optimized">LoRa optimized</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="secure-element-api">
+<span id="api-to"></span><h1>Secure Element API<a class="headerlink" href="#secure-element-api" title="Permalink to this headline">¶</a></h1>
+<img alt="location into library structure" class="align-right" src="../_images/lib_part_seapi.png" />
+<p>These APIs are used to setup I2C communication and then send basic commands to
+Secure Element.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;TO.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<div class="section" id="i2c-communication">
+<h2>I2C communication<a class="headerlink" href="#i2c-communication" title="Permalink to this headline">¶</a></h2>
+<p>The following functions are used to deal with Secure Element I2C communication,
+they rely on the underlying I2C wrapper (see <a class="reference internal" href="../wrapper/overview.html#i2c-wrapper"><span class="std std-ref">I2C wrapper</span></a>).</p>
+<div class="section" id="i2c-setup">
+<h3>I2C setup<a class="headerlink" href="#i2c-setup" title="Permalink to this headline">¶</a></h3>
+<p>Functions to manage connection with Secure Element.</p>
+<dl class="function">
+<dt id="c.TO_init">
+<span class="target" id="group__i2csetup_1ga51fc54a80545b4b089fdf4c6fb5825d2"></span>int <code class="descname">TO_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize Secure Element communication. </p>
+<p>If endianness is not explicitely defined through project settings macros, this function performs an automatic endianness detection.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if initialization was successful. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_fini">
+<span class="target" id="group__i2csetup_1ga5f454838bf365b34891b6d5f383746d7"></span>int <code class="descname">TO_fini</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_fini" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finish Secure Element communication. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if finalization was successful. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_config">
+<span class="target" id="group__i2csetup_1ga4f2d272e540c5a31c8eecf4e494db4c5"></span>int <code class="descname">TO_config</code><span class="sig-paren">(</span>unsigned char<em>&nbsp;i2c_addr</em>, unsigned char<em>&nbsp;misc_settings</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure Secure Element communication. </p>
+<p>
+See <a class="reference internal" href="i2c_wrapper.html#TO__i2c__wrapper_8h_1a8d63486ac928fc6fc5084acb5ecba4b3"><span class="std std-ref">TO_data_config()</span></a> for more details.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_addr</span></code>: I2C address to use </li>
+<li><code class="docutils literal"><span class="pre">misc_settings</span></code>: Misc. settings byte. It have the following bit form (from MSB to LSB): RES, RES, RES, RES, RES, RES, RES, last byte NACKed. The <em>last byte NACKed</em> bit must be set to 1 if remote device NACKs last written byte.</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if configuration was successful. </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="basic-messaging">
+<h3>Basic messaging<a class="headerlink" href="#basic-messaging" title="Permalink to this headline">¶</a></h3>
+<p>Functions to read and write data to Secure Element. They should be used only
+for debug purposes, as every Secure Element API is supported by the library
+(see <a class="reference internal" href="#secure-element-functions">Secure Element functions</a>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">I2C must be initialized, see <a class="reference internal" href="#c.TO_init" title="TO_init"><code class="xref c c-func docutils literal"><span class="pre">TO_init()</span></code></a>.</p>
+</div>
+<dl class="function">
+<dt id="c.TO_write">
+<span class="target" id="group__i2crw_1ga27990214e239b02bb98be0ae730672d1"></span>int <code class="descname">TO_write</code><span class="sig-paren">(</span>const void *<em>&nbsp;data</em>, unsigned int<em>&nbsp;length</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write data to Secure Element. </p>
+<p>
+This function uses the underlying <a class="reference internal" href="i2c_wrapper.html#TO__i2c__wrapper_8h_1a86709911cf4a31fb5f51dfb5c7eb8e8b"><span class="std std-ref">TO_data_write()</span></a> wrapper function. Refer to its documentation for more details.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Buffer containing data to send </li>
+<li><code class="docutils literal"><span class="pre">length</span></code>: Amount of data to send in bytes</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TO_OK if data has been written sucessfully</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_ERROR if an internal error has occured </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_read">
+<span class="target" id="group__i2crw_1ga687103101777d9afb127f0217e93f379"></span>int <code class="descname">TO_read</code><span class="sig-paren">(</span>void *<em>&nbsp;data</em>, unsigned int<em>&nbsp;length</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read data from Secure Element. </p>
+<p>
+This function uses the underlying <a class="reference internal" href="i2c_wrapper.html#TO__i2c__wrapper_8h_1a65ba96009f1b9bc3e433e1bf6a8dd3e0"><span class="std std-ref">TO_data_read()</span></a> wrapper function. Refer to its documentation for more details.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Buffer to store recieved data </li>
+<li><code class="docutils literal"><span class="pre">length</span></code>: Amount of data to read in bytes</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TO_OK if data has been read sucessfully</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR if an internal error has occured </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_last_command_duration">
+<span class="target" id="group__i2crw_1gacc780462d56f8d9b450e32e3bf0bccca"></span>int <code class="descname">TO_last_command_duration</code><span class="sig-paren">(</span>unsigned int *<em>&nbsp;duration</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_last_command_duration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Last command duration from Secure Element. </p>
+<p>
+This function uses the underlying <a class="reference internal" href="i2c_wrapper.html#TO__i2c__wrapper_8h_1ad1023aede4d05a0e8554ff371bbb2d60"><span class="std std-ref">TO_data_last_command_duration()</span></a> wrapper function. Refer to its documentation for more details.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">duration</span></code>: Pointer to store last command duration in microseconds</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>This function should only be called after a successful command or a successful <a class="reference internal" href="#group__i2crw_1ga687103101777d9afb127f0217e93f379"><span class="std std-ref">TO_read()</span></a> call. If it is called after a failed command or a failed <a class="reference internal" href="#group__i2crw_1ga687103101777d9afb127f0217e93f379"><span class="std std-ref">TO_read()</span></a>, or after a <a class="reference internal" href="#group__i2crw_1ga27990214e239b02bb98be0ae730672d1"><span class="std std-ref">TO_write()</span></a> call, the result is unspecified and may be irrelevant.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TO_OK if data has been read sucessfully</li>
+<li>TO_ERROR if an internal error has occured </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="secure-element-functions">
+<span id="api-to-functions"></span><h2>Secure Element functions<a class="headerlink" href="#secure-element-functions" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">To use every of these functions, I2C must be initialized, see
+<a class="reference internal" href="#c.TO_init" title="TO_init"><code class="xref c c-func docutils literal"><span class="pre">TO_init()</span></code></a>.</p>
+</div>
+<p>The following APIs are directly based on Secure Element APIs.</p>
+<div class="section" id="system">
+<h3>System<a class="headerlink" href="#system" title="Permalink to this headline">¶</a></h3>
+<p>Misc. system functions.</p>
+<dl class="function">
+<dt id="c.TO_get_serial_number">
+<span class="target" id="group__system_1ga8866f0b5d609862eab08525704dd3932"></span>int <code class="descname">TO_get_serial_number</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;serial_number[TO_SN_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_serial_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the unique Secure Element Serial Number. </p>
+<p>
+Serial Number data are encoded on 8 bytes. The first 3 bytes identify Certificate Authority (CA), or the Factory if CA is not relevant. The last 5 bytes are the chip ID. Each Secure Element has an unique serial number.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">serial_number</span></code>: Returned device serial number</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_product_number">
+<span class="target" id="group__system_1gaab8e986392fff9aea327e46fc3791154"></span>int <code class="descname">TO_get_product_number</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;product_number[TO_PN_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_product_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Product Number of the TO. </p>
+<p>
+Product Number is a text string encoded on 12 bytes, e.g: “TOSF-IS1-001”<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">product_number</span></code>: Returned device product number</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_hardware_version">
+<span class="target" id="group__system_1gac9f9b7d4f87c8bddfdc7093fc520d560"></span>int <code class="descname">TO_get_hardware_version</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;hardware_version[TO_HW_VERSION_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_hardware_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Hardware Version of the TO. </p>
+<p>
+Hardware version is encoded on 2 bytes. Available values are:<ul class="simple">
+<li>00: reserved</li>
+<li>01: SCB136i</li>
+</ul>
+<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">hardware_version</span></code>: Returned device hardware version</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_software_version">
+<span class="target" id="group__system_1ga45e7a3e002e2379c4d5a4a8eb5ef3157"></span>int <code class="descname">TO_get_software_version</code><span class="sig-paren">(</span>uint8_t *<em>&nbsp;major</em>, uint8_t *<em>&nbsp;minor</em>, uint8_t *<em>&nbsp;revision</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_software_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Software Version of the TO. </p>
+<p>
+Software version major number is incremented on API change, minor number is incremented when there are changes in features without breaking the API, revision number is incremented for each new build (without major change, and with no API break).<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">major</span></code>: Major number </li>
+<li><code class="docutils literal"><span class="pre">minor</span></code>: Minor number </li>
+<li><code class="docutils literal"><span class="pre">revision</span></code>: Revision number</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_random">
+<span class="target" id="group__system_1ga545a90616ab856cde0973df2a6af259d"></span>int <code class="descname">TO_get_random</code><span class="sig-paren">(</span>const uint16_t<em>&nbsp;random_length</em>, uint8_t *<em>&nbsp;random</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_random" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a random number of the given length. </p>
+<p>
+Request a random number to Secure Element random number generator.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">random_length</span></code>: Requested random length </li>
+<li><code class="docutils literal"><span class="pre">random</span></code>: Returned random number</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_NOT_AVAILABLE: random length out of range</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="hashes">
+<h3>Hashes<a class="headerlink" href="#hashes" title="Permalink to this headline">¶</a></h3>
+<p>Hashing functions.</p>
+<dl class="function">
+<dt id="c.TO_sha256">
+<span class="target" id="group__hashes_1gab06d0621ae8e007dcdb1ab78eb4bea23"></span>int <code class="descname">TO_sha256</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_length</em>, uint8_t *<em>&nbsp;sha256</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_sha256" title="Permalink to this definition">¶</a></dt>
+<dd><p>SHA256 computation. </p>
+<p>
+Compute SHA256 hash on the given data.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to compute SHA256 on </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: Data length, max. 512 bytes </li>
+<li><code class="docutils literal"><span class="pre">sha256</span></code>: returned computed SHA256</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_sha256_init">
+<span class="target" id="group__hashes_1ga4e525da7515fc59e3f3972f2e84def79"></span>int <code class="descname">TO_sha256_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_sha256_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute SHA256 on more than 512 bytes of data. </p>
+<p>This function must be followed by calls to Secure Element_sha256_update() and <a class="reference internal" href="#group__hashes_1gac814ff1626fb95cff8b896e5ac0d82ee"><span class="std std-ref">TO_sha256_final()</span></a>.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_sha256_update">
+<span class="target" id="group__hashes_1ga358ef1c760e665ea24d45587943bc140"></span>int <code class="descname">TO_sha256_update</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;length</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_sha256_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update SHA256 computation with new data. </p>
+<p>
+This function can be called several times to provide data to compute SHA256 on, and must be called after <a class="reference internal" href="#group__hashes_1ga4e525da7515fc59e3f3972f2e84def79"><span class="std std-ref">TO_sha256_init()</span></a>.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to compute SHA256 on </li>
+<li><code class="docutils literal"><span class="pre">length</span></code>: Data length, max. 512 bytes</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_COND_OF_USE_NOT_SATISFIED if not called after <a class="reference internal" href="#group__hashes_1ga4e525da7515fc59e3f3972f2e84def79"><span class="std std-ref">TO_sha256_init()</span></a> or <a class="reference internal" href="#group__hashes_1ga358ef1c760e665ea24d45587943bc140"><span class="std std-ref">TO_sha256_update()</span></a></li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_sha256_final">
+<span class="target" id="group__hashes_1gac814ff1626fb95cff8b896e5ac0d82ee"></span>int <code class="descname">TO_sha256_final</code><span class="sig-paren">(</span>uint8_t *<em>&nbsp;sha256</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_sha256_final" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the SHA256 hash of the data previously given. </p>
+<p>
+This function must be called after <a class="reference internal" href="#group__hashes_1ga4e525da7515fc59e3f3972f2e84def79"><span class="std std-ref">TO_sha256_init()</span></a> and <a class="reference internal" href="#group__hashes_1ga358ef1c760e665ea24d45587943bc140"><span class="std std-ref">TO_sha256_update()</span></a>.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">sha256</span></code>: returned computed SHA256</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_COND_OF_USE_NOT_SATISFIED if not called after <a class="reference internal" href="#group__hashes_1ga358ef1c760e665ea24d45587943bc140"><span class="std std-ref">TO_sha256_update()</span></a></li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="keys">
+<h3>Keys<a class="headerlink" href="#keys" title="Permalink to this headline">¶</a></h3>
+<p>Keys management functions.</p>
+<dl class="function">
+<dt id="c.TO_set_remote_public_key">
+<span class="target" id="group__keys_1gae400c80f5560a1dbc736198456b5cb61"></span>int <code class="descname">TO_set_remote_public_key</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t<em>&nbsp;public_key[TO_ECC_PUB_KEYSIZE]</em>, const uint8_t<em>&nbsp;signature[TO_SIGNATURE_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_set_remote_public_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set remote public key. </p>
+<p>
+This command requests the Secure Element to store, at the given index, a public key to be used in the ECIES process.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the key to be set, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">public_key</span></code>: Key to set </li>
+<li><code class="docutils literal"><span class="pre">signature</span></code>: Public key signature with the certificate previously sent with verify_certificate_and_store()</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>A signature is attached to the new public key and must be verified with the certificate previously sent using verify_certificate_and_store(). This command is disabled if public key is configured as non-writable during (pre-)personalization.</p>
+<p>A CA signed certificate is first sent to the Secure Element using verify_certificate_and_store(), get_challenge_and_store(), and verify_challenge_signature() commands (remote authentication). If the Certificate Authority signature of the certificate is validated, the public key of the certificate is stored. Then, this certificate is used to verify the signature of any ephemeral public key sent using set_remote_public_key(). The signature is calculated on all bytes of the New Remote Public Key. If the signature verification failed, Secure Element will not store the public key. Please refer to Secure Element Datasheet - “Chain of Trust between Authentication and Secure Messaging” chapter for more details.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_BAD_SIGNATURE: invalid signature</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_renew_ecc_keys">
+<span class="target" id="group__keys_1ga54862d00b40e127973a4b6ec542d7082"></span>int <code class="descname">TO_renew_ecc_keys</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_renew_ecc_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renew ECC keys pair. </p>
+<p>
+Renews Elliptic Curve key pair for the corresponding index.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the ECC key pair to renew, starting from 0</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_public_key">
+<span class="target" id="group__keys_1ga9f4ccab608476de0c2262d4a5f85f02a"></span>int <code class="descname">TO_get_public_key</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, uint8_t<em>&nbsp;public_key[TO_ECC_PUB_KEYSIZE]</em>, uint8_t<em>&nbsp;signature[TO_SIGNATURE_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_public_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the public key corresponding to the given index, and the signature of this public key. </p>
+<p>
+Signature can be verified using the public key of the certificate returned by get_certificate().<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Public key index </li>
+<li><code class="docutils literal"><span class="pre">public_key</span></code>: The requested public key </li>
+<li><code class="docutils literal"><span class="pre">signature</span></code>: Public key signature, can be verified using the public key of the certificate returned by GET_CERTIFICATE</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>This signature is calculated on all bytes of the Public Key in the TO response. Key pair used to generate and verify this signature is the one associated to certificate sent by the Secure Element in get_certificate() or get_certificate_and_sign() commands. Please refer to Secure Element Datasheet - “Chain of Trust between Authentication and Secure Messaging” chapter for more details.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_INVALID_RESPONSE_LENGTH: invalid response length</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_unsigned_public_key">
+<span class="target" id="group__keys_1gafcdcafce0e2e173f7046cd12f81dd7bc"></span>int <code class="descname">TO_get_unsigned_public_key</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, uint8_t<em>&nbsp;public_key[TO_ECC_PUB_KEYSIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_unsigned_public_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the public key corresponding to the given index. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_INVALID_RESPONSE_LENGTH: invalid response length</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Public key index </li>
+<li><code class="docutils literal"><span class="pre">public_key</span></code>: The requested public key</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_renew_shared_keys">
+<span class="target" id="group__keys_1gafc375494c6ede138d7e095cc33c8ea10"></span>int <code class="descname">TO_renew_shared_keys</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t<em>&nbsp;public_key_index</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_renew_shared_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renew shared keys. </p>
+<p>
+Renews shared keys (AES and HMAC), stored at the same index as Secure Element ephemeral public/private key pair.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the Secure Element ephemeral public/private key pair, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">public_key_index</span></code>: Index where the remote public key is stored in the Secure Element, starting from 0.</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_key_fingerprint">
+<span class="target" id="group__keys_1gab2f91f55135474716f8af7431d22980b"></span>int <code class="descname">TO_get_key_fingerprint</code><span class="sig-paren">(</span><a class="reference internal" href="defs.html#c.TO_key_type_t" title="TO_key_type_t">TO_key_type_t</a><em>&nbsp;key_type</em>, uint8_t<em>&nbsp;key_index</em>, uint8_t *<em>&nbsp;fingerprint[TO_KEY_FINGERPRINT_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_key_fingerprint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get key fingerprint. </p>
+<p>
+Retrieve the 3 bytes fingerprint of the key corresponding to given type and index.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_type</span></code>: Type of key </li>
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the key for given type starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">fingerprint</span></code>: 3 bytes fingerprint of the key</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>See Secure Element Datasheet - “GET_KEY_FINGERPRINT” chapter for defails about fingerprint computation.</p>
+<p>This function is available only for fixed keys.</p>
+<p>Note: all first keys of the same type have the same index. For example, the first AES key and the first Public Key have both index 0.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key type and/or key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="encryption">
+<h3>Encryption<a class="headerlink" href="#encryption" title="Permalink to this headline">¶</a></h3>
+<p>Ciphered messaging functions.</p>
+<dl class="function">
+<dt id="c.TO_aes_encrypt">
+<span class="target" id="group__encryption_1ga9cd5bf1add43b69609c7a0b4c3913480"></span>int <code class="descname">TO_aes_encrypt</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_length</em>, uint8_t<em>&nbsp;initial_vector[TO_INITIALVECTOR_SIZE]</em>, uint8_t *<em>&nbsp;cryptogram</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_aes_encrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encrypts data using AES128 algorithm in CBC mode of operation. </p>
+<p>
+As padding is not handled by the TO, you must ensure that data length is a multiple of 16 and is not greater than maximum length value (512 bytes). Initial vector is generated by the TO.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the key to use for data encryption, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to encrypt </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: Length of the data to encrypt </li>
+<li><code class="docutils literal"><span class="pre">initial_vector</span></code>: Initial vector </li>
+<li><code class="docutils literal"><span class="pre">cryptogram</span></code>: Cryptogram</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TORSP_INVALID_LEN: Wrong length</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_aes_iv_encrypt">
+<span class="target" id="group__encryption_1ga27890f6dcb5623199ab973469fa550b4"></span>int <code class="descname">TO_aes_iv_encrypt</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t<em>&nbsp;initial_vector[TO_INITIALVECTOR_SIZE]</em>, const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_length</em>, uint8_t *<em>&nbsp;cryptogram</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_aes_iv_encrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Similar to encrypt() except that Initial Vector is given by user. </p>
+<p>
+It can be used to encrypt more than data size limit (512 bytes) by manually chaining blocs of 512 bytes (see Secure Element Datasheet - “Encrypt or
+decrypt more than 512 bytes” chapter for more details). <dl class="docutils">
+<dt><strong>Warning</strong></dt>
+<dd>Using IV_ENCRYPT with a predictable Initial Vector can have security impact. Please let Secure Element generates Initial Vector by using ENCRYPT command when possible.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the key to use for data encryption, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">initial_vector</span></code>: Random data (16 bytes) </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to encrypt </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: </li>
+<li><code class="docutils literal"><span class="pre">cryptogram</span></code>: Returned encrypted data</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_aes_decrypt">
+<span class="target" id="group__encryption_1gaccd863e5d5d1e7f63b4a15484295969f"></span>int <code class="descname">TO_aes_decrypt</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t<em>&nbsp;initial_vector[TO_INITIALVECTOR_SIZE]</em>, const uint8_t *<em>&nbsp;cryptogram</em>, const uint16_t<em>&nbsp;cryptogram_length</em>, uint8_t *<em>&nbsp;data</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_aes_decrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reverse operation of encrypt(). </p>
+<p>
+Requires the initial vector provided by the encryption function.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the key to use for data decryption, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">initial_vector</span></code>: Random data (16 bytes) generated by encrypt function </li>
+<li><code class="docutils literal"><span class="pre">cryptogram</span></code>: Data to decrypt </li>
+<li><code class="docutils literal"><span class="pre">cryptogram_length</span></code>: Cryptogram length, less or equal to 512 bytes </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: returned decrypted data</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Padding is not handled by Secure Element firmware. It gives the possibility to avoid the case of a full padding block sometime required by padding functions.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="mac">
+<h3>MAC<a class="headerlink" href="#mac" title="Permalink to this headline">¶</a></h3>
+<p>Message Authentication Code functions (HMAC and CMAC).</p>
+<dl class="function">
+<dt id="c.TO_compute_hmac">
+<span class="target" id="group__mac_1ga1aa762a20898d22a60f5e436387e889d"></span>int <code class="descname">TO_compute_hmac</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_length</em>, uint8_t<em>&nbsp;hmac_data[TO_HMAC_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_compute_hmac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes a 256-bit HMAC tag based on SHA256 hash function. </p>
+<p>
+If you need to compute HMAC on more than 512 bytes, please use the sequence compute_hmac_init(), compute_hmac_update(), …, compute_hmac_final().<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the key to use for HMAC calculation, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to compute HMAC on </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: </li>
+<li><code class="docutils literal"><span class="pre">hmac_data</span></code>: Computed HMAC</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_compute_hmac_init">
+<span class="target" id="group__mac_1gafa28fc484d4b9e315f52f97de83cc275"></span>int <code class="descname">TO_compute_hmac_init</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;key_index</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_compute_hmac_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute HMAC on more than 512 bytes of data. </p>
+<p>
+This is the first command of the sequence compute_hmac_init(), compute_hmac_update(), …, compute_hmac_final(). It is used to Secure Element send Key_index.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the key to use for HMAC calculation, starting from 0</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_compute_hmac_update">
+<span class="target" id="group__mac_1ga1277a574b49f7ffff506e4bf7347cddc"></span>int <code class="descname">TO_compute_hmac_update</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, uint16_t<em>&nbsp;length</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_compute_hmac_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to send data to compute HMAC on. </p>
+<p>
+This command can be called several times, new data are added to the data previously sent.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to compute HMAC on </li>
+<li><code class="docutils literal"><span class="pre">length</span></code>: Data length</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_COND_OF_USE_NOT_SATISFIED: need to call compute_hmac_init() first</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_compute_hmac_final">
+<span class="target" id="group__mac_1gadf48a56322b327e3078cc5441fc83022"></span>int <code class="descname">TO_compute_hmac_final</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;hmac[TO_HMAC_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_compute_hmac_final" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns computed HMAC. </p>
+<p>
+This is the last command of the sequence compute_hmac_init(), compute_hmac_update(), …, compute_hmac_final().<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">hmac</span></code>: Returned computed HMAC</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_COND_OF_USE_NOT_SATISFIED: need to call compute_hmac_init() and compute_hmac_update() first</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_hmac">
+<span class="target" id="group__mac_1gad6bd252d7a6aa74e8c7ff2b41580a110"></span>int <code class="descname">TO_verify_hmac</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_length</em>, const uint8_t<em>&nbsp;hmac_data[TO_HMAC_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_hmac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies if the HMAC tag is correct for the given data. </p>
+<p>
+If you need to verify HMAC of more than 512 bytes, please use the combination of verify_hmac_init(), verify_hmac_update(), …, verify_hmac_final()<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the key to use for HMAC calculation, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to verify HMAC on </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: </li>
+<li><code class="docutils literal"><span class="pre">hmac_data</span></code>: returned computed HMAC</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_BAD_SIGNATURE: verification failed</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_hmac_init">
+<span class="target" id="group__mac_1ga40e64a45ef0cb6a42bd6f132c37662a3"></span>int <code class="descname">TO_verify_hmac_init</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;key_index</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_hmac_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify HMAC on more than 512 bytes of data. </p>
+<p>
+When you need to verify HMAC of more than 512 bytes you need to call this function first with the key index - as sent to verify_hmac(). Data will be sent with verify_hmac_update() and HMAC will be sent with verify_hmac_final().<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the key to use for HMAC calculation, starting from 0</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_hmac_update">
+<span class="target" id="group__mac_1gabe95ece9fc30878f5719d87cf2680bb6"></span>int <code class="descname">TO_verify_hmac_update</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, uint16_t<em>&nbsp;length</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_hmac_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to send data to verify HMAC on. </p>
+<p>
+After calling verify_hmac_init() to provide key index, you can call verify_hmac_update to send the data to verify HMAC on. This command can be called several times, and new data are added to the previous one for HMAC verification. Last command to use is verify_hmac_final.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to verify HMAC on </li>
+<li><code class="docutils literal"><span class="pre">length</span></code>: Data length</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_COND_OF_USE_NOT_SATISFIED: need to call VERIFY_HMAC_INIT first</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_hmac_final">
+<span class="target" id="group__mac_1ga600b339ff2cf5c4afab6a717c9bb5ed2"></span>int <code class="descname">TO_verify_hmac_final</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;hmac[TO_HMAC_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_hmac_final" title="Permalink to this definition">¶</a></dt>
+<dd><p>This command is used to send HMAC to verify. </p>
+<p>
+Data was previously sent by the sequence verify_hmac_init(), verify_hmac_update(), …, verify_hmac_final(). This command succeed if the HMAC is correct for the given data.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">hmac</span></code>: HMAC to verify</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_BAD_SIGNATURE: verification failed</li>
+<li>TORSP_COND_OF_USE_NOT_SATISFIED: verify_hmac_init() or verify_hmac_update were not called before this command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_compute_cmac">
+<span class="target" id="group__mac_1gaa76132e283e6192ce2045cefeaed73da"></span>int <code class="descname">TO_compute_cmac</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_length</em>, uint8_t<em>&nbsp;cmac_data[TO_CMAC_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_compute_cmac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute CMAC. </p>
+<p>
+Compute a 128-bit CMAC tag based on AES128 algorithm.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the key to use for CMAC calculation, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to compute CMAC on </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: </li>
+<li><code class="docutils literal"><span class="pre">cmac_data</span></code>: Returned computed CMAC</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_cmac">
+<span class="target" id="group__mac_1ga013b34791eb5b808ed4ded81335f0021"></span>int <code class="descname">TO_verify_cmac</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_length</em>, uint8_t<em>&nbsp;cmac_data[TO_CMAC_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_cmac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify CMAC. </p>
+<p>
+Verify if the CMAC tag is correct for the given data.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the key to use to compute the CMAC tag, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to verify CMAC on </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: </li>
+<li><code class="docutils literal"><span class="pre">cmac_data</span></code>: expected CMAC</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_BAD_SIGNATURE: verification failed</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="secure-messaging">
+<h3>Secure messaging<a class="headerlink" href="#secure-messaging" title="Permalink to this headline">¶</a></h3>
+<p>Secure messaging functions, using AES128-CBC encryption and HMAC.</p>
+<dl class="function">
+<dt id="c.TO_secure_message">
+<span class="target" id="group__secmsg_1ga66743f8dfa9800ffb196dc1dae2fa43c"></span>int <code class="descname">TO_secure_message</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;aes_key_index</em>, const uint8_t<em>&nbsp;hmac_key_index</em>, const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_length</em>, uint8_t<em>&nbsp;initial_vector[TO_INITIALVECTOR_SIZE]</em>, uint8_t *<em>&nbsp;cryptogram</em>, uint8_t<em>&nbsp;hmac[TO_HMAC_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_secure_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms a message into a secured message (cryptogram and HMAC tag). </p>
+<p>
+It is equivalent to call encrypt() command, then compute_hmac() on the result. The HMAC tag is calculated on encrypted data. Typical use is to have the same value to both AES and HMAC Key indexes. If remote public key is known and trusted by TO, the TO’s public key could be added to the result of this command and could be used on to have one way only communication network (from Secure Element to remote only).<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">aes_key_index</span></code>: Index of the key to use for data encryption, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">hmac_key_index</span></code>: Index of the key to use for HMAC, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Message to be secured </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: </li>
+<li><code class="docutils literal"><span class="pre">initial_vector</span></code>: Block of 16 random bytes generated by the Secure Element and required to decrypt the data </li>
+<li><code class="docutils literal"><span class="pre">cryptogram</span></code>: Message cryptogram (same size as data) </li>
+<li><code class="docutils literal"><span class="pre">hmac</span></code>: Message HMAC</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Note: As padding is not handled by the TO, you must ensure that data length is a multiple of 16 and is not greater than maximum length value (512 bytes). Initial vector is generated by the Secure Element and not included in the data length</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_unsecure_message">
+<span class="target" id="group__secmsg_1ga08212932319ec31076c272ad60e4004c"></span>int <code class="descname">TO_unsecure_message</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;aes_key_index</em>, const uint8_t<em>&nbsp;hmac_key_index</em>, const uint8_t<em>&nbsp;initial_vector[TO_INITIALVECTOR_SIZE]</em>, const uint8_t *<em>&nbsp;cryptogram</em>, const uint16_t<em>&nbsp;cryptogram_length</em>, const uint8_t<em>&nbsp;hmac[TO_HMAC_SIZE]</em>, uint8_t *<em>&nbsp;data</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_unsecure_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reverse operation of secure_message() </p>
+<p>
+Data are decrypted only if the HMAC tag is valid.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">aes_key_index</span></code>: Index of the key to use for data decryption, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">hmac_key_index</span></code>: Index of the key to use for HMAC verification, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">initial_vector</span></code>: Initial vector for decryption </li>
+<li><code class="docutils literal"><span class="pre">cryptogram</span></code>: Message cryptogram </li>
+<li><code class="docutils literal"><span class="pre">cryptogram_length</span></code>: </li>
+<li><code class="docutils literal"><span class="pre">hmac</span></code>: Expected HMAC </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Decrypted data</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="authentication">
+<h3>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h3>
+<p>Certificates management and signature functions.</p>
+<dl class="function">
+<dt id="c.TO_sign">
+<span class="target" id="group__auth_1ga15a9ec24494830b03dafe065ef19898c"></span>int <code class="descname">TO_sign</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, uint8_t *<em>&nbsp;challenge</em>, const uint16_t<em>&nbsp;challenge_length</em>, uint8_t *<em>&nbsp;signature</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Elliptic Curve Digital Signature of the given data. </p>
+<p>
+Signature Size is twice the size of the ECC key in bytes.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Key index to use for signature </li>
+<li><code class="docutils literal"><span class="pre">challenge</span></code>: Challenge to be signed </li>
+<li><code class="docutils literal"><span class="pre">challenge_length</span></code>: </li>
+<li><code class="docutils literal"><span class="pre">signature</span></code>: Returned challenge signature</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify">
+<span class="target" id="group__auth_1ga8d92ab993f87206fe129fbb75113d5c7"></span>int <code class="descname">TO_verify</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_length</em>, const uint8_t *<em>&nbsp;signature</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies the given Elliptic Curve Digital Signature of the given data. </p>
+<p>
+The public key used for the signature verification must be previously provided using the SET_REMOTE_PUBLIC_KEY command.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Key index to use for verification </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to verify signature on </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: </li>
+<li><code class="docutils literal"><span class="pre">signature</span></code>: Expected data signature</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TORSP_BAD_SIGNATURE: invalid signature</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_sign_hash">
+<span class="target" id="group__auth_1ga65995caf053f238a34d5b637ef90fbd1"></span>int <code class="descname">TO_sign_hash</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t<em>&nbsp;hash[TO_HASH_SIZE]</em>, uint8_t *<em>&nbsp;signature</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_sign_hash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Elliptic Curve Digital Signature of the given hash. </p>
+<p>
+Signature Size is twice the size of the ECC key in bytes.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Key index to use for signature </li>
+<li><code class="docutils literal"><span class="pre">hash</span></code>: Hash to be signed </li>
+<li><code class="docutils literal"><span class="pre">signature</span></code>: Returned hash signature</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_hash_signature">
+<span class="target" id="group__auth_1ga0b356cf94943fc54b9397f68e0b07969"></span>int <code class="descname">TO_verify_hash_signature</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t<em>&nbsp;hash[TO_HASH_SIZE]</em>, const uint8_t *<em>&nbsp;signature</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_hash_signature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies the given Elliptic Curve Digital Signature of the given hash. </p>
+<p>
+The public key used for the signature verification must be previously provided using the SET_REMOTE_PUBLIC_KEY command.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Key index to use for verification </li>
+<li><code class="docutils literal"><span class="pre">hash</span></code>: Hash to verify signature on </li>
+<li><code class="docutils literal"><span class="pre">signature</span></code>: Expected hash signature</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid key index</li>
+<li>TORSP_BAD_SIGNATURE: invalid signature</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_certificate_subject_cn">
+<span class="target" id="group__auth_1gaa6321f7d70935b0ed7ca931be1bb157d"></span>int <code class="descname">TO_get_certificate_subject_cn</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;certificate_index</em>, char<em>&nbsp;subject_cn[TO_CERT_SUBJECT_CN_MAXSIZE+1]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_certificate_subject_cn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns subject common name of one of the Secure Element certificates. </p>
+<p>
+Request a certificate subject common name to Secure Element according to the given index.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">certificate_index</span></code>: Requested certificate index </li>
+<li><code class="docutils literal"><span class="pre">subject_cn</span></code>: Returned certificate subject common name null terminated string</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_NOT_AVAILABLE: certificate Format not supported</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid Certificate Number</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_certificate">
+<span class="target" id="group__auth_1gae55f542ec36fad0fbf999f854a7eb7ea"></span>int <code class="descname">TO_get_certificate</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;certificate_index</em>, const <a class="reference internal" href="defs.html#c.TO_certificate_format_t" title="TO_certificate_format_t">TO_certificate_format_t</a><em>&nbsp;format</em>, uint8_t *<em>&nbsp;certificate</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_certificate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns one of the Secure Element certificates. </p>
+<p>
+Request a certificate to Secure Element according to the given index and format.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">certificate_index</span></code>: Requested certificate index </li>
+<li><code class="docutils literal"><span class="pre">format</span></code>: Requested certificate format </li>
+<li><code class="docutils literal"><span class="pre">certificate</span></code>: Certificate, size depends on the certificate type (see TO_cert_*_t)</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_NOT_AVAILABLE: certificate Format not supported</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid Certificate Number</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_certificate_x509">
+<span class="target" id="group__auth_1ga19122e9bffa02741bd091e8bbbb2f554"></span>int <code class="descname">TO_get_certificate_x509</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;certificate_index</em>, uint8_t *<em>&nbsp;certificate</em>, uint16_t *<em>&nbsp;size</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_certificate_x509" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns one of the Secure Element certificates, x509 DER formated. </p>
+<p>
+Request a x509 DER formated certificate to Secure Element according to the given index.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">certificate_index</span></code>: Requested certificate index </li>
+<li><code class="docutils literal"><span class="pre">certificate</span></code>: Returned certificate data, this buffer must be at least TO_MAXSIZE </li>
+<li><code class="docutils literal"><span class="pre">size</span></code>: Returned certificate real size (which is less or equal to 512 bytes)</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_NOT_AVAILABLE: certificate Format not supported</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid Certificate Number</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_certificate_and_sign">
+<span class="target" id="group__auth_1ga36c269f4281fd131055bb1d534d0b656"></span>int <code class="descname">TO_get_certificate_and_sign</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;certificate_index</em>, const <a class="reference internal" href="defs.html#c.TO_certificate_format_t" title="TO_certificate_format_t">TO_certificate_format_t</a><em>&nbsp;format</em>, uint8_t *<em>&nbsp;challenge</em>, const uint16_t<em>&nbsp;challenge_length</em>, uint8_t *<em>&nbsp;certificate</em>, uint8_t *<em>&nbsp;signature</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_certificate_and_sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns one of the Secure Element certificates, and a challenge signed with the certificate private key. </p>
+<p>
+This command is equivalent to GET_CERTIFICATE and SIGN commands in only 1 message.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">certificate_index</span></code>: Index of the certificate to return, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">format</span></code>: Format of the TO’s certificate, read the Secure Element Datasheet, “Certificates description” chapter </li>
+<li><code class="docutils literal"><span class="pre">challenge</span></code>: Challenge to be signed </li>
+<li><code class="docutils literal"><span class="pre">challenge_length</span></code>: Length of the challenge to be signed </li>
+<li><code class="docutils literal"><span class="pre">certificate</span></code>: Certificate, size depends on the certificate type (see TO_cert_*_t) </li>
+<li><code class="docutils literal"><span class="pre">signature</span></code>: Returned signature</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_INVALID_LEN: wrong length</li>
+<li>TORSP_NOT_AVAILABLE: certificate Format not supported</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid Certificate Number</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_certificate_x509_and_sign">
+<span class="target" id="group__auth_1gaadaf3d6e66ec733cc2bc0b4f14483ff9"></span>int <code class="descname">TO_get_certificate_x509_and_sign</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;certificate_index</em>, uint8_t *<em>&nbsp;challenge</em>, const uint16_t<em>&nbsp;challenge_length</em>, uint8_t *<em>&nbsp;certificate</em>, uint16_t *<em>&nbsp;size</em>, uint8_t *<em>&nbsp;signature</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_certificate_x509_and_sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns one of the Secure Element x509 DER formated certificates, and a challenge signed with the certificate private key. </p>
+<p>
+This command is equivalent to GET_CERTIFICATE and SIGN commands in only 1 message.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">certificate_index</span></code>: Index of the certificate to return, starting from 0 </li>
+<li><code class="docutils literal"><span class="pre">challenge</span></code>: Challenge to be signed </li>
+<li><code class="docutils literal"><span class="pre">challenge_length</span></code>: Length of the challenge to be signed </li>
+<li><code class="docutils literal"><span class="pre">certificate</span></code>: Returned certificate data, this buffer must be at least TO_MAXSIZE </li>
+<li><code class="docutils literal"><span class="pre">size</span></code>: Returned certificate real size (which is less or equal to 512 bytes) </li>
+<li><code class="docutils literal"><span class="pre">signature</span></code>: Returned signature</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_INVALID_LEN: wrong length</li>
+<li>TORSP_NOT_AVAILABLE: certificate Format not supported</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid Certificate Number</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_certificate_and_store">
+<span class="target" id="group__auth_1gab970c31a5d8dc7476cede722eeb1fc4d"></span>int <code class="descname">TO_verify_certificate_and_store</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;ca_key_id</em>, const <a class="reference internal" href="defs.html#c.TO_certificate_format_t" title="TO_certificate_format_t">TO_certificate_format_t</a><em>&nbsp;format</em>, uint8_t *<em>&nbsp;certificate</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_certificate_and_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests to verify Certificate Authority Signature of the given certificate, if verification succeeds, this certificate is stored into Secure Element Memory. </p>
+<p>
+This command is required before using GET_CHALLENGE_AND_STORE and VERIFY_CHALLENGE_SIGNATURE.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">ca_key_id</span></code>: Index of the Certificate Authority public Key </li>
+<li><code class="docutils literal"><span class="pre">format</span></code>: Format of the certificate </li>
+<li><code class="docutils literal"><span class="pre">certificate</span></code>: Certificate to be verified and stored</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_NOT_AVAILABLE: certificate Format not supported</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid CA Key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_ca_certificate_and_store">
+<span class="target" id="group__auth_1gac9fb45dba44a8994f6a88fb6d07a3e12"></span>int <code class="descname">TO_verify_ca_certificate_and_store</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;ca_key_index</em>, const uint8_t<em>&nbsp;subca_key_index</em>, const uint8_t *<em>&nbsp;certificate</em>, const uint16_t<em>&nbsp;certificate_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_ca_certificate_and_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests to verify CA Certificate Authority Signature of the given certificate, if verification succeeds, this certificate is stored into Secure Element Memory. </p>
+<p>
+Note: the only supported certificate format for this command is DER X509.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">ca_key_index</span></code>: CA index to verify subCA </li>
+<li><code class="docutils literal"><span class="pre">subca_key_index</span></code>: subCA index to store subCA </li>
+<li><code class="docutils literal"><span class="pre">certificate</span></code>: Certificate to be verified and stored </li>
+<li><code class="docutils literal"><span class="pre">certificate_len</span></code>: Certificate length</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid CA Key index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_challenge_and_store">
+<span class="target" id="group__auth_1ga8241e6a8870b94ec7c298a16ada3e696"></span>int <code class="descname">TO_get_challenge_and_store</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;challenge[TO_CHALLENGE_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_challenge_and_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a challenge (random number of fixed length) and store it into Secure Element memory. </p>
+<p>
+This command must be called before VERIFY_CHALLENGE_SIGNATURE.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">challenge</span></code>: Returned challenge</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_challenge_signature">
+<span class="target" id="group__auth_1gac22fdcd88ca6278e143570456b657b90"></span>int <code class="descname">TO_verify_challenge_signature</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;signature[TO_SIGNATURE_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_challenge_signature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies if the given signature matches with the signature of the challenge previously sent by GET_CHALLENGE_AND_STORE, using the public key of the certificate previously sent by VERIFY_CERTIFICATE_AND_STORE. </p>
+<p>
+Note: VERIFY_CERTIFICATE_AND_STORE must be called before this command. GET_CHALLENGE_AND_STORE must be called before this command.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">signature</span></code>: Challenge signature to verify</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_BAD_SIGNATURE: verification failed</li>
+<li>TORSP_COND_OF_USE_NOT_SATISFIED: VERIFY_CERTIFICATE_AND_STORE and GET_CHALLENGE_AND_STORE were not called before this command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_chain_certificate_and_store_init">
+<span class="target" id="group__auth_1ga45970e6e5b8289f29b7f00c4ed64940f"></span>int <code class="descname">TO_verify_chain_certificate_and_store_init</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;ca_key_index</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_chain_certificate_and_store_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize certificate chain verification. </p>
+<p>
+This command is required before using VERIFY_CHAIN_CERTIFICATE_AND_STORE_UPDATE.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">ca_key_index</span></code>: CA key index (use TO_CA_IDX_AUTO to enable Authority Key Identifier based CA detection)</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_chain_certificate_and_store_update">
+<span class="target" id="group__auth_1ga8286d8aaee788e5a31552c99badfd43b"></span>int <code class="descname">TO_verify_chain_certificate_and_store_update</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;chain_certificate</em>, const uint16_t<em>&nbsp;chain_certificate_length</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_chain_certificate_and_store_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update certificate chain verification with certificate chain data. </p>
+<p>This command must be used after VERIFY_CHAIN_CERTIFICATE_AND_STORE_UPDATE_INIT and is required before using VERIFY_CHAIN_CERTIFICATE_AND_STORE_UPDATE_FINAL and can be repeated to deal with certificate chains longer than 512 bytes.</p>
+<p>Certificates must be in X509 DER (binary) format. Certificates must be ordered as following:<ul class="simple">
+<li>Final certificate</li>
+<li>Intermediate CA certificates (if any)</li>
+<li>Root CA certificate (optional as it must already be trusted by the Secure Element)</li>
+</ul>
+</p>
+<p>Certificate chain can be cut anywhere.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_BAD_SIGNATURE: invalid signature</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_chain_certificate_and_store_final">
+<span class="target" id="group__auth_1ga0102fff788f5ca84f2d9f327cf61d7b0"></span>int <code class="descname">TO_verify_chain_certificate_and_store_final</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_chain_certificate_and_store_final" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finalize certificate chain verification. </p>
+<p>This command must be used after VERIFY_CHAIN_CERTIFICATE_AND_STORE_UPDATE_UPDATE to verify last certificate and store final certificate.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_BAD_SIGNATURE: invalid signature</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_chain_ca_certificate_and_store_init">
+<span class="target" id="group__auth_1gac7aac960abfed6421a9934395fc56dc4"></span>int <code class="descname">TO_verify_chain_ca_certificate_and_store_init</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;ca_key_index</em>, const uint8_t<em>&nbsp;subca_key_index</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_chain_ca_certificate_and_store_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize CA certificate chain verification. </p>
+<p>
+This command is required before using VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_UPDATE.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">ca_key_index</span></code>: CA key index (use TO_CA_IDX_AUTO to enable Authority Key Identifier based CA detection) </li>
+<li><code class="docutils literal"><span class="pre">subca_key_index</span></code>: subCA index to store subCA</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_chain_ca_certificate_and_store_update">
+<span class="target" id="group__auth_1ga29ac266b98a87c16e2ca885b295bb74d"></span>int <code class="descname">TO_verify_chain_ca_certificate_and_store_update</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;chain_certificate</em>, const uint16_t<em>&nbsp;chain_certificate_length</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_chain_ca_certificate_and_store_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update CA certificate chain verification with certificate chain data. </p>
+<p>This command must be used after VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_UPDATE_INIT and is required before using VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_UPDATE_FINAL and can be repeated to deal with certificate chains longer than 512 bytes.</p>
+<p>Certificates must be in X509 DER (binary) format. Certificates must be ordered as following:<ul class="simple">
+<li>Intermediate CA certificates</li>
+<li>Root CA certificate (optional as it must already be trusted by the Secure Element)</li>
+</ul>
+</p>
+<p>Certificate chain can be cut anywhere.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_BAD_SIGNATURE: invalid signature</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_verify_chain_ca_certificate_and_store_final">
+<span class="target" id="group__auth_1gad36376f2f979558b1b4a506f7b03b72e"></span>int <code class="descname">TO_verify_chain_ca_certificate_and_store_final</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_verify_chain_ca_certificate_and_store_final" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finalize certificate chain verification. </p>
+<p>This command must be used after VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_UPDATE_UPDATE to verify last certificate and store first intermediate CA certificate.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_BAD_SIGNATURE: invalid signature</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="nvm">
+<h3>NVM<a class="headerlink" href="#nvm" title="Permalink to this headline">¶</a></h3>
+<p>Functions to use Secure Element secure data storage.</p>
+<dl class="function">
+<dt id="c.TO_write_nvm">
+<span class="target" id="group__nvm_1ga2ef7dd8bb2d3118c901ca1f7538f8882"></span>int <code class="descname">TO_write_nvm</code><span class="sig-paren">(</span>const uint16_t<em>&nbsp;offset</em>, const void *<em>&nbsp;data</em>, unsigned int<em>&nbsp;length</em>, const uint8_t<em>&nbsp;key[TO_AES_KEYSIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_write_nvm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write data to Secure Element NVM reserved zone. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if data has been written sucessfully<ul class="simple">
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_ERROR if an internal error has occured </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">offset</span></code>: Offset in zone to write data </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Buffer containing data to send </li>
+<li><code class="docutils literal"><span class="pre">length</span></code>: Amount of data to send in bytes (512 bytes max.) </li>
+<li><code class="docutils literal"><span class="pre">key</span></code>: Key used to read/write previous data</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_read_nvm">
+<span class="target" id="group__nvm_1ga3b925f170d8076f0c215b8f88d587e31"></span>int <code class="descname">TO_read_nvm</code><span class="sig-paren">(</span>const uint16_t<em>&nbsp;offset</em>, void *<em>&nbsp;data</em>, unsigned int<em>&nbsp;length</em>, const uint8_t<em>&nbsp;key[TO_AES_KEYSIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_read_nvm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read data from Secure Element NVM reserved zone. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if data has been written sucessfully<ul class="simple">
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_ERROR if an internal error has occured </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">offset</span></code>: Offset in zone to read data </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Buffer to store data </li>
+<li><code class="docutils literal"><span class="pre">length</span></code>: Amount of data to read in bytes (512 bytes max.) </li>
+<li><code class="docutils literal"><span class="pre">key</span></code>: Key used to write data</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_nvm_size">
+<span class="target" id="group__nvm_1ga76c7099a41711c41c4176cab05bf3740"></span>int <code class="descname">TO_get_nvm_size</code><span class="sig-paren">(</span>uint16_t *<em>&nbsp;size</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_nvm_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get NVM reserved zone available size. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if size has been retrieved sucessfully<ul class="simple">
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_ERROR if an internal error has occured </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">size</span></code>: NVM size</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="tls">
+<h3>TLS<a class="headerlink" href="#tls" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.TO_set_tls_server_random">
+<span class="target" id="group__tls_1ga8030bda47ad68b1727978f284bf5b006"></span>int <code class="descname">TO_set_tls_server_random</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;random[TO_TLS_RANDOM_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_set_tls_server_random" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set TLS server random. </p>
+<p>
+Send TLS server random to Secure Element.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">random</span></code>: Server random including a timestamp as prefix</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_set_tls_server_eph_pub_key">
+<span class="target" id="group__tls_1ga7a9a19ef310b6f8795ec04ec353f78a2"></span>int <code class="descname">TO_set_tls_server_eph_pub_key</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;key_index</em>, uint8_t<em>&nbsp;ecc_params[TO_TLS_SERVER_PARAMS_SIZE]</em>, uint8_t<em>&nbsp;signature[TO_SIGNATURE_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_set_tls_server_eph_pub_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set TLS server ephemeral public key. </p>
+<p>
+Send TLS server ephemeral public key to Secure Element.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of the public key to update </li>
+<li><code class="docutils literal"><span class="pre">ecc_params</span></code>: Includes curve type, format and name, length of the public key concatenated with the uncompression tag (0x04) </li>
+<li><code class="docutils literal"><span class="pre">signature</span></code>: Signature of the concatenation of ‘client_random’, ‘server_random’ and ‘ecc_params’</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_tls_random_and_store">
+<span class="target" id="group__tls_1gad7fa186b3beb628285a7edf268d51dbd"></span>int <code class="descname">TO_get_tls_random_and_store</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;timestamp[TO_TIMESTAMP_SIZE]</em>, uint8_t<em>&nbsp;random[TO_TLS_RANDOM_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_tls_random_and_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TLS random. </p>
+<p>
+Get TLS random from Secure Element.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">timestamp</span></code>: POSIX timestamp (seconds since January 1st 1970 00:00:00 UTC) </li>
+<li><code class="docutils literal"><span class="pre">random</span></code>: Returned random challenge</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_get_tls_master_secret">
+<span class="target" id="group__tls_1ga21faeace68dec35f38b47532185d4d9a"></span>int <code class="descname">TO_get_tls_master_secret</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;master_secret[TO_TLS_MASTER_SECRET_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_get_tls_master_secret" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TLS master secret. </p>
+<p>
+Request TLS master secret to Secure Element.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">master_secret</span></code>: returned master secret</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid certificate index</li>
+<li>TO_INVALID_RESPONSE_LENGTH: invalid response length</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_renew_tls_keys">
+<span class="target" id="group__tls_1ga2ef76328bd845174b74dfbb0fe9bdd0c"></span>int <code class="descname">TO_renew_tls_keys</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;key_index</em>, const uint8_t<em>&nbsp;enc_key_index</em>, const uint8_t<em>&nbsp;dec_key_index</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_renew_tls_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renew TLS keys. </p>
+<p>
+Renew TLS keys with a master secret derivation.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key_index</span></code>: Index of TLS keys to renew </li>
+<li><code class="docutils literal"><span class="pre">enc_key_index</span></code>: Index to store encryption AES/HMAC keys </li>
+<li><code class="docutils literal"><span class="pre">dec_key_index</span></code>: Index to store decryption AES/HMAC keys</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid certificate index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_renew_tls_keys_ecdhe">
+<span class="target" id="group__tls_1ga746cadfdc260e5d929fef7eb92780a95"></span>int <code class="descname">TO_renew_tls_keys_ecdhe</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;kpriv_index</em>, const uint8_t<em>&nbsp;kpub_index</em>, const uint8_t<em>&nbsp;enc_key_index</em>, const uint8_t<em>&nbsp;dec_key_index</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_renew_tls_keys_ecdhe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Derive master secret. </p>
+<p>
+ECDHE method.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">kpriv_index</span></code>: Index of the private key to use </li>
+<li><code class="docutils literal"><span class="pre">kpub_index</span></code>: Index of the remote public key to use </li>
+<li><code class="docutils literal"><span class="pre">enc_key_index</span></code>: Index to store encryption AES/HMAC keys </li>
+<li><code class="docutils literal"><span class="pre">dec_key_index</span></code>: Index to store decryption AES/HMAC keys</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_ARG_OUT_OF_RANGE: invalid certificate index</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_calculate_finished">
+<span class="target" id="group__tls_1ga306724f034165ce275462ddf4f59eec6"></span>int <code class="descname">TO_tls_calculate_finished</code><span class="sig-paren">(</span>const int<em>&nbsp;from</em>, const uint8_t<em>&nbsp;handshake_hash[TO_HASH_SIZE]</em>, uint8_t<em>&nbsp;finished[TO_TLS_FINISHED_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_calculate_finished" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate finished. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element136</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element136</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">from</span></code>: 0 if message is from client, 1 if it is from server </li>
+<li><code class="docutils literal"><span class="pre">handshake_hash</span></code>: Hash of all handshake messages </li>
+<li><code class="docutils literal"><span class="pre">finished</span></code>: Result</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="tls-optimized">
+<h3>TLS optimized<a class="headerlink" href="#tls-optimized" title="Permalink to this headline">¶</a></h3>
+<p>These APIs provides an easier way to use TLS.</p>
+<dl class="function">
+<dt id="c.TO_tls_reset">
+<span class="target" id="group__tlsoptim_1ga8264623258a6acd77537d10cab68a887"></span>int <code class="descname">TO_tls_reset</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset TLS session. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_set_mode">
+<span class="target" id="group__tlsoptim_1ga10ae32653cd8182d78edbea706d6291f"></span>int <code class="descname">TO_tls_set_mode</code><span class="sig-paren">(</span>const <a class="reference internal" href="defs.html#c.TO_tls_mode_t" title="TO_tls_mode_t">TO_tls_mode_t</a><em>&nbsp;mode</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_set_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set TLS mode (version and TLS/DTLS) (resets TLS handshake in case of change). </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">mode</span></code>: TLS mode</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_get_client_hello">
+<span class="target" id="group__tlsoptim_1gaaeaa7a3f91344b2cb76c512d808f9e0b"></span>int <code class="descname">TO_tls_get_client_hello</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;timestamp[TO_TIMESTAMP_SIZE]</em>, uint8_t *<em>&nbsp;client_hello</em>, uint16_t *<em>&nbsp;client_hello_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_get_client_hello" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TLS ClientHello. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">timestamp</span></code>: Timestamp (seconds since epoch) </li>
+<li><code class="docutils literal"><span class="pre">client_hello</span></code>: ClientHello payload </li>
+<li><code class="docutils literal"><span class="pre">client_hello_len</span></code>: ClientHello payload length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_handle_hello_verify_request">
+<span class="target" id="group__tlsoptim_1ga26a73b0b8117b227175058b436f9853b"></span>int <code class="descname">TO_tls_handle_hello_verify_request</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;hello_verify_request</em>, const uint32_t<em>&nbsp;hello_verify_request_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_handle_hello_verify_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle TLS HelloVerifyRequest. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TORSP_ARG_OUT_OF_RANGE: bad content</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">hello_verify_request</span></code>: HelloVerifyRequest payload </li>
+<li><code class="docutils literal"><span class="pre">hello_verify_request_len</span></code>: HelloVerifyRequest payload length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_handle_server_hello">
+<span class="target" id="group__tlsoptim_1ga2680c736404510ade67ac2f00f1f403e"></span>int <code class="descname">TO_tls_handle_server_hello</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;server_hello</em>, const uint32_t<em>&nbsp;server_hello_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_handle_server_hello" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle TLS ServerHello. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TORSP_ARG_OUT_OF_RANGE: bad content</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">server_hello</span></code>: ServertHello payload </li>
+<li><code class="docutils literal"><span class="pre">server_hello_len</span></code>: ServertHello payload length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_handle_server_certificate_init">
+<span class="target" id="group__tlsoptim_1ga163d177e25feb65e23cc6101a60f32c2"></span>int <code class="descname">TO_tls_handle_server_certificate_init</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;server_certificate_init[TO_TLS_SERVER_CERTIFICATE_INIT_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_handle_server_certificate_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle TLS Server Certificate header. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TORSP_ARG_OUT_OF_RANGE: bad content</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">server_certificate_init</span></code>: Certificate payload header</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_handle_server_certificate_update">
+<span class="target" id="group__tlsoptim_1ga6b13e4a42ebbf449e634da327549d0e5"></span>int <code class="descname">TO_tls_handle_server_certificate_update</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;server_certificate_update</em>, const uint32_t<em>&nbsp;server_certificate_update_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_handle_server_certificate_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle TLS Server Certificate partial payload. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TORSP_ARG_OUT_OF_RANGE: bad content</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">server_certificate_update</span></code>: Certificate partial payload </li>
+<li><code class="docutils literal"><span class="pre">server_certificate_update_len</span></code>: Certificate partial payload length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_handle_server_certificate_final">
+<span class="target" id="group__tlsoptim_1ga000014dee74295d59fb3100ad0e99bba"></span>int <code class="descname">TO_tls_handle_server_certificate_final</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_handle_server_certificate_final" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finish TLS Server Certificate handling. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TORSP_ARG_OUT_OF_RANGE: bad content</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_handle_server_key_exchange">
+<span class="target" id="group__tlsoptim_1gaaaffe11ed66579d266d6b25bca60186e"></span>int <code class="descname">TO_tls_handle_server_key_exchange</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;server_key_exchange</em>, const uint32_t<em>&nbsp;server_key_exchange_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_handle_server_key_exchange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle TLS ServerKeyExchange. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TORSP_ARG_OUT_OF_RANGE: bad content</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">server_key_exchange</span></code>: ServerKeyExchange payload </li>
+<li><code class="docutils literal"><span class="pre">server_key_exchange_len</span></code>: ServerKeyExchange payload length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_handle_certificate_request">
+<span class="target" id="group__tlsoptim_1ga0bd6d656f2238528fa02f1a323110bfb"></span>int <code class="descname">TO_tls_handle_certificate_request</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;certificate_request</em>, const uint32_t<em>&nbsp;certificate_request_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_handle_certificate_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle TLS CertificateRequest. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TORSP_ARG_OUT_OF_RANGE: bad content</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">certificate_request</span></code>: CertificateRequest payload </li>
+<li><code class="docutils literal"><span class="pre">certificate_request_len</span></code>: CertificateRequest payload length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_handle_server_hello_done">
+<span class="target" id="group__tlsoptim_1gae71c03e124425c74e9d7315db0d468e7"></span>int <code class="descname">TO_tls_handle_server_hello_done</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;server_hello_done[TO_TLS_SERVER_HELLO_DONE_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_handle_server_hello_done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle TLS ServerHelloDone. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TORSP_ARG_OUT_OF_RANGE: bad content</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">server_hello_done</span></code>: ServerHelloDone payload</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_get_certificate">
+<span class="target" id="group__tlsoptim_1gaf51422757291b94b16e71c115bfef1f1"></span>int <code class="descname">TO_tls_get_certificate</code><span class="sig-paren">(</span>uint8_t *<em>&nbsp;certificate</em>, uint16_t *<em>&nbsp;certificate_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_get_certificate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TLS Certificate. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">certificate</span></code>: Certificate payload </li>
+<li><code class="docutils literal"><span class="pre">certificate_len</span></code>: Certificate payload length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_get_certificate_init">
+<span class="target" id="group__tlsoptim_1gafc991a97368d8d53199ef3b67daf66a7"></span>int <code class="descname">TO_tls_get_certificate_init</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;certificate[TO_TLS_CLIENT_CERTIFICATE_INIT_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_get_certificate_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TLS Certificate initialization. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">certificate</span></code>: Certificate payload</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_get_certificate_update">
+<span class="target" id="group__tlsoptim_1ga592a4d9602db3167cfdafc0dc09d7c26"></span>int <code class="descname">TO_tls_get_certificate_update</code><span class="sig-paren">(</span>uint8_t *<em>&nbsp;certificate</em>, uint16_t *<em>&nbsp;certificate_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_get_certificate_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TLS Certificate update. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">certificate</span></code>: Certificate payload </li>
+<li><code class="docutils literal"><span class="pre">certificate_len</span></code>: Certificate payload length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_get_certificate_final">
+<span class="target" id="group__tlsoptim_1ga5785be9e0d6a9ebac45d09cb8565e939"></span>int <code class="descname">TO_tls_get_certificate_final</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_get_certificate_final" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TLS Certificate finalize. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_get_client_key_exchange">
+<span class="target" id="group__tlsoptim_1ga59b9c6427f5150c9240522adf9bf7f50"></span>int <code class="descname">TO_tls_get_client_key_exchange</code><span class="sig-paren">(</span>uint8_t *<em>&nbsp;client_key_exchange</em>, uint16_t *<em>&nbsp;client_key_exchange_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_get_client_key_exchange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TLS ClientKeyExchange. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">client_key_exchange</span></code>: ClientKeyExchange payload </li>
+<li><code class="docutils literal"><span class="pre">client_key_exchange_len</span></code>: ClientKeyExchange payload length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_get_certificate_verify">
+<span class="target" id="group__tlsoptim_1ga0dceb64edf8eea32a342674adea3eef5"></span>int <code class="descname">TO_tls_get_certificate_verify</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;certificate_verify[TO_TLS_CERTIFICATE_VERIFY_MAXSIZE]</em>, uint16_t *<em>&nbsp;certificate_verify_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_get_certificate_verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TLS CertificateVerify. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">certificate_verify</span></code>: CertificateVerify payload </li>
+<li><code class="docutils literal"><span class="pre">certificate_verify_len</span></code>: CertificateVerify payload length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_get_change_cipher_spec">
+<span class="target" id="group__tlsoptim_1ga328132c670e0b1210967337e3d570d45"></span>int <code class="descname">TO_tls_get_change_cipher_spec</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;change_cipher_spec[TO_TLS_CHANGE_CIPHER_SPEC_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_get_change_cipher_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TLS ChangeCipherSpec. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">change_cipher_spec</span></code>: ChangeCipherSpec payload</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_get_finished">
+<span class="target" id="group__tlsoptim_1gaf9b1fe83c18ee2bd0a768555b2ac1b42"></span>int <code class="descname">TO_tls_get_finished</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;finished[TO_TLS_FINISHED_PAYLOAD_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_get_finished" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TLS Finished. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">finished</span></code>: Finish payload</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_handle_change_cipher_spec">
+<span class="target" id="group__tlsoptim_1ga3cc0ac4bcc5eaec3f0bb704b89abfa60"></span>int <code class="descname">TO_tls_handle_change_cipher_spec</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;change_cipher_spec[TO_TLS_CHANGE_CIPHER_SPEC_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_handle_change_cipher_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle TLS ChangeCipherSpec. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TORSP_ARG_OUT_OF_RANGE: bad content</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">change_cipher_spec</span></code>: ChangeCipherSpec payload</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_handle_finished">
+<span class="target" id="group__tlsoptim_1ga4a6cc973787b4b61c25a00d4b21e95a6"></span>int <code class="descname">TO_tls_handle_finished</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;finished[TO_TLS_FINISHED_PAYLOAD_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_handle_finished" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle TLS Finished. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TORSP_ARG_OUT_OF_RANGE: bad content</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">finished</span></code>: Finished payload</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_secure_message">
+<span class="target" id="group__tlsoptim_1gac30db7e76e00e9aa450f7cb50168213f"></span>int <code class="descname">TO_tls_secure_message</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;header[TO_TLS_HEADER_SIZE]</em>, const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_len</em>, uint8_t<em>&nbsp;initial_vector[TO_INITIALVECTOR_SIZE]</em>, uint8_t *<em>&nbsp;cryptogram</em>, uint16_t *<em>&nbsp;cryptogram_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_secure_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Secure message with TLS. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">header</span></code>: TLS header </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: TLS data </li>
+<li><code class="docutils literal"><span class="pre">data_len</span></code>: TLS data length </li>
+<li><code class="docutils literal"><span class="pre">initial_vector</span></code>: Initial vector used to encrypt </li>
+<li><code class="docutils literal"><span class="pre">cryptogram</span></code>: Securized message (without header) </li>
+<li><code class="docutils literal"><span class="pre">cryptogram_len</span></code>: Securized message (without header) length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_secure_message_init">
+<span class="target" id="group__tlsoptim_1ga7cb3368dc588f9a436374655a05bd2dc"></span>int <code class="descname">TO_tls_secure_message_init</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;header[TO_TLS_HEADER_SIZE]</em>, uint8_t<em>&nbsp;initial_vector[TO_INITIALVECTOR_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_secure_message_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Secure message with TLS initialization. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">header</span></code>: TLS header </li>
+<li><code class="docutils literal"><span class="pre">initial_vector</span></code>: Initial vector used to encrypt</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_secure_message_update">
+<span class="target" id="group__tlsoptim_1ga2878b2ee7d17ec4fee5b1c3da3908df9"></span>int <code class="descname">TO_tls_secure_message_update</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_len</em>, uint8_t *<em>&nbsp;cryptogram</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_secure_message_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update secure message data to secure message with TLS. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: TLS data </li>
+<li><code class="docutils literal"><span class="pre">data_len</span></code>: TLS data length (must be 16 bytes aligned, last unaligned bytes must be sent with <code class="docutils literal"><span class="pre">TO_tls_secure_message_final</span></code> </li>
+<li><code class="docutils literal"><span class="pre">cryptogram</span></code>: Securized data</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_secure_message_final">
+<span class="target" id="group__tlsoptim_1ga52209e274a5f7fafd3361892c59cac6a"></span>int <code class="descname">TO_tls_secure_message_final</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_len</em>, uint8_t *<em>&nbsp;cryptogram</em>, uint16_t *<em>&nbsp;cryptogram_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_secure_message_final" title="Permalink to this definition">¶</a></dt>
+<dd><p>Secure message with TLS finalization. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_INVALID_RESPONSE_LENGTH: unexpected response length from device</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: TLS end data </li>
+<li><code class="docutils literal"><span class="pre">data_len</span></code>: TLS end data length (must be less than 16 bytes) </li>
+<li><code class="docutils literal"><span class="pre">cryptogram</span></code>: Securized message last blocks </li>
+<li><code class="docutils literal"><span class="pre">cryptogram_len</span></code>: Securized message last blocks length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_unsecure_message">
+<span class="target" id="group__tlsoptim_1ga5120e874c2eb5c61a833ee392c978051"></span>int <code class="descname">TO_tls_unsecure_message</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;header[TO_TLS_HEADER_SIZE]</em>, const uint8_t<em>&nbsp;initial_vector[TO_INITIALVECTOR_SIZE]</em>, const uint8_t *<em>&nbsp;cryptogram</em>, const uint16_t<em>&nbsp;cryptogram_len</em>, uint8_t *<em>&nbsp;data</em>, uint16_t *<em>&nbsp;data_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_unsecure_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unsecure message with TLS. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">header</span></code>: TLS header </li>
+<li><code class="docutils literal"><span class="pre">initial_vector</span></code>: Initial vector used to encrypt </li>
+<li><code class="docutils literal"><span class="pre">cryptogram</span></code>: Securized message (without header) </li>
+<li><code class="docutils literal"><span class="pre">cryptogram_len</span></code>: Securized message (without header) length </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: TLS data </li>
+<li><code class="docutils literal"><span class="pre">data_len</span></code>: TLS data length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_unsecure_message_init">
+<span class="target" id="group__tlsoptim_1ga4b1c953fae0961a5ffa10101ea9c2a81"></span>int <code class="descname">TO_tls_unsecure_message_init</code><span class="sig-paren">(</span>const uint16_t<em>&nbsp;cryptogram_len</em>, const uint8_t<em>&nbsp;header[TO_TLS_HEADER_SIZE]</em>, const uint8_t<em>&nbsp;initial_vector[TO_INITIALVECTOR_SIZE]</em>, const uint8_t<em>&nbsp;last_block_iv[TO_INITIALVECTOR_SIZE]</em>, const uint8_t<em>&nbsp;last_block[TO_AES_BLOCK_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_unsecure_message_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unsecure message with TLS initialization. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">cryptogram_len</span></code>: Cryptogram length </li>
+<li><code class="docutils literal"><span class="pre">header</span></code>: TLS header </li>
+<li><code class="docutils literal"><span class="pre">initial_vector</span></code>: Initial vector used to encrypt </li>
+<li><code class="docutils literal"><span class="pre">last_block_iv</span></code>: Last AES block initial vector (penultimate block) </li>
+<li><code class="docutils literal"><span class="pre">last_block</span></code>: Last AES block</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_unsecure_message_update">
+<span class="target" id="group__tlsoptim_1gae7cea6f1f6e892ddb3accf8e159e3542"></span>int <code class="descname">TO_tls_unsecure_message_update</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;cryptogram</em>, const uint16_t<em>&nbsp;cryptogram_len</em>, uint8_t *<em>&nbsp;data</em>, uint16_t *<em>&nbsp;data_len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_unsecure_message_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update unsecure message data to unsecure message with TLS. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">cryptogram</span></code>: Securized message (without header and initial vector) </li>
+<li><code class="docutils literal"><span class="pre">cryptogram_len</span></code>: Securized message (without header and initial vector) length </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: TLS clear data </li>
+<li><code class="docutils literal"><span class="pre">data_len</span></code>: TLS clear data length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_tls_unsecure_message_final">
+<span class="target" id="group__tlsoptim_1gaf8c3823561d06a18a04751ab2eedba56"></span>int <code class="descname">TO_tls_unsecure_message_final</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_tls_unsecure_message_final" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unsecure message with TLS finalization. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_BAD_SIGNATURE: invalid HMAC</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_MEMORY_ERROR: internal I/O buffer overflow</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="lora">
+<h3>LoRa<a class="headerlink" href="#lora" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.TO_lora_compute_mic">
+<span class="target" id="group__lora_1ga71b4486071e5c99d70c1d2babd47b254"></span>int <code class="descname">TO_lora_compute_mic</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, uint16_t<em>&nbsp;data_length</em>, uint32_t<em>&nbsp;address</em>, uint8_t<em>&nbsp;direction</em>, uint32_t<em>&nbsp;seq_counter</em>, uint8_t<em>&nbsp;mic[TO_LORA_MIC_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_lora_compute_mic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the LoRaMAC frame MIC field. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_*: for any error occured while handling command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data buffer </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: Data buffer size </li>
+<li><code class="docutils literal"><span class="pre">address</span></code>: Frame address </li>
+<li><code class="docutils literal"><span class="pre">direction</span></code>: Frame direction [0: uplink, 1 downlink] </li>
+<li><code class="docutils literal"><span class="pre">seq_counter</span></code>: Frame sequence counter </li>
+<li><code class="docutils literal"><span class="pre">mic</span></code>: Computed MIC field</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_lora_encrypt_payload">
+<span class="target" id="group__lora_1ga01a97f56251174e54d85d421408a127b"></span>int <code class="descname">TO_lora_encrypt_payload</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, uint16_t<em>&nbsp;data_length</em>, const uint8_t *<em>&nbsp;fport</em>, uint32_t<em>&nbsp;address</em>, uint8_t<em>&nbsp;direction</em>, uint32_t<em>&nbsp;seq_counter</em>, uint8_t *<em>&nbsp;enc_buffer</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_lora_encrypt_payload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the LoRaMAC payload encryption. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_*: for any error occured while handling command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data buffer </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: Data buffer size </li>
+<li><code class="docutils literal"><span class="pre">fport</span></code>: Frame port (as pointer to keep retrocompatibility) </li>
+<li><code class="docutils literal"><span class="pre">address</span></code>: Frame address </li>
+<li><code class="docutils literal"><span class="pre">direction</span></code>: Frame direction [0: uplink, 1 downlink] </li>
+<li><code class="docutils literal"><span class="pre">seq_counter</span></code>: Frame sequence counter </li>
+<li><code class="docutils literal"><span class="pre">enc_buffer</span></code>: Encrypted buffer</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_lora_join_compute_mic">
+<span class="target" id="group__lora_1ga395bad0175b85f1e69b666c4f7bb6517"></span>int <code class="descname">TO_lora_join_compute_mic</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, uint16_t<em>&nbsp;data_length</em>, uint8_t<em>&nbsp;mic[TO_LORA_MIC_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_lora_join_compute_mic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the LoRaMAC Join Request frame MIC field. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_*: for any error occured while handling command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data buffer </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: Data buffer size </li>
+<li><code class="docutils literal"><span class="pre">mic</span></code>: Computed MIC field</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_lora_decrypt_join">
+<span class="target" id="group__lora_1gac716efe1957dfdf774d57949cdaeca80"></span>int <code class="descname">TO_lora_decrypt_join</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, uint16_t<em>&nbsp;data_length</em>, uint8_t *<em>&nbsp;dec_buffer</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_lora_decrypt_join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the LoRaMAC join frame decryption MIC field. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_*: for any error occured while handling command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data buffer </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: Data buffer size </li>
+<li><code class="docutils literal"><span class="pre">dec_buffer</span></code>: Decrypted buffer</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_lora_compute_shared_keys">
+<span class="target" id="group__lora_1ga0e71ebaaaa5d8aa502272ae724d58212"></span>int <code class="descname">TO_lora_compute_shared_keys</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;app_nonce</em>, const uint8_t *<em>&nbsp;net_id</em>, uint16_t<em>&nbsp;dev_nonce</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_lora_compute_shared_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the LoRaMAC join frame decryption. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_*: for any error occured while handling command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">app_nonce</span></code>: Application nonce </li>
+<li><code class="docutils literal"><span class="pre">net_id</span></code>: Network ID </li>
+<li><code class="docutils literal"><span class="pre">dev_nonce</span></code>: Device nonce</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_lora_get_app_eui">
+<span class="target" id="group__lora_1ga17c986d4244c5cbaec90cb31239c75cd"></span>int <code class="descname">TO_lora_get_app_eui</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;app_eui[TO_LORA_APPEUI_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_lora_get_app_eui" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get AppEUI. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_*: for any error occured while handling command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">app_eui</span></code>: Application EUI</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_lora_get_dev_eui">
+<span class="target" id="group__lora_1ga5c53025e6668aba4a749123624b5dca6"></span>int <code class="descname">TO_lora_get_dev_eui</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;dev_eui[TO_LORA_DEVEUI_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_lora_get_dev_eui" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get DevEUI. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_*: for any error occured while handling command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">dev_eui</span></code>: Device EUI</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="lora-optimized">
+<h3>LoRa optimized<a class="headerlink" href="#lora-optimized" title="Permalink to this headline">¶</a></h3>
+<p>These APIs provides an easier way to use LoRa.</p>
+<dl class="function">
+<dt id="c.TO_lora_get_join_request_phypayload">
+<span class="target" id="group__loraoptim_1gaeaa509ebaeaf0a36dd39e214198ce58b"></span>int <code class="descname">TO_lora_get_join_request_phypayload</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;data[TO_LORA_JOINREQUEST_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_lora_get_join_request_phypayload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get encrypted join request payload. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_*: for any error occured while handling command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Join request payload</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_lora_handle_join_accept_phypayload">
+<span class="target" id="group__loraoptim_1gae72f0e19d0df901f103084c0546a084a"></span>int <code class="descname">TO_lora_handle_join_accept_phypayload</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_length</em>, uint8_t *<em>&nbsp;dec_buffer</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_lora_handle_join_accept_phypayload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle encrypted join accept payload. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_*: for any error occured while handling command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Join accept payload (MHDR + payload + MIC) </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: Join accept payload size </li>
+<li><code class="docutils literal"><span class="pre">dec_buffer</span></code>: Decrypted join accept payload</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_lora_secure_phypayload">
+<span class="target" id="group__loraoptim_1gaa01f0c5ea795931b884768c83e0562b7"></span>int <code class="descname">TO_lora_secure_phypayload</code><span class="sig-paren">(</span>const uint8_t<em>&nbsp;mhdr</em>, const uint8_t<em>&nbsp;fctrl</em>, const uint8_t *<em>&nbsp;fopts</em>, const uint8_t<em>&nbsp;fport</em>, const uint8_t *<em>&nbsp;payload</em>, const int<em>&nbsp;payload_size</em>, uint8_t *<em>&nbsp;enc_buffer</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_lora_secure_phypayload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encrypt PHYPayload. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_*: for any error occured while handling command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">mhdr</span></code>: MHDR </li>
+<li><code class="docutils literal"><span class="pre">fctrl</span></code>: Frame control </li>
+<li><code class="docutils literal"><span class="pre">fopts</span></code>: Frame options (optional, FCtrl FOptsLen part must be 0 if missing) </li>
+<li><code class="docutils literal"><span class="pre">fport</span></code>: Frame port (optional, must be present if payload_size &gt; 0) </li>
+<li><code class="docutils literal"><span class="pre">payload</span></code>: payload to encrypt (optional) </li>
+<li><code class="docutils literal"><span class="pre">payload_size</span></code>: payload size (must be 0 if payload is null) </li>
+<li><code class="docutils literal"><span class="pre">enc_buffer</span></code>: Encrypted PHYPayload (size TO_LORA_MHDR_SIZE + TO_LORA_DEVADDR_SIZE + TO_LORA_FCTRL_SIZE + TO_LORA_FCNT_SIZE / 2 + FOptLen + (payload_size ? payload_size + 1 : 0) + TO_LORA_MIC_SIZE)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_lora_unsecure_phypayload">
+<span class="target" id="group__loraoptim_1ga653bc4f5e59a8b174acbe146aa48e26b"></span>int <code class="descname">TO_lora_unsecure_phypayload</code><span class="sig-paren">(</span>const uint8_t *<em>&nbsp;data</em>, const uint16_t<em>&nbsp;data_length</em>, uint8_t *<em>&nbsp;dec_buffer</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_lora_unsecure_phypayload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decrypt PHYPayload. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>TORSP_SUCCESS on success</li>
+<li>TORSP_*: for any error occured while handling command</li>
+<li>TO_DEVICE_WRITE_ERROR: error writing data to Secure Element</li>
+<li>TO_DEVICE_READ_ERROR: error reading data from Secure Element</li>
+<li>TO_ERROR: generic error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: PHYPayload to decrypt </li>
+<li><code class="docutils literal"><span class="pre">data_length</span></code>: PHYPayload size </li>
+<li><code class="docutils literal"><span class="pre">dec_buffer</span></code>: Decrypted PHYPayload (size data_length - TO_LORA_MIC_SIZE)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

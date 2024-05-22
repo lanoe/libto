@@ -1,0 +1,125 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TO library migration guide from 4.3.x to 4.4.x &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TO library migration guide from 4.1.x to 4.2.x" href="migration_from_4.1.x_to_4.2.x.html" />
+    <link rel="prev" title="TO library migration guide from 4.4.x to 4.5.x" href="migration_from_4.4.x_to_4.5.x.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">TO library migration guide from 4.3.x to 4.4.x</a><ul>
+<li><a class="reference internal" href="#configure-options-linux-project">Configure options (Linux project)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="to-library-migration-guide-from-4-3-x-to-4-4-x">
+<h1>TO library migration guide from 4.3.x to 4.4.x<a class="headerlink" href="#to-library-migration-guide-from-4-3-x-to-4-4-x" title="Permalink to this headline">¶</a></h1>
+<p>The following changes are to be taken into account to update from 4.3.x to
+4.4.x.</p>
+<p>TLS and LoRa features have been enabled by default. Then, if you don’t need TLS
+or LoRa in your project, you now have to explicitely disable these features.</p>
+<p>DTLS remains disabled and has to be explicitely enabled if needed.</p>
+<div class="section" id="configure-options-linux-project">
+<h2>Configure options (Linux project)<a class="headerlink" href="#configure-options-linux-project" title="Permalink to this headline">¶</a></h2>
+<p>The following <cite>configure</cite> options are useless because this is now the default
+setting:</p>
+<ul class="simple">
+<li>–enable-lora</li>
+<li>–enable-lora-optimized</li>
+<li>–enable-tls-optimized</li>
+<li>–enable-tls-helper</li>
+</ul>
+<p>If not required, to disable these feature for your project you can use:</p>
+<ul class="simple">
+<li>–disable-lora</li>
+<li>–disable-lora-optimized</li>
+<li>–disable-tls-optimized</li>
+<li>–disable-tls-helper</li>
+</ul>
+<p>See <a class="reference internal" href="../autotools_env/settings.html#settings-autotools"><span class="std std-ref">Library configuration with autotools</span></a>. to properly configure libTO.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,94 @@
+From abcc3d27c6260276bce08b1d383ccdf89afcf207 Mon Sep 17 00:00:00 2001
+From: Ugo RENNER <u.renner@trusted-objects.com>
+Date: Mon, 13 Mar 2017 07:56:25 +0000
+Subject: [PATCH] drivers/hid/hid-cp2112: add parameters for specials gpios
+
+---
+ drivers/hid/hid-cp2112.c | 50 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+
+diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
+index 0045b50..32d896f 100644
+--- a/drivers/hid/hid-cp2112.c
++++ b/drivers/hid/hid-cp2112.c
+@@ -3,6 +3,7 @@
+  * Copyright (c) 2013,2014 Uplogix, Inc.
+  * David Barksdale <dbarksdale@uplogix.com>
+  * Mathieu Abati <m.abati@trusted-objects.com>
++ * Ugo Renner <u.renner@trusted-objects.com>
+  *
+  * This program is free software; you can redistribute it and/or modify it
+  * under the terms and conditions of the GNU General Public License,
+@@ -152,6 +153,21 @@ module_param(response_timeout, int, S_IRUGO | S_IWUSR);
+ MODULE_PARM_DESC(response_timeout, "Time in ms to wait for reading a response"
+                 " or a transfer status response");
+ 
++/* Enable GPIO 0 special TX LED. */
++static int enable_special_tx = 0;
++module_param(enable_special_tx, int, S_IRUGO | S_IWUSR);
++MODULE_PARM_DESC(enable_special_tx, "Enable GPIO 0 special TX LED");
++
++/* Enable GPIO 1 special RX LED. */
++static int enable_special_rx = 0;
++module_param(enable_special_rx, int, S_IRUGO | S_IWUSR);
++MODULE_PARM_DESC(enable_special_rx, "Enable GPIO 0 special RX LED");
++
++/* Enable GPIO 7 special clock output. */
++static int enable_special_clock = 0;
++module_param(enable_special_clock, int, S_IRUGO | S_IWUSR);
++MODULE_PARM_DESC(enable_special_clock, "Enable GPIO 7 special clock output");
++
+ static const struct hid_device_id cp2112_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_CP2112) },
+ 	{ }
+@@ -276,6 +292,36 @@ static int cp2112_gpio_direction_output(struct gpio_chip *chip,
+ 	return 0;
+ }
+ 
++static int cp2112_gpio_set_special(struct gpio_chip *chip)
++{
++	struct cp2112_device *dev = container_of(chip, struct cp2112_device,
++						 gc);
++	struct hid_device *hdev = dev->hdev;
++	u8 buf[5];
++	int ret;
++
++	ret = hid_hw_raw_request(hdev, CP2112_GPIO_CONFIG, buf,
++				       sizeof(buf), HID_FEATURE_REPORT,
++				       HID_REQ_GET_REPORT);
++	if (ret != sizeof(buf)) {
++		hid_err(hdev, "error requesting GPIO config: %d\n", ret);
++		return ret;
++	}
++
++	buf[3] |= enable_special_clock ? (1 << 0) : 0;
++	buf[3] |= enable_special_tx    ? (1 << 1) : 0;
++	buf[3] |= enable_special_rx    ? (1 << 2) : 0;
++
++	ret = hid_hw_raw_request(hdev, CP2112_GPIO_CONFIG, buf, sizeof(buf),
++				 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
++	if (ret < 0) {
++		hid_err(hdev, "error setting GPIO config: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
+ static int cp2112_hid_get(struct hid_device *hdev, unsigned char report_number,
+ 			  u8 *data, size_t count, unsigned char report_type)
+ {
+@@ -1129,6 +1175,10 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	chmod_sysfs_attrs(hdev);
+ 	hid_hw_power(hdev, PM_HINT_NORMAL);
+ 
++	if (cp2112_gpio_set_special(&dev->gc) < 0) {
++		hid_warn(hdev, "error setting gpio specials\n");
++	}
++
+ 	return ret;
+ 
+ err_gpiochip_remove:
+-- 
+2.1.4
+

@@ -1,0 +1,1545 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Types and definitions &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Power optimization" href="../misc/power_optim.html" />
+    <link rel="prev" title="Library core APIs" href="lib.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Types and definitions</a><ul>
+<li><a class="reference internal" href="#library-error-codes">Library error codes</a></li>
+<li><a class="reference internal" href="#secure-element-error-codes">Secure Element error codes</a></li>
+<li><a class="reference internal" href="#keys-types">Keys types</a></li>
+<li><a class="reference internal" href="#certificates">Certificates</a></li>
+<li><a class="reference internal" href="#constants">Constants</a></li>
+<li><a class="reference internal" href="#secure-element-commands-codes">Secure Element commands codes</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="types-and-definitions">
+<span id="api-defs"></span><h1>Types and definitions<a class="headerlink" href="#types-and-definitions" title="Permalink to this headline">¶</a></h1>
+<p>LibTO types and definitions.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;TO_defs.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<div class="section" id="library-error-codes">
+<h2>Library error codes<a class="headerlink" href="#library-error-codes" title="Permalink to this headline">¶</a></h2>
+<dl class="define">
+<dt id="c.TO_OK">
+<span class="target" id="group__errcodes_1gaf3cd40929770276d2bdfc7e32c359738"></span><code class="descname">TO_OK</code> 0x0000<a class="headerlink" href="#c.TO_OK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_MEMORY_ERROR">
+<span class="target" id="group__errcodes_1ga18868754bfada2e3b3ab55acc55a4246"></span><code class="descname">TO_MEMORY_ERROR</code> 0x0100<a class="headerlink" href="#c.TO_MEMORY_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_DEVICE_WRITE_ERROR">
+<span class="target" id="group__errcodes_1ga8b3df491290093c6ccee4ac8c8cc415a"></span><code class="descname">TO_DEVICE_WRITE_ERROR</code> 0x0200<a class="headerlink" href="#c.TO_DEVICE_WRITE_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_DEVICE_READ_ERROR">
+<span class="target" id="group__errcodes_1ga692d2c6d4c0daaea206500fd2455bd8c"></span><code class="descname">TO_DEVICE_READ_ERROR</code> 0x0400<a class="headerlink" href="#c.TO_DEVICE_READ_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_INVALID_CA_ID">
+<span class="target" id="group__errcodes_1gacd5190b55dfff0e25b9279b141d7fcaf"></span><code class="descname">TO_INVALID_CA_ID</code> 0x1000<a class="headerlink" href="#c.TO_INVALID_CA_ID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_INVALID_CERTIFICATE_FORMAT">
+<span class="target" id="group__errcodes_1ga0309dec966990c773f2004da5c28a332"></span><code class="descname">TO_INVALID_CERTIFICATE_FORMAT</code> 0x1100<a class="headerlink" href="#c.TO_INVALID_CERTIFICATE_FORMAT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_INVALID_CERTIFICATE_NUMBER">
+<span class="target" id="group__errcodes_1ga71c93c5d91a422346118276ded1e8aea"></span><code class="descname">TO_INVALID_CERTIFICATE_NUMBER</code> 0x1200<a class="headerlink" href="#c.TO_INVALID_CERTIFICATE_NUMBER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_INVALID_RESPONSE_LENGTH">
+<span class="target" id="group__errcodes_1gac82e3bf9555000f2b126ab0fbfeb4369"></span><code class="descname">TO_INVALID_RESPONSE_LENGTH</code> 0x2000<a class="headerlink" href="#c.TO_INVALID_RESPONSE_LENGTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_SECLINK_ERROR">
+<span class="target" id="group__errcodes_1ga09503bbab14bc32e048228a68f5fc13d"></span><code class="descname">TO_SECLINK_ERROR</code> 0x2100<a class="headerlink" href="#c.TO_SECLINK_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TIMEOUT">
+<span class="target" id="group__errcodes_1ga1dcc40ab123fa220d99811ad30da4570"></span><code class="descname">TO_TIMEOUT</code> 0x2200<a class="headerlink" href="#c.TO_TIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_AGAIN">
+<span class="target" id="group__errcodes_1ga7cd141e14ed834d65cfa5ceb0d25d5d9"></span><code class="descname">TO_AGAIN</code> 0x2400<a class="headerlink" href="#c.TO_AGAIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_NOT_IMPLEMENTED">
+<span class="target" id="group__errcodes_1ga63b22920c6965086d24b3573eeb64c15"></span><code class="descname">TO_NOT_IMPLEMENTED</code> 0x8000<a class="headerlink" href="#c.TO_NOT_IMPLEMENTED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_ERROR">
+<span class="target" id="group__errcodes_1gaefbe405fa8cc8d6657db60e9941d58a5"></span><code class="descname">TO_ERROR</code> 0xF000<a class="headerlink" href="#c.TO_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Less significant byte is left empty because it is reserved for
+Secure Element error codes, then it is possible to return Secure Element and
+library error codes in one single variable. See
+<a class="reference internal" href="#secure-element-error-codes">Secure Element error codes</a>.</p>
+</div>
+</div>
+<div class="section" id="secure-element-error-codes">
+<h2>Secure Element error codes<a class="headerlink" href="#secure-element-error-codes" title="Permalink to this headline">¶</a></h2>
+<dl class="define">
+<dt id="c.TORSP_SUCCESS">
+<span class="target" id="group__seerrcodes_1ga80969a5a14cd584089d9715f1ded3508"></span><code class="descname">TORSP_SUCCESS</code> ((unsigned char)0x90)<a class="headerlink" href="#c.TORSP_SUCCESS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TORSP_UNKNOWN_CMD">
+<span class="target" id="group__seerrcodes_1gaebadf4d5c124f1dc2af72689b0bfe83d"></span><code class="descname">TORSP_UNKNOWN_CMD</code> ((unsigned char)0x01)<a class="headerlink" href="#c.TORSP_UNKNOWN_CMD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TORSP_BAD_SIGNATURE">
+<span class="target" id="group__seerrcodes_1ga4a3792d1ef5a317d55a023b2e624611d"></span><code class="descname">TORSP_BAD_SIGNATURE</code> ((unsigned char)0x66)<a class="headerlink" href="#c.TORSP_BAD_SIGNATURE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TORSP_INVALID_LEN">
+<span class="target" id="group__seerrcodes_1gab0e47ce88142ec4e7ce675e603bbf1a2"></span><code class="descname">TORSP_INVALID_LEN</code> ((unsigned char)0x67)<a class="headerlink" href="#c.TORSP_INVALID_LEN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TORSP_NOT_AVAILABLE">
+<span class="target" id="group__seerrcodes_1ga9d671cb8f8c284fc78b4bbce8ccb8866"></span><code class="descname">TORSP_NOT_AVAILABLE</code> ((unsigned char)0x68)<a class="headerlink" href="#c.TORSP_NOT_AVAILABLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TORSP_INVALID_PADDING">
+<span class="target" id="group__seerrcodes_1ga854df565b10ead931c69f5afc52a4050"></span><code class="descname">TORSP_INVALID_PADDING</code> ((unsigned char)0x69)<a class="headerlink" href="#c.TORSP_INVALID_PADDING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO136RSP_COM_ERROR">
+<span class="target" id="group__seerrcodes_1ga6b9dd3e136ef6d5c67811b69a09b8ab1"></span><code class="descname">TO136RSP_COM_ERROR</code> ((unsigned char)0x72)<a class="headerlink" href="#c.TO136RSP_COM_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TORSP_NEED_AUTHENTICATION">
+<span class="target" id="group__seerrcodes_1ga74cef03705d14b4868dd2735b57c5b76"></span><code class="descname">TORSP_NEED_AUTHENTICATION</code> ((unsigned char)0x80)<a class="headerlink" href="#c.TORSP_NEED_AUTHENTICATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TORSP_COND_OF_USE_NOT_SATISFIED">
+<span class="target" id="group__seerrcodes_1ga3069f3a8bd7b251e53718852d4534e49"></span><code class="descname">TORSP_COND_OF_USE_NOT_SATISFIED</code> ((unsigned char)0x85)<a class="headerlink" href="#c.TORSP_COND_OF_USE_NOT_SATISFIED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TORSP_ARG_OUT_OF_RANGE">
+<span class="target" id="group__seerrcodes_1ga9d6933408875a994499d42021be730ed"></span><code class="descname">TORSP_ARG_OUT_OF_RANGE</code> ((unsigned char)0x88)<a class="headerlink" href="#c.TORSP_ARG_OUT_OF_RANGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TORSP_SECLINK_RENEW_KEY">
+<span class="target" id="group__seerrcodes_1gacb90fee704dc56d19e8442da5e42bc07"></span><code class="descname">TORSP_SECLINK_RENEW_KEY</code> ((unsigned char)0xFD)<a class="headerlink" href="#c.TORSP_SECLINK_RENEW_KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TORSP_INTERNAL_ERROR">
+<span class="target" id="group__seerrcodes_1gaca44f29a1982b1d06ceea8488a539db5"></span><code class="descname">TORSP_INTERNAL_ERROR</code> ((unsigned char)0xFE)<a class="headerlink" href="#c.TORSP_INTERNAL_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="keys-types">
+<h2>Keys types<a class="headerlink" href="#keys-types" title="Permalink to this headline">¶</a></h2>
+<dl class="enum">
+<dt id="c.keytypes::TO_key_type_e">
+<span class="target" id="group__keytypes_1ga4289ac7a074ce3237ed20f0f52bf2c0e"></span><em class="property">enum </em><code class="descclassname">keytypes::</code><code class="descname">TO_key_type_e</code><a class="headerlink" href="#c.keytypes::TO_key_type_e" title="Permalink to this definition">¶</a></dt>
+<dd><p>Secure Element key types </p>
+<p><em>Values:</em></p>
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_CERT_KPUB">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0eab2278889fd0402a6e6631969c12d3bbd"></span><code class="descname">KTYPE_CERT_KPUB</code> = 0x00<a class="headerlink" href="#c.keytypes::KTYPE_CERT_KPUB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_CERT_KPRIV">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0ea526c25a0f85dfd8e75ee82f4013a42bb"></span><code class="descname">KTYPE_CERT_KPRIV</code> = 0x01<a class="headerlink" href="#c.keytypes::KTYPE_CERT_KPRIV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_CA_KPUB">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0eab58a336f3b8407d017cd93f6d0623783"></span><code class="descname">KTYPE_CA_KPUB</code> = 0x02<a class="headerlink" href="#c.keytypes::KTYPE_CA_KPUB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_REMOTE_KPUB">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0ea6572ecf6279db384ecb9cc49b534a62d"></span><code class="descname">KTYPE_REMOTE_KPUB</code> = 0x03<a class="headerlink" href="#c.keytypes::KTYPE_REMOTE_KPUB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_ECIES_KPUB">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0eaaa174d73f86a73809f8126ff92e83d9e"></span><code class="descname">KTYPE_ECIES_KPUB</code> = 0x04<a class="headerlink" href="#c.keytypes::KTYPE_ECIES_KPUB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_ECIES_KPRIV">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0ea35eac0727eb8a7ae9095763583e35bb6"></span><code class="descname">KTYPE_ECIES_KPRIV</code> = 0x05<a class="headerlink" href="#c.keytypes::KTYPE_ECIES_KPRIV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_ECIES_KAES">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0ea9ed46a63be78b60b35641046260b9154"></span><code class="descname">KTYPE_ECIES_KAES</code> = 0x06<a class="headerlink" href="#c.keytypes::KTYPE_ECIES_KAES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_ECIES_KMAC">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0ea8dce97e39be7c47bba3013b0d7d093ba"></span><code class="descname">KTYPE_ECIES_KMAC</code> = 0x07<a class="headerlink" href="#c.keytypes::KTYPE_ECIES_KMAC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_LORA_KAPP">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0ea8a215df5c9d9b13872f491feed15a265"></span><code class="descname">KTYPE_LORA_KAPP</code> = 0x08<a class="headerlink" href="#c.keytypes::KTYPE_LORA_KAPP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_LORA_KNET">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0ea6a449c0a9d65a37e419eef54ce0d1a87"></span><code class="descname">KTYPE_LORA_KNET</code> = 0x09<a class="headerlink" href="#c.keytypes::KTYPE_LORA_KNET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_LORA_KSAPP">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0eac05a068b88c00446e9af3c97d69ae9f1"></span><code class="descname">KTYPE_LORA_KSAPP</code> = 0x0A<a class="headerlink" href="#c.keytypes::KTYPE_LORA_KSAPP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.keytypes::KTYPE_LORA_KSNET">
+<span class="target" id="group__keytypes_1gga4289ac7a074ce3237ed20f0f52bf2c0eadbfc4bbaf208a6fdee2827a38bcc21d6"></span><code class="descname">KTYPE_LORA_KSNET</code> = 0x0B<a class="headerlink" href="#c.keytypes::KTYPE_LORA_KSNET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="typedef">
+<dt id="c.TO_key_type_t">
+<span class="target" id="group__keytypes_1ga0b9931cae39a5b9472491016d8a468fe"></span><em class="property">typedef </em>enum TO_key_type_e <code class="descname">TO_key_type_t</code><a class="headerlink" href="#c.TO_key_type_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="certificates">
+<h2>Certificates<a class="headerlink" href="#certificates" title="Permalink to this headline">¶</a></h2>
+<dl class="enum">
+<dt id="c.certs::TO_certificate_format_e">
+<span class="target" id="group__certs_1gae1ee08b7bc0a71de36fefa7c01997772"></span><em class="property">enum </em><code class="descclassname">certs::</code><code class="descname">TO_certificate_format_e</code><a class="headerlink" href="#c.certs::TO_certificate_format_e" title="Permalink to this definition">¶</a></dt>
+<dd><p>Certificates formats</p>
+<p><ul class="simple">
+<li>TO_CERTIFICATE_X509 is used for Secure Element and remote certificate verification</li>
+<li>TO_CERTIFICATE_STANDALONE is only used for remote certificate verification</li>
+<li>TO_CERTIFICATE_SHORT is only used for Secure Element certificates </li>
+</ul>
+</p>
+<p><em>Values:</em></p>
+<dl class="enumvalue">
+<dt id="c.certs::TO_CERTIFICATE_STANDALONE">
+<span class="target" id="group__certs_1ggae1ee08b7bc0a71de36fefa7c01997772ad8e19f470cf7fae0d893c01b149ed8ae"></span><code class="descname">TO_CERTIFICATE_STANDALONE</code> = TOCERTF_STANDALONE<a class="headerlink" href="#c.certs::TO_CERTIFICATE_STANDALONE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.certs::TO_CERTIFICATE_SHORT">
+<span class="target" id="group__certs_1ggae1ee08b7bc0a71de36fefa7c01997772a76fceb0fc1b4feebb8b973f327babc15"></span><code class="descname">TO_CERTIFICATE_SHORT</code> = TOCERTF_SHORT<a class="headerlink" href="#c.certs::TO_CERTIFICATE_SHORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.certs::TO_CERTIFICATE_X509">
+<span class="target" id="group__certs_1ggae1ee08b7bc0a71de36fefa7c01997772a52e5a9956068f5109ba8073a59f58db5"></span><code class="descname">TO_CERTIFICATE_X509</code> = TOCERTF_X509<a class="headerlink" href="#c.certs::TO_CERTIFICATE_X509" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.certs::TO_CERTIFICATE_SHORT_V2">
+<span class="target" id="group__certs_1ggae1ee08b7bc0a71de36fefa7c01997772aed931768a9cf87e64fc5c59e82fe2114"></span><code class="descname">TO_CERTIFICATE_SHORT_V2</code> = TOCERTF_SHORT_V2<a class="headerlink" href="#c.certs::TO_CERTIFICATE_SHORT_V2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="typedef">
+<dt id="c.TO_certificate_format_t">
+<span class="target" id="group__certs_1ga6d61075122f3888c5575df70b95b3dce"></span><em class="property">typedef </em>enum TO_certificate_format_e <code class="descname">TO_certificate_format_t</code><a class="headerlink" href="#c.TO_certificate_format_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="typedef">
+<dt id="c.TO_cert_standalone_t">
+<span class="target" id="group__certs_1ga0710b95533b5542863f16df8ce1d9735"></span><em class="property">typedef </em>struct TO_cert_standalone_s <code class="descname">TO_cert_standalone_t</code><a class="headerlink" href="#c.TO_cert_standalone_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="typedef">
+<dt id="c.TO_cert_short_t">
+<span class="target" id="group__certs_1ga3d6e7d7235ed388cc9253caa74ba7127"></span><em class="property">typedef </em>struct TO_cert_short_s <code class="descname">TO_cert_short_t</code><a class="headerlink" href="#c.TO_cert_short_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="typedef">
+<dt id="c.TO_cert_short_v2_t">
+<span class="target" id="group__certs_1ga709d821b4b8f7321b573aec54dc1184a"></span><em class="property">typedef </em>struct TO_cert_short_v2_s <code class="descname">TO_cert_short_v2_t</code><a class="headerlink" href="#c.TO_cert_short_v2_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCERTF_STANDALONE">
+<span class="target" id="group__certs_1gabdfa723e6912ae61ef8cc9f92b7cb1d3"></span><code class="descname">TOCERTF_STANDALONE</code> ((unsigned char)0x00)<a class="headerlink" href="#c.TOCERTF_STANDALONE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCERTF_SHORT">
+<span class="target" id="group__certs_1ga243cc27f59d7b57c4a5df300dc4e4ef1"></span><code class="descname">TOCERTF_SHORT</code> ((unsigned char)0x01)<a class="headerlink" href="#c.TOCERTF_SHORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCERTF_X509">
+<span class="target" id="group__certs_1ga77c1a3833d78f6c0e9a4109b0cfc6822"></span><code class="descname">TOCERTF_X509</code> ((unsigned char)0x02)<a class="headerlink" href="#c.TOCERTF_X509" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCERTF_SHORT_V2">
+<span class="target" id="group__certs_1gae5f35edf08036b4439feaae93da95d1b"></span><code class="descname">TOCERTF_SHORT_V2</code> ((unsigned char)0x03)<a class="headerlink" href="#c.TOCERTF_SHORT_V2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCERTF_VALIDITY_DATE_SIZE">
+<span class="target" id="group__certs_1ga692a83aa3e60fac219ef54c38863ed9b"></span><code class="descname">TOCERTF_VALIDITY_DATE_SIZE</code> 7UL<a class="headerlink" href="#c.TOCERTF_VALIDITY_DATE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCERTF_SUBJECT_NAME_SIZE">
+<span class="target" id="group__certs_1gad0e60ec03b0e4865514698bc18a8847f"></span><code class="descname">TOCERTF_SUBJECT_NAME_SIZE</code> 15UL<a class="headerlink" href="#c.TOCERTF_SUBJECT_NAME_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CA_IDX_AUTO">
+<span class="target" id="group__certs_1ga9583c192a54977ca43e9aa117133fe2b"></span><code class="descname">TO_CA_IDX_AUTO</code> 0xFF<a class="headerlink" href="#c.TO_CA_IDX_AUTO" title="Permalink to this definition">¶</a></dt>
+<dd><p>CA index to enable Authority Key Identifier based CA detection </p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv220TO_cert_standalone_s">
+<span id="TO_cert_standalone_s"></span><span class="target" id="structTO__cert__standalone__s"></span><em class="property">struct </em><code class="descclassname"></code><code class="descname">TO_cert_standalone_s</code><a class="headerlink" href="#_CPPv220TO_cert_standalone_s" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;TO_defs.h&gt;</em><p>Standalone certificate structure </p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv215TO_cert_short_s">
+<span id="TO_cert_short_s"></span><span class="target" id="structTO__cert__short__s"></span><em class="property">struct </em><code class="descclassname"></code><code class="descname">TO_cert_short_s</code><a class="headerlink" href="#_CPPv215TO_cert_short_s" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;TO_defs.h&gt;</em><p>Short certificate structure </p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv218TO_cert_short_v2_s">
+<span id="TO_cert_short_v2_s"></span><span class="target" id="structTO__cert__short__v2__s"></span><em class="property">struct </em><code class="descclassname"></code><code class="descname">TO_cert_short_v2_s</code><a class="headerlink" href="#_CPPv218TO_cert_short_v2_s" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;TO_defs.h&gt;</em><p>Short v2 certificate structure </p>
+</dd></dl>
+
+</div>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<dl class="enum">
+<dt id="c.consts::TO_tls_mode_e">
+<span class="target" id="group__consts_1gaba7204d9e3bf554431db84cb24e636d8"></span><em class="property">enum </em><code class="descclassname">consts::</code><code class="descname">TO_tls_mode_e</code><a class="headerlink" href="#c.consts::TO_tls_mode_e" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumvalue">
+<dt id="c.consts::TO_TLS_MODE_UNKNOWN">
+<span class="target" id="group__consts_1ggaba7204d9e3bf554431db84cb24e636d8a38614109345e55f4bc9785b822d53e8d"></span><code class="descname">TO_TLS_MODE_UNKNOWN</code> = 0<a class="headerlink" href="#c.consts::TO_TLS_MODE_UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.consts::TO_TLS_MODE_TLS">
+<span class="target" id="group__consts_1ggaba7204d9e3bf554431db84cb24e636d8a20bdb4da5dd33cf3d6400abb8ff3d0d8"></span><code class="descname">TO_TLS_MODE_TLS</code> = 0x10<a class="headerlink" href="#c.consts::TO_TLS_MODE_TLS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.consts::TO_TLS_MODE_TLS_1_0">
+<span class="target" id="group__consts_1ggaba7204d9e3bf554431db84cb24e636d8a211f428f50fbff31b0fac97ef2baadd5"></span><code class="descname">TO_TLS_MODE_TLS_1_0</code> = TO_TLS_MODE_TLS | 0x1<a class="headerlink" href="#c.consts::TO_TLS_MODE_TLS_1_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.consts::TO_TLS_MODE_TLS_1_1">
+<span class="target" id="group__consts_1ggaba7204d9e3bf554431db84cb24e636d8a4c0ec5f10d700ec9146967b594303f77"></span><code class="descname">TO_TLS_MODE_TLS_1_1</code> = TO_TLS_MODE_TLS | 0x2<a class="headerlink" href="#c.consts::TO_TLS_MODE_TLS_1_1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.consts::TO_TLS_MODE_TLS_1_2">
+<span class="target" id="group__consts_1ggaba7204d9e3bf554431db84cb24e636d8adc046f232b6b1161aff3e83e59f43501"></span><code class="descname">TO_TLS_MODE_TLS_1_2</code> = TO_TLS_MODE_TLS | 0x3<a class="headerlink" href="#c.consts::TO_TLS_MODE_TLS_1_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.consts::TO_TLS_MODE_DTLS">
+<span class="target" id="group__consts_1ggaba7204d9e3bf554431db84cb24e636d8aceafa44a993b302031ee4b372edf1af1"></span><code class="descname">TO_TLS_MODE_DTLS</code> = 0x20<a class="headerlink" href="#c.consts::TO_TLS_MODE_DTLS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.consts::TO_TLS_MODE_DTLS_1_0">
+<span class="target" id="group__consts_1ggaba7204d9e3bf554431db84cb24e636d8a15c4aa23ad1e33310275d07a458203ea"></span><code class="descname">TO_TLS_MODE_DTLS_1_0</code> = TO_TLS_MODE_DTLS | 0x1<a class="headerlink" href="#c.consts::TO_TLS_MODE_DTLS_1_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.consts::TO_TLS_MODE_DTLS_1_1">
+<span class="target" id="group__consts_1ggaba7204d9e3bf554431db84cb24e636d8a858832fb6ba5f7df4d611ff0d91e66df"></span><code class="descname">TO_TLS_MODE_DTLS_1_1</code> = TO_TLS_MODE_DTLS | 0x2<a class="headerlink" href="#c.consts::TO_TLS_MODE_DTLS_1_1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumvalue">
+<dt id="c.consts::TO_TLS_MODE_DTLS_1_2">
+<span class="target" id="group__consts_1ggaba7204d9e3bf554431db84cb24e636d8adbd770bffc4f90b830d516c35a23e95e"></span><code class="descname">TO_TLS_MODE_DTLS_1_2</code> = TO_TLS_MODE_DTLS | 0x3<a class="headerlink" href="#c.consts::TO_TLS_MODE_DTLS_1_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="typedef">
+<dt id="c.TO_tls_mode_t">
+<span class="target" id="group__consts_1ga9bd71e0024fe01548eefc4e060fa584b"></span><em class="property">typedef </em>enum TO_tls_mode_e  <code class="descname">TO_tls_mode_t</code><a class="headerlink" href="#c.TO_tls_mode_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CMDHEAD_SIZE">
+<span class="target" id="group__consts_1gacfa25451384fb8d1628a7d410c006c76"></span><code class="descname">TO_CMDHEAD_SIZE</code> 5UL<a class="headerlink" href="#c.TO_CMDHEAD_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_RSPHEAD_SIZE">
+<span class="target" id="group__consts_1ga7ad0b9c07db7d0094f0d70882d27f75e"></span><code class="descname">TO_RSPHEAD_SIZE</code> 4UL<a class="headerlink" href="#c.TO_RSPHEAD_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_MAXSIZE">
+<span class="target" id="group__consts_1gac89af06dcefe26d4e9bd0a8ed5579884"></span><code class="descname">TO_MAXSIZE</code> 512UL<a class="headerlink" href="#c.TO_MAXSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_INDEX_SIZE">
+<span class="target" id="group__consts_1ga3b8a15e22d78c80b5fd22af967ada353"></span><code class="descname">TO_INDEX_SIZE</code> 1UL<a class="headerlink" href="#c.TO_INDEX_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_FORMAT_SIZE">
+<span class="target" id="group__consts_1ga3f5dfcfad35dcd896450a7f6e297dda4"></span><code class="descname">TO_FORMAT_SIZE</code> 1UL<a class="headerlink" href="#c.TO_FORMAT_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_AES_BLOCK_SIZE">
+<span class="target" id="group__consts_1ga359ef7c9b6e62a7a0f2e0f26ac194cd1"></span><code class="descname">TO_AES_BLOCK_SIZE</code> 16UL<a class="headerlink" href="#c.TO_AES_BLOCK_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_INITIALVECTOR_SIZE">
+<span class="target" id="group__consts_1ga141ef4098e6020a8a8361fbf1abab4af"></span><code class="descname">TO_INITIALVECTOR_SIZE</code> TO_AES_BLOCK_SIZE<a class="headerlink" href="#c.TO_INITIALVECTOR_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_AES_KEYSIZE">
+<span class="target" id="group__consts_1ga95730c57425f247ea5d73211abbc15db"></span><code class="descname">TO_AES_KEYSIZE</code> 16UL<a class="headerlink" href="#c.TO_AES_KEYSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_HMAC_KEYSIZE">
+<span class="target" id="group__consts_1gac0b47b791e210498e03c4608a085638b"></span><code class="descname">TO_HMAC_KEYSIZE</code> 16UL<a class="headerlink" href="#c.TO_HMAC_KEYSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_HMAC_SIZE">
+<span class="target" id="group__consts_1ga3662ea5cc45a1d4103321e16a0457f37"></span><code class="descname">TO_HMAC_SIZE</code> TO_SHA256_HASHSIZE<a class="headerlink" href="#c.TO_HMAC_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_HMAC_MINSIZE">
+<span class="target" id="group__consts_1ga1ef6e20ae0a4bb3f82577be5b2025315"></span><code class="descname">TO_HMAC_MINSIZE</code> 10UL<a class="headerlink" href="#c.TO_HMAC_MINSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CMAC_KEYSIZE">
+<span class="target" id="group__consts_1ga1216ae4a54ec0af73143fd7b502f42c7"></span><code class="descname">TO_CMAC_KEYSIZE</code> 16UL<a class="headerlink" href="#c.TO_CMAC_KEYSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CMAC_SIZE">
+<span class="target" id="group__consts_1ga0efacd87858bbf8665b0a75d8754e118"></span><code class="descname">TO_CMAC_SIZE</code> TO_AES_BLOCK_SIZE<a class="headerlink" href="#c.TO_CMAC_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CMAC_MIN_SIZE">
+<span class="target" id="group__consts_1ga9cf71be8143b5899fed7fc2b1c9796ca"></span><code class="descname">TO_CMAC_MIN_SIZE</code> 4UL<a class="headerlink" href="#c.TO_CMAC_MIN_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_SHA256_HASHSIZE">
+<span class="target" id="group__consts_1ga8d0bd7635c95ecab107b367d262b31ea"></span><code class="descname">TO_SHA256_HASHSIZE</code> 32UL<a class="headerlink" href="#c.TO_SHA256_HASHSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_HASH_SIZE">
+<span class="target" id="group__consts_1gafafa71c57d62b73d9ee77fb25402e619"></span><code class="descname">TO_HASH_SIZE</code> TO_SHA256_HASHSIZE<a class="headerlink" href="#c.TO_HASH_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CHALLENGE_SIZE">
+<span class="target" id="group__consts_1ga480275d7e911ed2032e776851f52a7b1"></span><code class="descname">TO_CHALLENGE_SIZE</code> 32UL<a class="headerlink" href="#c.TO_CHALLENGE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_SN_SIZE">
+<span class="target" id="group__consts_1gac22ad3754307a6e4b47093db44d7f720"></span><code class="descname">TO_SN_SIZE</code> (TO_SN_CA_ID_SIZE+TO_SN_NB_SIZE)<a class="headerlink" href="#c.TO_SN_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_SN_CA_ID_SIZE">
+<span class="target" id="group__consts_1ga0e450fef96c379eee64243be21792f9e"></span><code class="descname">TO_SN_CA_ID_SIZE</code> 3UL<a class="headerlink" href="#c.TO_SN_CA_ID_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_SN_NB_SIZE">
+<span class="target" id="group__consts_1ga0e0db766e7e94d58649e301a56ce1f13"></span><code class="descname">TO_SN_NB_SIZE</code> 5UL<a class="headerlink" href="#c.TO_SN_NB_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_PN_SIZE">
+<span class="target" id="group__consts_1ga4da47e17a77601651c96509f42e0acf2"></span><code class="descname">TO_PN_SIZE</code> 12UL<a class="headerlink" href="#c.TO_PN_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_HW_VERSION_SIZE">
+<span class="target" id="group__consts_1gabf851b15cf1a867cc7566d9fe3ec17f9"></span><code class="descname">TO_HW_VERSION_SIZE</code> 2UL<a class="headerlink" href="#c.TO_HW_VERSION_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_HWVERSION_SCB136I">
+<span class="target" id="group__consts_1gaaf416042ad311296659bfe17010000c6"></span><code class="descname">TO_HWVERSION_SCB136I</code> 01UL<a class="headerlink" href="#c.TO_HWVERSION_SCB136I" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_HWVERSION_EMU">
+<span class="target" id="group__consts_1ga80dfb2fdb3d8b23effabd25597fae2cb"></span><code class="descname">TO_HWVERSION_EMU</code> 0xFFFFUL<a class="headerlink" href="#c.TO_HWVERSION_EMU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_SW_VERSION_SIZE">
+<span class="target" id="group__consts_1ga275c3b66d8afe9488aaf6bb30c90a216"></span><code class="descname">TO_SW_VERSION_SIZE</code> 3UL<a class="headerlink" href="#c.TO_SW_VERSION_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CERTIFICATE_SIZE">
+<span class="target" id="group__consts_1ga45fafc350779d0444fa975516b86806b"></span><code class="descname">TO_CERTIFICATE_SIZE</code> (TO_SN_SIZE+TO_ECC_PUB_KEYSIZE+TO_SIGNATURE_SIZE)<a class="headerlink" href="#c.TO_CERTIFICATE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CERT_PRIVKEY_SIZE">
+<span class="target" id="group__consts_1gaf67e20a54f02710c99429b539d890c26"></span><code class="descname">TO_CERT_PRIVKEY_SIZE</code> 32UL<a class="headerlink" href="#c.TO_CERT_PRIVKEY_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_ECC_PRIV_KEYSIZE">
+<span class="target" id="group__consts_1ga1e620e65cfe172b2f459f1ad56dcd88b"></span><code class="descname">TO_ECC_PRIV_KEYSIZE</code> TO_CERT_PRIVKEY_SIZE<a class="headerlink" href="#c.TO_ECC_PRIV_KEYSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_ECC_PUB_KEYSIZE">
+<span class="target" id="group__consts_1gaf2b67ca1cd2846fae4fe649940f670fa"></span><code class="descname">TO_ECC_PUB_KEYSIZE</code> (2*TO_ECC_PRIV_KEYSIZE)<a class="headerlink" href="#c.TO_ECC_PUB_KEYSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_SIGNATURE_SIZE">
+<span class="target" id="group__consts_1ga5169e122222dfa60e1ce91271d2514b3"></span><code class="descname">TO_SIGNATURE_SIZE</code> TO_ECC_PUB_KEYSIZE<a class="headerlink" href="#c.TO_SIGNATURE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CERT_GENERALIZED_TIME_SIZE">
+<span class="target" id="group__consts_1ga4478187a77ca5854ad75afbf05570045"></span><code class="descname">TO_CERT_GENERALIZED_TIME_SIZE</code> 15UL /* YYYYMMDDHHMMSSZ */<a class="headerlink" href="#c.TO_CERT_GENERALIZED_TIME_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CERT_DATE_SIZE">
+<span class="target" id="group__consts_1ga248e2c0fe4a75efe5f5d913750fc9936"></span><code class="descname">TO_CERT_DATE_SIZE</code> ((TO_CERT_GENERALIZED_TIME_SIZE - 1) / 2)<a class="headerlink" href="#c.TO_CERT_DATE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CERT_SUBJECT_PREFIX_SIZE">
+<span class="target" id="group__consts_1ga9d23ca117fdbd49412db43912c2b139b"></span><code class="descname">TO_CERT_SUBJECT_PREFIX_SIZE</code> 15UL<a class="headerlink" href="#c.TO_CERT_SUBJECT_PREFIX_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_SHORTV2_CERT_SIZE">
+<span class="target" id="group__consts_1gac610e479f4653ad6b73c819ae00b66ca"></span><code class="descname">TO_SHORTV2_CERT_SIZE</code> (TO_CERTIFICATE_SIZE + \
+		TO_CERT_DATE_SIZE)<a class="headerlink" href="#c.TO_SHORTV2_CERT_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_REMOTE_CERTIFICATE_SIZE">
+<span class="target" id="group__consts_1gacf3beb7b40e6bbb355e9eeb9a29a42c5"></span><code class="descname">TO_REMOTE_CERTIFICATE_SIZE</code> (TO_SN_SIZE+TO_ECC_PUB_KEYSIZE)<a class="headerlink" href="#c.TO_REMOTE_CERTIFICATE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_REMOTE_CAID_SIZE">
+<span class="target" id="group__consts_1gaa701f07680d446e2c95542f4c459907b"></span><code class="descname">TO_REMOTE_CAID_SIZE</code> TO_SN_CA_ID_SIZE<a class="headerlink" href="#c.TO_REMOTE_CAID_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CERT_SUBJECT_CN_MAXSIZE">
+<span class="target" id="group__consts_1ga152fb1bd98c3201f21021d7efb253bb4"></span><code class="descname">TO_CERT_SUBJECT_CN_MAXSIZE</code> 64UL<a class="headerlink" href="#c.TO_CERT_SUBJECT_CN_MAXSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_KEYTYPE_SIZE">
+<span class="target" id="group__consts_1ga7286e400d1fd2c1c9161ddaeffd664a3"></span><code class="descname">TO_KEYTYPE_SIZE</code> TO_SN_CA_ID_SIZE<a class="headerlink" href="#c.TO_KEYTYPE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CA_PUBKEY_SIZE">
+<span class="target" id="group__consts_1ga0b27b7892e6a7917807bbd4bf74adf71"></span><code class="descname">TO_CA_PUBKEY_SIZE</code> TO_ECC_PUB_KEYSIZE<a class="headerlink" href="#c.TO_CA_PUBKEY_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CA_PUBKEY_CAID_SIZE">
+<span class="target" id="group__consts_1ga2cb5b2599df378f517a8f8c601ac8b42"></span><code class="descname">TO_CA_PUBKEY_CAID_SIZE</code> TO_SN_CA_ID_SIZE<a class="headerlink" href="#c.TO_CA_PUBKEY_CAID_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_KEY_FINGERPRINT_SIZE">
+<span class="target" id="group__consts_1gafcfa7e43b1a80dd6dffb3e3cf543faf8"></span><code class="descname">TO_KEY_FINGERPRINT_SIZE</code> 3UL<a class="headerlink" href="#c.TO_KEY_FINGERPRINT_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TIMESTAMP_SIZE">
+<span class="target" id="group__consts_1ga7192cf050497914ecac93ded558532b7"></span><code class="descname">TO_TIMESTAMP_SIZE</code> 4UL<a class="headerlink" href="#c.TO_TIMESTAMP_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_RANDOM_SIZE">
+<span class="target" id="group__consts_1gae79acfee2e8a2d59aefd68b6ebbdbfb9"></span><code class="descname">TO_TLS_RANDOM_SIZE</code> (TO_TIMESTAMP_SIZE + 28UL)<a class="headerlink" href="#c.TO_TLS_RANDOM_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_MASTER_SECRET_SIZE">
+<span class="target" id="group__consts_1ga07f1f63b1443235f006e3149f0b88759"></span><code class="descname">TO_TLS_MASTER_SECRET_SIZE</code> 48UL<a class="headerlink" href="#c.TO_TLS_MASTER_SECRET_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_SERVER_PARAMS_SIZE">
+<span class="target" id="group__consts_1ga0ac60a18e158dee4f6d3d8d464f8ca15"></span><code class="descname">TO_TLS_SERVER_PARAMS_SIZE</code> 69UL<a class="headerlink" href="#c.TO_TLS_SERVER_PARAMS_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_HMAC_KEYSIZE">
+<span class="target" id="group__consts_1ga94b34a6a112858fcd9b138893ee59047"></span><code class="descname">TO_TLS_HMAC_KEYSIZE</code> 32UL<a class="headerlink" href="#c.TO_TLS_HMAC_KEYSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_FINISHED_SIZE">
+<span class="target" id="group__consts_1gafa626c2793b15a1c001fe737c7d0dc06"></span><code class="descname">TO_TLS_FINISHED_SIZE</code> 12UL<a class="headerlink" href="#c.TO_TLS_FINISHED_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_CLIENT_HELLO_MAXSIZE">
+<span class="target" id="group__consts_1ga005741ae72540e2a144cd57cbf1df88a"></span><code class="descname">TO_TLS_CLIENT_HELLO_MAXSIZE</code> (TO_TLS_HANDSHAKE_HEADER_SIZE + 144UL)<a class="headerlink" href="#c.TO_TLS_CLIENT_HELLO_MAXSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_SERVER_HELLO_DONE_SIZE">
+<span class="target" id="group__consts_1gae6dbf810bb73759aa175e69a17fafde4"></span><code class="descname">TO_TLS_SERVER_HELLO_DONE_SIZE</code> TO_TLS_HANDSHAKE_HEADER_SIZE<a class="headerlink" href="#c.TO_TLS_SERVER_HELLO_DONE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_SERVER_CERTIFICATE_INIT_SIZE">
+<span class="target" id="group__consts_1gacd03ab6316e1195ad177e91914146a23"></span><code class="descname">TO_TLS_SERVER_CERTIFICATE_INIT_SIZE</code> (TO_TLS_HANDSHAKE_HEADER_SIZE + 3UL)<a class="headerlink" href="#c.TO_TLS_SERVER_CERTIFICATE_INIT_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_CLIENT_CERTIFICATE_INIT_SIZE">
+<span class="target" id="group__consts_1gad2f628c9fff48c3a0b48f910fa5e6e64"></span><code class="descname">TO_TLS_CLIENT_CERTIFICATE_INIT_SIZE</code> (TO_TLS_HANDSHAKE_HEADER_SIZE + 6UL)<a class="headerlink" href="#c.TO_TLS_CLIENT_CERTIFICATE_INIT_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_CLIENT_CERTIFICATE_SIZE">
+<span class="target" id="group__consts_1ga4d86aae8f5020b9bf13210cca188a8b7"></span><code class="descname">TO_TLS_CLIENT_CERTIFICATE_SIZE</code> (TO_TLS_HANDSHAKE_HEADER_SIZE + 422UL)<a class="headerlink" href="#c.TO_TLS_CLIENT_CERTIFICATE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_CLIENT_KEY_EXCHANGE_MAXSIZE">
+<span class="target" id="group__consts_1ga2d247f9c389a855ccec8c40897932742"></span><code class="descname">TO_TLS_CLIENT_KEY_EXCHANGE_MAXSIZE</code> (TO_TLS_HANDSHAKE_HEADER_SIZE + 66UL)<a class="headerlink" href="#c.TO_TLS_CLIENT_KEY_EXCHANGE_MAXSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_CERTIFICATE_VERIFY_MAXSIZE">
+<span class="target" id="group__consts_1ga53e67909f3fbccc883934a5cf883b43a"></span><code class="descname">TO_TLS_CERTIFICATE_VERIFY_MAXSIZE</code> (TO_TLS_HANDSHAKE_HEADER_SIZE + 76UL)<a class="headerlink" href="#c.TO_TLS_CERTIFICATE_VERIFY_MAXSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_CHANGE_CIPHER_SPEC_SIZE">
+<span class="target" id="group__consts_1gaf237498ab4d2d94a2cf9e698ed1cafa5"></span><code class="descname">TO_TLS_CHANGE_CIPHER_SPEC_SIZE</code> 1UL<a class="headerlink" href="#c.TO_TLS_CHANGE_CIPHER_SPEC_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_FINISHED_PAYLOAD_SIZE">
+<span class="target" id="group__consts_1ga2cf329efc326b98cf0bc39c53e3156eb"></span><code class="descname">TO_TLS_FINISHED_PAYLOAD_SIZE</code> (TO_TLS_HANDSHAKE_HEADER_SIZE + 12UL)<a class="headerlink" href="#c.TO_TLS_FINISHED_PAYLOAD_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_HEADER_SIZE">
+<span class="target" id="group__consts_1ga0d9089402d4851cc10d8b04af606ac6a"></span><code class="descname">TO_TLS_HEADER_SIZE</code> 5UL<a class="headerlink" href="#c.TO_TLS_HEADER_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_TLS_HANDSHAKE_HEADER_SIZE">
+<span class="target" id="group__consts_1gab324b6b66fa431e093e2884c56813fdb"></span><code class="descname">TO_TLS_HANDSHAKE_HEADER_SIZE</code> 4UL<a class="headerlink" href="#c.TO_TLS_HANDSHAKE_HEADER_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_ARC4_KEY_SIZE">
+<span class="target" id="group__consts_1ga707a39ede370dcd985b88b489f481c54"></span><code class="descname">TO_ARC4_KEY_SIZE</code> 16UL<a class="headerlink" href="#c.TO_ARC4_KEY_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_ARC4_INITIALVECTOR_SIZE">
+<span class="target" id="group__consts_1ga66d6f80e43eca3acc74d8f9bd5b3d2ce"></span><code class="descname">TO_ARC4_INITIALVECTOR_SIZE</code> 16UL<a class="headerlink" href="#c.TO_ARC4_INITIALVECTOR_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_I2CADDR_SIZE">
+<span class="target" id="group__consts_1ga5f84d19d631cdc4b0dbea6c08ef7207a"></span><code class="descname">TO_I2CADDR_SIZE</code> 1UL<a class="headerlink" href="#c.TO_I2CADDR_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_CRC_SIZE">
+<span class="target" id="group__consts_1ga0d374e4206960f584ce74f8fd4bf4440"></span><code class="descname">TO_CRC_SIZE</code> 2UL<a class="headerlink" href="#c.TO_CRC_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_PPERSO_ID_SIZE">
+<span class="target" id="group__consts_1gaabd99741a038be69cbd492f717d3d04b"></span><code class="descname">TO_PPERSO_ID_SIZE</code> 4UL<a class="headerlink" href="#c.TO_PPERSO_ID_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_PPERSO_SUBID_SIZE">
+<span class="target" id="group__consts_1ga000ceb7c155f465b85ce706db2cc3591"></span><code class="descname">TO_PPERSO_SUBID_SIZE</code> 1UL<a class="headerlink" href="#c.TO_PPERSO_SUBID_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_PPERSO_TAG_SIZE">
+<span class="target" id="group__consts_1gacd2091ca951bc2a87a6a0226d13c04da"></span><code class="descname">TO_PPERSO_TAG_SIZE</code> 4UL<a class="headerlink" href="#c.TO_PPERSO_TAG_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_PHYPAYLOAD_MINSIZE">
+<span class="target" id="group__consts_1ga70d8bbd575bcdef4c83854b88b10562f"></span><code class="descname">TO_LORA_PHYPAYLOAD_MINSIZE</code> 10UL<a class="headerlink" href="#c.TO_LORA_PHYPAYLOAD_MINSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_MHDR_SIZE">
+<span class="target" id="group__consts_1gae7a4adde5bc8c3fc13961cb2a2211c28"></span><code class="descname">TO_LORA_MHDR_SIZE</code> 1UL<a class="headerlink" href="#c.TO_LORA_MHDR_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_APPEUI_SIZE">
+<span class="target" id="group__consts_1gaf27e7c0c3004b1bba47b3342fa1776f4"></span><code class="descname">TO_LORA_APPEUI_SIZE</code> 8UL<a class="headerlink" href="#c.TO_LORA_APPEUI_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_DEVEUI_SIZE">
+<span class="target" id="group__consts_1ga903b2ef7aaef0056f84cc6574d308da2"></span><code class="descname">TO_LORA_DEVEUI_SIZE</code> 8UL<a class="headerlink" href="#c.TO_LORA_DEVEUI_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_DEVADDR_SIZE">
+<span class="target" id="group__consts_1ga4c1ec63ce69b65bb6f83b5ac000d8a0f"></span><code class="descname">TO_LORA_DEVADDR_SIZE</code> 4UL<a class="headerlink" href="#c.TO_LORA_DEVADDR_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_DEVNONCE_SIZE">
+<span class="target" id="group__consts_1gae581a4198d3e14446c3f70483ef89a97"></span><code class="descname">TO_LORA_DEVNONCE_SIZE</code> 2UL<a class="headerlink" href="#c.TO_LORA_DEVNONCE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_APPNONCE_SIZE">
+<span class="target" id="group__consts_1gad4d86143c89cd87d0d95d367159da044"></span><code class="descname">TO_LORA_APPNONCE_SIZE</code> 3UL<a class="headerlink" href="#c.TO_LORA_APPNONCE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_NETID_SIZE">
+<span class="target" id="group__consts_1gac1a8a41442137985ca150a73f67210fe"></span><code class="descname">TO_LORA_NETID_SIZE</code> 3UL<a class="headerlink" href="#c.TO_LORA_NETID_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_MIC_SIZE">
+<span class="target" id="group__consts_1ga6dd6cca24257a8254bb2c736ac40a5ce"></span><code class="descname">TO_LORA_MIC_SIZE</code> 4UL<a class="headerlink" href="#c.TO_LORA_MIC_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_FCTRL_SIZE">
+<span class="target" id="group__consts_1ga0e1106270a91f9a1b27c4458a12af071"></span><code class="descname">TO_LORA_FCTRL_SIZE</code> 1UL<a class="headerlink" href="#c.TO_LORA_FCTRL_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_FCNT_SIZE">
+<span class="target" id="group__consts_1ga2eb08f8db2f1c28fd5847e9a124cf1ed"></span><code class="descname">TO_LORA_FCNT_SIZE</code> 4UL<a class="headerlink" href="#c.TO_LORA_FCNT_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_APPKEY_SIZE">
+<span class="target" id="group__consts_1ga44a1edefa76db131488979baea331128"></span><code class="descname">TO_LORA_APPKEY_SIZE</code> 16UL<a class="headerlink" href="#c.TO_LORA_APPKEY_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_LORA_JOINREQUEST_SIZE">
+<span class="target" id="group__consts_1ga77f11a94ae75713c9db694a489accdfa"></span><code class="descname">TO_LORA_JOINREQUEST_SIZE</code> (TO_LORA_MHDR_SIZE + \
+                                     TO_LORA_APPEUI_SIZE + \
+                                     TO_LORA_DEVEUI_SIZE + \
+                                     TO_LORA_DEVNONCE_SIZE + \
+                                     TO_LORA_MIC_SIZE)<a class="headerlink" href="#c.TO_LORA_JOINREQUEST_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_I2C_SEND_MSTIMEOUT">
+<span class="target" id="group__consts_1ga008412bf860e7dd3a105e474f4caa8bc"></span><code class="descname">TO_I2C_SEND_MSTIMEOUT</code> TO_I2C_MSTIMEOUT<a class="headerlink" href="#c.TO_I2C_SEND_MSTIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_I2C_RECV_MSTIMEOUT">
+<span class="target" id="group__consts_1ga5847e7db16ddf8ae080308ab286f4c0d"></span><code class="descname">TO_I2C_RECV_MSTIMEOUT</code> TO_I2C_MSTIMEOUT<a class="headerlink" href="#c.TO_I2C_RECV_MSTIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_I2C_MSTIMEOUT">
+<span class="target" id="group__consts_1gaca1bef0dd120e04fbeb76339857f9652"></span><code class="descname">TO_I2C_MSTIMEOUT</code> 5000UL<a class="headerlink" href="#c.TO_I2C_MSTIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_I2C_RESPONSE_MSTIMEOUT">
+<span class="target" id="group__consts_1ga0378bd9d01d7d9f30de65030e64b2c63"></span><code class="descname">TO_I2C_RESPONSE_MSTIMEOUT</code> 10000UL<a class="headerlink" href="#c.TO_I2C_RESPONSE_MSTIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_I2C_ERROR_MSTIMEOUT">
+<span class="target" id="group__consts_1ga0a11e8df32d729f0d9562708b539d5bc"></span><code class="descname">TO_I2C_ERROR_MSTIMEOUT</code> 10000UL<a class="headerlink" href="#c.TO_I2C_ERROR_MSTIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_STATUS_PIO_ENABLE">
+<span class="target" id="group__consts_1gaf1f00bd50b668394365d7b1fc6b31a13"></span><code class="descname">TO_STATUS_PIO_ENABLE</code> 0x80<a class="headerlink" href="#c.TO_STATUS_PIO_ENABLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_STATUS_PIO_READY_LEVEL_MASK">
+<span class="target" id="group__consts_1ga0cc8cdb29ab2faf175800d9c34655c48"></span><code class="descname">TO_STATUS_PIO_READY_LEVEL_MASK</code> 0x01<a class="headerlink" href="#c.TO_STATUS_PIO_READY_LEVEL_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_STATUS_PIO_HIGH_OPENDRAIN_MASK">
+<span class="target" id="group__consts_1ga3eb2a86f71b95bfe8c105518caf0937d"></span><code class="descname">TO_STATUS_PIO_HIGH_OPENDRAIN_MASK</code> 0x02<a class="headerlink" href="#c.TO_STATUS_PIO_HIGH_OPENDRAIN_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_STATUS_PIO_IDLE_HZ_MASK">
+<span class="target" id="group__consts_1gaddf97f43ba7e1e8ca0aa2a5098b494d7"></span><code class="descname">TO_STATUS_PIO_IDLE_HZ_MASK</code> 0x04<a class="headerlink" href="#c.TO_STATUS_PIO_IDLE_HZ_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_STATE_PREPERSO">
+<span class="target" id="group__consts_1ga4d55f37e0cb9f77e2f02d2355c926d89"></span><code class="descname">TO_STATE_PREPERSO</code> ((unsigned char)0xA3)<a class="headerlink" href="#c.TO_STATE_PREPERSO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_STATE_PERSO">
+<span class="target" id="group__consts_1gab5504faf26f741db4528e039692e7b45"></span><code class="descname">TO_STATE_PERSO</code> ((unsigned char)0x52)<a class="headerlink" href="#c.TO_STATE_PERSO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_STATE_NORMAL">
+<span class="target" id="group__consts_1ga523e050ad17c9945ec064c79b69e4fd7"></span><code class="descname">TO_STATE_NORMAL</code> ((unsigned char)0x00)<a class="headerlink" href="#c.TO_STATE_NORMAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TO_STATE_LOCKED">
+<span class="target" id="group__consts_1gacee02eed2a1a0adace2557ef76426a45"></span><code class="descname">TO_STATE_LOCKED</code> ((unsigned char)0xFF)<a class="headerlink" href="#c.TO_STATE_LOCKED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="secure-element-commands-codes">
+<h2>Secure Element commands codes<a class="headerlink" href="#secure-element-commands-codes" title="Permalink to this headline">¶</a></h2>
+<dl class="define">
+<dt id="c.TOCMD_GET_SN">
+<span class="target" id="group__cmdcodes_1ga7fb2b97e1b1945c0b47d4783fce19a4f"></span><code class="descname">TOCMD_GET_SN</code> ((unsigned short)0x0001)<a class="headerlink" href="#c.TOCMD_GET_SN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_RES">
+<span class="target" id="group__cmdcodes_1gac64436a14e2c3f2241625b7c63badc83"></span><code class="descname">TOCMD_RES</code> ((unsigned short)0x0000)<a class="headerlink" href="#c.TOCMD_RES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_PN">
+<span class="target" id="group__cmdcodes_1gaa5278ddebf27d42ace13c7811a9d2dde"></span><code class="descname">TOCMD_GET_PN</code> ((unsigned short)0x0002)<a class="headerlink" href="#c.TOCMD_GET_PN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_HW_VERSION">
+<span class="target" id="group__cmdcodes_1ga08ed7393e4edea56f19ae5beff1cb230"></span><code class="descname">TOCMD_GET_HW_VERSION</code> ((unsigned short)0x0003)<a class="headerlink" href="#c.TOCMD_GET_HW_VERSION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_SW_VERSION">
+<span class="target" id="group__cmdcodes_1ga81054864bbec5f52cf111e5ff3a04f1f"></span><code class="descname">TOCMD_GET_SW_VERSION</code> ((unsigned short)0x0004)<a class="headerlink" href="#c.TOCMD_GET_SW_VERSION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_RANDOM">
+<span class="target" id="group__cmdcodes_1ga7e97c06653f4d04547c5dd1ac24c0b6a"></span><code class="descname">TOCMD_GET_RANDOM</code> ((unsigned short)0x0005)<a class="headerlink" href="#c.TOCMD_GET_RANDOM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_ECHO">
+<span class="target" id="group__cmdcodes_1ga3a018a27f6a92bda1d84c67832b0eac2"></span><code class="descname">TOCMD_ECHO</code> ((unsigned short)0x0010)<a class="headerlink" href="#c.TOCMD_ECHO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SLEEP">
+<span class="target" id="group__cmdcodes_1gab81764129dcb8964cf187480e521551c"></span><code class="descname">TOCMD_SLEEP</code> ((unsigned short)0x0011)<a class="headerlink" href="#c.TOCMD_SLEEP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_READ_NVM">
+<span class="target" id="group__cmdcodes_1ga0f78a3e53a33b1f10491e2f2d274706d"></span><code class="descname">TOCMD_READ_NVM</code> ((unsigned short)0x0021)<a class="headerlink" href="#c.TOCMD_READ_NVM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_WRITE_NVM">
+<span class="target" id="group__cmdcodes_1ga2b687aef41b31ff4e5fceed03347b2b0"></span><code class="descname">TOCMD_WRITE_NVM</code> ((unsigned short)0x0022)<a class="headerlink" href="#c.TOCMD_WRITE_NVM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_NVM_SIZE">
+<span class="target" id="group__cmdcodes_1ga907d8cba9efd15e4fc7e7446bb78b625"></span><code class="descname">TOCMD_GET_NVM_SIZE</code> ((unsigned short)0x0050)<a class="headerlink" href="#c.TOCMD_GET_NVM_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SET_STATUS_PIO_CONFIG">
+<span class="target" id="group__cmdcodes_1ga2ee1abdbb4aba6db2a266f5f26ff5c88"></span><code class="descname">TOCMD_SET_STATUS_PIO_CONFIG</code> ((unsigned short)0x00B1)<a class="headerlink" href="#c.TOCMD_SET_STATUS_PIO_CONFIG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_STATUS_PIO_CONFIG">
+<span class="target" id="group__cmdcodes_1ga20917a401b44f56dc211acf9b17b53f4"></span><code class="descname">TOCMD_GET_STATUS_PIO_CONFIG</code> ((unsigned short)0x00B2)<a class="headerlink" href="#c.TOCMD_GET_STATUS_PIO_CONFIG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_CERTIFICATE_SUBJECT_CN">
+<span class="target" id="group__cmdcodes_1gaf2bc6c45d02c319002f3f37416ae890f"></span><code class="descname">TOCMD_GET_CERTIFICATE_SUBJECT_CN</code> ((unsigned short)0x0046)<a class="headerlink" href="#c.TOCMD_GET_CERTIFICATE_SUBJECT_CN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_CERTIFICATE">
+<span class="target" id="group__cmdcodes_1ga7f4c3b06fd866ecba2b7ff956633de55"></span><code class="descname">TOCMD_GET_CERTIFICATE</code> ((unsigned short)0x0006)<a class="headerlink" href="#c.TOCMD_GET_CERTIFICATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SIGN">
+<span class="target" id="group__cmdcodes_1ga6eb498e831b91206af07d7362b736028"></span><code class="descname">TOCMD_SIGN</code> ((unsigned short)0x0007)<a class="headerlink" href="#c.TOCMD_SIGN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY">
+<span class="target" id="group__cmdcodes_1ga1fa283f74a81bc5129dc0b59fc1cff53"></span><code class="descname">TOCMD_VERIFY</code> ((unsigned short)0x0012)<a class="headerlink" href="#c.TOCMD_VERIFY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SIGN_HASH">
+<span class="target" id="group__cmdcodes_1gae52e2389a526771b84af62c36b221383"></span><code class="descname">TOCMD_SIGN_HASH</code> ((unsigned short)0x001E)<a class="headerlink" href="#c.TOCMD_SIGN_HASH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_HASH_SIGNATURE">
+<span class="target" id="group__cmdcodes_1gae04898c449cf09e6c2b501f5fa5983e4"></span><code class="descname">TOCMD_VERIFY_HASH_SIGNATURE</code> ((unsigned short)0x001F)<a class="headerlink" href="#c.TOCMD_VERIFY_HASH_SIGNATURE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_CERTIFICATE_AND_SIGN">
+<span class="target" id="group__cmdcodes_1gaebb1da9ca585a38eb0fcc40f5a9d7639"></span><code class="descname">TOCMD_GET_CERTIFICATE_AND_SIGN</code> ((unsigned short)0x0008)<a class="headerlink" href="#c.TOCMD_GET_CERTIFICATE_AND_SIGN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_CERTIFICATE_AND_STORE">
+<span class="target" id="group__cmdcodes_1ga0d436a3786ba6718c21d79f894ab9274"></span><code class="descname">TOCMD_VERIFY_CERTIFICATE_AND_STORE</code> ((unsigned short)0x0009)<a class="headerlink" href="#c.TOCMD_VERIFY_CERTIFICATE_AND_STORE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_CA_CERTIFICATE_AND_STORE">
+<span class="target" id="group__cmdcodes_1ga4043ce73a70088a56a2fd8f6b8352e42"></span><code class="descname">TOCMD_VERIFY_CA_CERTIFICATE_AND_STORE</code> ((unsigned short)0x0047)<a class="headerlink" href="#c.TOCMD_VERIFY_CA_CERTIFICATE_AND_STORE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_CHALLENGE_AND_STORE">
+<span class="target" id="group__cmdcodes_1ga80df937a07eac7f6d52eee1977022d8b"></span><code class="descname">TOCMD_GET_CHALLENGE_AND_STORE</code> ((unsigned short)0x000A)<a class="headerlink" href="#c.TOCMD_GET_CHALLENGE_AND_STORE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_CHALLENGE_SIGNATURE">
+<span class="target" id="group__cmdcodes_1ga44f9b42b0307aa4a06f423b8d9ee63b2"></span><code class="descname">TOCMD_VERIFY_CHALLENGE_SIGNATURE</code> ((unsigned short)0x000B)<a class="headerlink" href="#c.TOCMD_VERIFY_CHALLENGE_SIGNATURE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_CHAIN_CERTIFICATE_AND_STORE_INIT">
+<span class="target" id="group__cmdcodes_1gad275ecc6dcf3ef9b68a2693f296da81a"></span><code class="descname">TOCMD_VERIFY_CHAIN_CERTIFICATE_AND_STORE_INIT</code> ((unsigned short)0x00AD)<a class="headerlink" href="#c.TOCMD_VERIFY_CHAIN_CERTIFICATE_AND_STORE_INIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_CHAIN_CERTIFICATE_AND_STORE_UPDATE">
+<span class="target" id="group__cmdcodes_1ga6687b680d2c6cbb432474d32a6326301"></span><code class="descname">TOCMD_VERIFY_CHAIN_CERTIFICATE_AND_STORE_UPDATE</code> ((unsigned short)0x00AE)<a class="headerlink" href="#c.TOCMD_VERIFY_CHAIN_CERTIFICATE_AND_STORE_UPDATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_CHAIN_CERTIFICATE_AND_STORE_FINAL">
+<span class="target" id="group__cmdcodes_1gad1f15be3ce34d19e34d1202e97ffb7d7"></span><code class="descname">TOCMD_VERIFY_CHAIN_CERTIFICATE_AND_STORE_FINAL</code> ((unsigned short)0x00AF)<a class="headerlink" href="#c.TOCMD_VERIFY_CHAIN_CERTIFICATE_AND_STORE_FINAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_INIT">
+<span class="target" id="group__cmdcodes_1ga2de7db36424251f03b076ac7089a6c4b"></span><code class="descname">TOCMD_VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_INIT</code> ((unsigned short)0x00B3)<a class="headerlink" href="#c.TOCMD_VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_INIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_UPDATE">
+<span class="target" id="group__cmdcodes_1ga2446922c68459bff7871f7167ab1b382"></span><code class="descname">TOCMD_VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_UPDATE</code> ((unsigned short)0x00B4)<a class="headerlink" href="#c.TOCMD_VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_UPDATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_FINAL">
+<span class="target" id="group__cmdcodes_1ga8e2a00b031534fc7dc3f002a13c5a05e"></span><code class="descname">TOCMD_VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_FINAL</code> ((unsigned short)0x00B5)<a class="headerlink" href="#c.TOCMD_VERIFY_CHAIN_CA_CERTIFICATE_AND_STORE_FINAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_COMPUTE_HMAC">
+<span class="target" id="group__cmdcodes_1gaa2c206a13739323826650731b6467dfb"></span><code class="descname">TOCMD_COMPUTE_HMAC</code> ((unsigned short)0x000C)<a class="headerlink" href="#c.TOCMD_COMPUTE_HMAC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_COMPUTE_HMAC_INIT">
+<span class="target" id="group__cmdcodes_1ga4e37903e370415ecc953a25260ab2dbd"></span><code class="descname">TOCMD_COMPUTE_HMAC_INIT</code> ((unsigned short)0x0023)<a class="headerlink" href="#c.TOCMD_COMPUTE_HMAC_INIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_COMPUTE_HMAC_UPDATE">
+<span class="target" id="group__cmdcodes_1gaf3e446a99d10327167f7c69da31c0f6a"></span><code class="descname">TOCMD_COMPUTE_HMAC_UPDATE</code> ((unsigned short)0x0024)<a class="headerlink" href="#c.TOCMD_COMPUTE_HMAC_UPDATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_COMPUTE_HMAC_FINAL">
+<span class="target" id="group__cmdcodes_1ga0cdd099fedbfd8f095ddbca11ef38e42"></span><code class="descname">TOCMD_COMPUTE_HMAC_FINAL</code> ((unsigned short)0x0025)<a class="headerlink" href="#c.TOCMD_COMPUTE_HMAC_FINAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_HMAC">
+<span class="target" id="group__cmdcodes_1ga0f2e31cee9e03d7ff7151f0bb2f2e0cd"></span><code class="descname">TOCMD_VERIFY_HMAC</code> ((unsigned short)0x000D)<a class="headerlink" href="#c.TOCMD_VERIFY_HMAC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_HMAC_INIT">
+<span class="target" id="group__cmdcodes_1gaad1669504cb6cfd840908626653e883f"></span><code class="descname">TOCMD_VERIFY_HMAC_INIT</code> ((unsigned short)0x0026)<a class="headerlink" href="#c.TOCMD_VERIFY_HMAC_INIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_HMAC_UPDATE">
+<span class="target" id="group__cmdcodes_1ga6de8486064b1766be4650a5ae35b4fe2"></span><code class="descname">TOCMD_VERIFY_HMAC_UPDATE</code> ((unsigned short)0x0027)<a class="headerlink" href="#c.TOCMD_VERIFY_HMAC_UPDATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_HMAC_FINAL">
+<span class="target" id="group__cmdcodes_1ga96c73026c09058eaee2778808988aac0"></span><code class="descname">TOCMD_VERIFY_HMAC_FINAL</code> ((unsigned short)0x0028)<a class="headerlink" href="#c.TOCMD_VERIFY_HMAC_FINAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_AESCBC_ENCRYPT">
+<span class="target" id="group__cmdcodes_1ga95c1fc6a18aca87694b728198cce5719"></span><code class="descname">TOCMD_AESCBC_ENCRYPT</code> ((unsigned short)0x000E)<a class="headerlink" href="#c.TOCMD_AESCBC_ENCRYPT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_AESCBC_DECRYPT">
+<span class="target" id="group__cmdcodes_1ga5d3173426e44986368b4737bfaf841d9"></span><code class="descname">TOCMD_AESCBC_DECRYPT</code> ((unsigned short)0x000F)<a class="headerlink" href="#c.TOCMD_AESCBC_DECRYPT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_AESCBC_IV_ENCRYPT">
+<span class="target" id="group__cmdcodes_1ga972e09273f0c56b7cda5e515138fcdb6"></span><code class="descname">TOCMD_AESCBC_IV_ENCRYPT</code> ((unsigned short)0x0020)<a class="headerlink" href="#c.TOCMD_AESCBC_IV_ENCRYPT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_COMPUTE_CMAC">
+<span class="target" id="group__cmdcodes_1ga895c2b0f52a9b4bcecbf17c97b1cfe62"></span><code class="descname">TOCMD_COMPUTE_CMAC</code> ((unsigned short)0x001C)<a class="headerlink" href="#c.TOCMD_COMPUTE_CMAC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_VERIFY_CMAC">
+<span class="target" id="group__cmdcodes_1gafb7706cb57caf8c78adf8ef2fb689fbf"></span><code class="descname">TOCMD_VERIFY_CMAC</code> ((unsigned short)0x001D)<a class="headerlink" href="#c.TOCMD_VERIFY_CMAC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SHA256">
+<span class="target" id="group__cmdcodes_1ga5e5dc981889378e7cc74981a2b74f815"></span><code class="descname">TOCMD_SHA256</code> ((unsigned short)0x00A2)<a class="headerlink" href="#c.TOCMD_SHA256" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SHA256_INIT">
+<span class="target" id="group__cmdcodes_1gad1391e68d8acee6dd811b7833edb664c"></span><code class="descname">TOCMD_SHA256_INIT</code> ((unsigned short)0x00AA)<a class="headerlink" href="#c.TOCMD_SHA256_INIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SHA256_UPDATE">
+<span class="target" id="group__cmdcodes_1gaffb4d4f23262a2705da413d62976ec67"></span><code class="descname">TOCMD_SHA256_UPDATE</code> ((unsigned short)0x00AB)<a class="headerlink" href="#c.TOCMD_SHA256_UPDATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SHA256_FINAL">
+<span class="target" id="group__cmdcodes_1ga1f8dcc6758d46685e51b0f1ca1b1f988"></span><code class="descname">TOCMD_SHA256_FINAL</code> ((unsigned short)0x00AC)<a class="headerlink" href="#c.TOCMD_SHA256_FINAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SECURE_MESSAGE">
+<span class="target" id="group__cmdcodes_1ga07afc14c8921d9a8d72374f96e8bc7a9"></span><code class="descname">TOCMD_SECURE_MESSAGE</code> ((unsigned short)0x00A0)<a class="headerlink" href="#c.TOCMD_SECURE_MESSAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_UNSECURE_MESSAGE">
+<span class="target" id="group__cmdcodes_1ga0fee02516afa763dbe454e350a013b63"></span><code class="descname">TOCMD_UNSECURE_MESSAGE</code> ((unsigned short)0x00A1)<a class="headerlink" href="#c.TOCMD_UNSECURE_MESSAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SET_REMOTE_PUBLIC_KEY">
+<span class="target" id="group__cmdcodes_1ga8c31ce65a2a6902a3fa7f704d44003cd"></span><code class="descname">TOCMD_SET_REMOTE_PUBLIC_KEY</code> ((unsigned short)0x00A3)<a class="headerlink" href="#c.TOCMD_SET_REMOTE_PUBLIC_KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_RENEW_ECC_KEYS">
+<span class="target" id="group__cmdcodes_1ga0ebf534ba96e7234e3c405811a6796cd"></span><code class="descname">TOCMD_RENEW_ECC_KEYS</code> ((unsigned short)0x00A4)<a class="headerlink" href="#c.TOCMD_RENEW_ECC_KEYS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_PUBLIC_KEY">
+<span class="target" id="group__cmdcodes_1ga76b558086ebd437a4c031266eca2c2d3"></span><code class="descname">TOCMD_GET_PUBLIC_KEY</code> ((unsigned short)0x00A5)<a class="headerlink" href="#c.TOCMD_GET_PUBLIC_KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_UNSIGNED_PUBLIC_KEY">
+<span class="target" id="group__cmdcodes_1ga43bd4427fca9e1241d7283c8e84ab977"></span><code class="descname">TOCMD_GET_UNSIGNED_PUBLIC_KEY</code> ((unsigned short)0x002E)<a class="headerlink" href="#c.TOCMD_GET_UNSIGNED_PUBLIC_KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_RENEW_SHARED_KEYS">
+<span class="target" id="group__cmdcodes_1ga958840d415347e7a2227beb925b81c5f"></span><code class="descname">TOCMD_RENEW_SHARED_KEYS</code> ((unsigned short)0x00A6)<a class="headerlink" href="#c.TOCMD_RENEW_SHARED_KEYS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_KEY_FINGERPRINT">
+<span class="target" id="group__cmdcodes_1ga82d6a34b90e343ad7379a14dd281529d"></span><code class="descname">TOCMD_GET_KEY_FINGERPRINT</code> ((unsigned short)0x0019)<a class="headerlink" href="#c.TOCMD_GET_KEY_FINGERPRINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_GET_RANDOM_AND_STORE">
+<span class="target" id="group__cmdcodes_1ga706f35193bd341e438cbc1f644e17060"></span><code class="descname">TOCMD_TLS_GET_RANDOM_AND_STORE</code> ((unsigned short)0x0029)<a class="headerlink" href="#c.TOCMD_TLS_GET_RANDOM_AND_STORE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_RENEW_KEYS">
+<span class="target" id="group__cmdcodes_1ga9b7ded33bc2e51e23b061f9fef1e7582"></span><code class="descname">TOCMD_TLS_RENEW_KEYS</code> ((unsigned short)0x002A)<a class="headerlink" href="#c.TOCMD_TLS_RENEW_KEYS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_GET_MASTER_SECRET">
+<span class="target" id="group__cmdcodes_1ga342e970590dd64ed919828351aa24325"></span><code class="descname">TOCMD_TLS_GET_MASTER_SECRET</code> ((unsigned short)0x002B)<a class="headerlink" href="#c.TOCMD_TLS_GET_MASTER_SECRET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_SET_SERVER_RANDOM">
+<span class="target" id="group__cmdcodes_1gac88e8f28707b39dbae3e7bffb0649b2a"></span><code class="descname">TOCMD_TLS_SET_SERVER_RANDOM</code> ((unsigned short)0x002F)<a class="headerlink" href="#c.TOCMD_TLS_SET_SERVER_RANDOM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_SET_SERVER_EPUBLIC_KEY">
+<span class="target" id="group__cmdcodes_1gaab99c480e65f21ddf05f5baa811ff2db"></span><code class="descname">TOCMD_TLS_SET_SERVER_EPUBLIC_KEY</code> ((unsigned short) 0x002C)<a class="headerlink" href="#c.TOCMD_TLS_SET_SERVER_EPUBLIC_KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_RENEW_KEYS_ECDHE">
+<span class="target" id="group__cmdcodes_1ga91774f53291ae24ad115e0d89a275d8b"></span><code class="descname">TOCMD_TLS_RENEW_KEYS_ECDHE</code> ((unsigned short) 0x002D)<a class="headerlink" href="#c.TOCMD_TLS_RENEW_KEYS_ECDHE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_COMPUTE_ECDH">
+<span class="target" id="group__cmdcodes_1ga8bb6052aeb33500e19bc88daa2003081"></span><code class="descname">TOCMD_TLS_COMPUTE_ECDH</code> ((unsigned short)0x0030)<a class="headerlink" href="#c.TOCMD_TLS_COMPUTE_ECDH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_CALCULATE_FINISHED">
+<span class="target" id="group__cmdcodes_1ga7bb54981b5030e2b86d9c8e815a42367"></span><code class="descname">TOCMD_TLS_CALCULATE_FINISHED</code> ((unsigned short)0x0031)<a class="headerlink" href="#c.TOCMD_TLS_CALCULATE_FINISHED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_RESET">
+<span class="target" id="group__cmdcodes_1gacea73372249a47a0e45f38ebe45e2c12"></span><code class="descname">TOCMD_TLS_RESET</code> ((unsigned short)0x00B6)<a class="headerlink" href="#c.TOCMD_TLS_RESET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_SET_MODE">
+<span class="target" id="group__cmdcodes_1gaa77a68e7df55da9590bdd98ca43321c7"></span><code class="descname">TOCMD_TLS_SET_MODE</code> ((unsigned short)0x0042)<a class="headerlink" href="#c.TOCMD_TLS_SET_MODE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_GET_CLIENT_HELLO">
+<span class="target" id="group__cmdcodes_1gaef397617e689740becc278f2c8fb40cb"></span><code class="descname">TOCMD_TLS_GET_CLIENT_HELLO</code> ((unsigned short)0x0032)<a class="headerlink" href="#c.TOCMD_TLS_GET_CLIENT_HELLO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_HANDLE_HELLO_VERIFY_REQUEST">
+<span class="target" id="group__cmdcodes_1ga293a98e4510f0ced5f7b09964ce77ecf"></span><code class="descname">TOCMD_TLS_HANDLE_HELLO_VERIFY_REQUEST</code> ((unsigned short)0x0041)<a class="headerlink" href="#c.TOCMD_TLS_HANDLE_HELLO_VERIFY_REQUEST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_HANDLE_SERVER_HELLO">
+<span class="target" id="group__cmdcodes_1ga02aa1fffb771f4b17898c38b4dc55ff7"></span><code class="descname">TOCMD_TLS_HANDLE_SERVER_HELLO</code> ((unsigned short)0x0033)<a class="headerlink" href="#c.TOCMD_TLS_HANDLE_SERVER_HELLO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_HANDLE_SERVER_CERTIFICATE_INIT">
+<span class="target" id="group__cmdcodes_1ga3838284a6f322a606f0d40c4936a66d8"></span><code class="descname">TOCMD_TLS_HANDLE_SERVER_CERTIFICATE_INIT</code> ((unsigned short)0x0043)<a class="headerlink" href="#c.TOCMD_TLS_HANDLE_SERVER_CERTIFICATE_INIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_HANDLE_SERVER_CERTIFICATE_UPDATE">
+<span class="target" id="group__cmdcodes_1ga09bbb4992b7426b9eafcedcbd3d45b15"></span><code class="descname">TOCMD_TLS_HANDLE_SERVER_CERTIFICATE_UPDATE</code> ((unsigned short)0x0044)<a class="headerlink" href="#c.TOCMD_TLS_HANDLE_SERVER_CERTIFICATE_UPDATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_HANDLE_SERVER_CERTIFICATE_FINAL">
+<span class="target" id="group__cmdcodes_1ga58d51aa652f11a80ee041c27517f0cd4"></span><code class="descname">TOCMD_TLS_HANDLE_SERVER_CERTIFICATE_FINAL</code> ((unsigned short)0x0045)<a class="headerlink" href="#c.TOCMD_TLS_HANDLE_SERVER_CERTIFICATE_FINAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_HANDLE_SERVER_KEY_EXCHANGE">
+<span class="target" id="group__cmdcodes_1ga8477bef465f43842072b8a199e0f428f"></span><code class="descname">TOCMD_TLS_HANDLE_SERVER_KEY_EXCHANGE</code> ((unsigned short)0x0035)<a class="headerlink" href="#c.TOCMD_TLS_HANDLE_SERVER_KEY_EXCHANGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_HANDLE_CERTIFICATE_REQUEST">
+<span class="target" id="group__cmdcodes_1ga284da39e31ca1ddc850a34dc9ec77bfd"></span><code class="descname">TOCMD_TLS_HANDLE_CERTIFICATE_REQUEST</code> ((unsigned short)0x0036)<a class="headerlink" href="#c.TOCMD_TLS_HANDLE_CERTIFICATE_REQUEST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_HANDLE_SERVER_HELLO_DONE">
+<span class="target" id="group__cmdcodes_1ga9d4e1c7461085dc07b1bf040d17299d2"></span><code class="descname">TOCMD_TLS_HANDLE_SERVER_HELLO_DONE</code> ((unsigned short)0x0037)<a class="headerlink" href="#c.TOCMD_TLS_HANDLE_SERVER_HELLO_DONE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_GET_CERTIFICATE">
+<span class="target" id="group__cmdcodes_1gad499cbd40d15903fb9fad50d5dddcc2e"></span><code class="descname">TOCMD_TLS_GET_CERTIFICATE</code> ((unsigned short)0x0038)<a class="headerlink" href="#c.TOCMD_TLS_GET_CERTIFICATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_GET_CERTIFICATE_INIT">
+<span class="target" id="group__cmdcodes_1gaef39ae177f55e1b5a816f70117ef1ac4"></span><code class="descname">TOCMD_TLS_GET_CERTIFICATE_INIT</code> ((unsigned short)0x00BD)<a class="headerlink" href="#c.TOCMD_TLS_GET_CERTIFICATE_INIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_GET_CERTIFICATE_UPDATE">
+<span class="target" id="group__cmdcodes_1ga527705d8ae0c1b1e867810607e10605c"></span><code class="descname">TOCMD_TLS_GET_CERTIFICATE_UPDATE</code> ((unsigned short)0x00BE)<a class="headerlink" href="#c.TOCMD_TLS_GET_CERTIFICATE_UPDATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_GET_CERTIFICATE_FINAL">
+<span class="target" id="group__cmdcodes_1ga63aaf81792f3fdd3ca2f599bd8320e38"></span><code class="descname">TOCMD_TLS_GET_CERTIFICATE_FINAL</code> ((unsigned short)0x00BF)<a class="headerlink" href="#c.TOCMD_TLS_GET_CERTIFICATE_FINAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_GET_CLIENT_KEY_EXCHANGE">
+<span class="target" id="group__cmdcodes_1gad786dcf6a1db03f9cd3329981861ddcd"></span><code class="descname">TOCMD_TLS_GET_CLIENT_KEY_EXCHANGE</code> ((unsigned short)0x0039)<a class="headerlink" href="#c.TOCMD_TLS_GET_CLIENT_KEY_EXCHANGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_GET_CERTIFICATE_VERIFY">
+<span class="target" id="group__cmdcodes_1gadb8d69692d3d8405ea16bbbe3ab84ddb"></span><code class="descname">TOCMD_TLS_GET_CERTIFICATE_VERIFY</code> ((unsigned short)0x003A)<a class="headerlink" href="#c.TOCMD_TLS_GET_CERTIFICATE_VERIFY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_GET_CHANGE_CIPHER_SPEC">
+<span class="target" id="group__cmdcodes_1ga7f05d0ab5969ffdbcb83db7450467fcf"></span><code class="descname">TOCMD_TLS_GET_CHANGE_CIPHER_SPEC</code> ((unsigned short)0x003B)<a class="headerlink" href="#c.TOCMD_TLS_GET_CHANGE_CIPHER_SPEC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_GET_FINISHED">
+<span class="target" id="group__cmdcodes_1gaa445d4b0936205293a1f055746598192"></span><code class="descname">TOCMD_TLS_GET_FINISHED</code> ((unsigned short)0x003C)<a class="headerlink" href="#c.TOCMD_TLS_GET_FINISHED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_HANDLE_CHANGE_CIPHER_SPEC">
+<span class="target" id="group__cmdcodes_1gae8cd01440a87fbc23480bd95c9e4188c"></span><code class="descname">TOCMD_TLS_HANDLE_CHANGE_CIPHER_SPEC</code> ((unsigned short)0x003D)<a class="headerlink" href="#c.TOCMD_TLS_HANDLE_CHANGE_CIPHER_SPEC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_HANDLE_FINISHED">
+<span class="target" id="group__cmdcodes_1gac561de384baab5505af19ea4fb7da658"></span><code class="descname">TOCMD_TLS_HANDLE_FINISHED</code> ((unsigned short)0x003E)<a class="headerlink" href="#c.TOCMD_TLS_HANDLE_FINISHED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_SECURE_MESSAGE">
+<span class="target" id="group__cmdcodes_1gade73bd84d6dad7098c6130a707c11dc1"></span><code class="descname">TOCMD_TLS_SECURE_MESSAGE</code> ((unsigned short)0x003F)<a class="headerlink" href="#c.TOCMD_TLS_SECURE_MESSAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_SECURE_MESSAGE_INIT">
+<span class="target" id="group__cmdcodes_1ga6f8d9d7c5dc9b3438df58e8703d878a9"></span><code class="descname">TOCMD_TLS_SECURE_MESSAGE_INIT</code> ((unsigned short)0x00B7)<a class="headerlink" href="#c.TOCMD_TLS_SECURE_MESSAGE_INIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_SECURE_MESSAGE_UPDATE">
+<span class="target" id="group__cmdcodes_1ga76d95545ed941b3a21f7731e5850249b"></span><code class="descname">TOCMD_TLS_SECURE_MESSAGE_UPDATE</code> ((unsigned short)0x00B8)<a class="headerlink" href="#c.TOCMD_TLS_SECURE_MESSAGE_UPDATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_SECURE_MESSAGE_FINAL">
+<span class="target" id="group__cmdcodes_1ga609ab41aabbaf5db211874ea3153a720"></span><code class="descname">TOCMD_TLS_SECURE_MESSAGE_FINAL</code> ((unsigned short)0x00B9)<a class="headerlink" href="#c.TOCMD_TLS_SECURE_MESSAGE_FINAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_UNSECURE_MESSAGE">
+<span class="target" id="group__cmdcodes_1gaa34857613cb0002bc90983d1c47be87e"></span><code class="descname">TOCMD_TLS_UNSECURE_MESSAGE</code> ((unsigned short)0x0040)<a class="headerlink" href="#c.TOCMD_TLS_UNSECURE_MESSAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_UNSECURE_MESSAGE_INIT">
+<span class="target" id="group__cmdcodes_1ga88bbf15c62ba56720435089db3e73db3"></span><code class="descname">TOCMD_TLS_UNSECURE_MESSAGE_INIT</code> ((unsigned short)0x00BA)<a class="headerlink" href="#c.TOCMD_TLS_UNSECURE_MESSAGE_INIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_UNSECURE_MESSAGE_UPDATE">
+<span class="target" id="group__cmdcodes_1gad231123418c2e460cdb873bfc408b5f5"></span><code class="descname">TOCMD_TLS_UNSECURE_MESSAGE_UPDATE</code> ((unsigned short)0x00BB)<a class="headerlink" href="#c.TOCMD_TLS_UNSECURE_MESSAGE_UPDATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_TLS_UNSECURE_MESSAGE_FINAL">
+<span class="target" id="group__cmdcodes_1gab7d8fb7fa6c32a86b8405d99738684e5"></span><code class="descname">TOCMD_TLS_UNSECURE_MESSAGE_FINAL</code> ((unsigned short)0x00BC)<a class="headerlink" href="#c.TOCMD_TLS_UNSECURE_MESSAGE_FINAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LORA_GET_APPEUI">
+<span class="target" id="group__cmdcodes_1ga281a020460d8644b76589156fffcc14c"></span><code class="descname">TOCMD_LORA_GET_APPEUI</code> ((unsigned short)0x0108)<a class="headerlink" href="#c.TOCMD_LORA_GET_APPEUI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LORA_GET_DEVEUI">
+<span class="target" id="group__cmdcodes_1ga5dcf0c5880f193d8b38612fe63e75b30"></span><code class="descname">TOCMD_LORA_GET_DEVEUI</code> ((unsigned short)0x0109)<a class="headerlink" href="#c.TOCMD_LORA_GET_DEVEUI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LORA_COMPUTE_MIC">
+<span class="target" id="group__cmdcodes_1gaa59c92029a412ca260fcc02b1d1c04aa"></span><code class="descname">TOCMD_LORA_COMPUTE_MIC</code> ((unsigned short)0x010A)<a class="headerlink" href="#c.TOCMD_LORA_COMPUTE_MIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LORA_ENCRYPT_PAYLOAD">
+<span class="target" id="group__cmdcodes_1gaed2b5c9d572079e9dc2d56036216ca6a"></span><code class="descname">TOCMD_LORA_ENCRYPT_PAYLOAD</code> ((unsigned short)0x010B)<a class="headerlink" href="#c.TOCMD_LORA_ENCRYPT_PAYLOAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LORA_DECRYPT_JOIN">
+<span class="target" id="group__cmdcodes_1ga6857e747f9d067c8806610671cc2c2cd"></span><code class="descname">TOCMD_LORA_DECRYPT_JOIN</code> ((unsigned short)0x010C)<a class="headerlink" href="#c.TOCMD_LORA_DECRYPT_JOIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LORA_COMPUTE_SHARED_KEYS">
+<span class="target" id="group__cmdcodes_1ga7c6b0b754113a509094d5fe506eaa918"></span><code class="descname">TOCMD_LORA_COMPUTE_SHARED_KEYS</code> ((unsigned short)0x010D)<a class="headerlink" href="#c.TOCMD_LORA_COMPUTE_SHARED_KEYS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LORA_GET_DEVADDR">
+<span class="target" id="group__cmdcodes_1ga136eea3dca39f8a7b16c860cb8ec27d3"></span><code class="descname">TOCMD_LORA_GET_DEVADDR</code> ((unsigned short)0x0110)<a class="headerlink" href="#c.TOCMD_LORA_GET_DEVADDR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LORA_GET_JOIN_REQUEST">
+<span class="target" id="group__cmdcodes_1ga1f8a3495b92ce1691687cf69d58d9099"></span><code class="descname">TOCMD_LORA_GET_JOIN_REQUEST</code> ((unsigned short)0x0100)<a class="headerlink" href="#c.TOCMD_LORA_GET_JOIN_REQUEST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LORA_HANDLE_JOIN_ACCEPT">
+<span class="target" id="group__cmdcodes_1ga8888f282e4966537410ae06092b1e039"></span><code class="descname">TOCMD_LORA_HANDLE_JOIN_ACCEPT</code> ((unsigned short)0x0101)<a class="headerlink" href="#c.TOCMD_LORA_HANDLE_JOIN_ACCEPT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LORA_SECURE_PHYPAYLOAD">
+<span class="target" id="group__cmdcodes_1gaf461a69ee16fdff051bfccf18a753f82"></span><code class="descname">TOCMD_LORA_SECURE_PHYPAYLOAD</code> ((unsigned short)0x0102)<a class="headerlink" href="#c.TOCMD_LORA_SECURE_PHYPAYLOAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LORA_UNSECURE_PHYPAYLOAD">
+<span class="target" id="group__cmdcodes_1gacee4dffe826fb6a4eb9e980c77c33751"></span><code class="descname">TOCMD_LORA_UNSECURE_PHYPAYLOAD</code> ((unsigned short)0x0103)<a class="headerlink" href="#c.TOCMD_LORA_UNSECURE_PHYPAYLOAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SET_PRE_PERSONALIZATION_DATA">
+<span class="target" id="group__cmdcodes_1ga2d8ab405b6b9df450ad04b435dfe135f"></span><code class="descname">TOCMD_SET_PRE_PERSONALIZATION_DATA</code> ((unsigned short)0x0013)<a class="headerlink" href="#c.TOCMD_SET_PRE_PERSONALIZATION_DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SET_PERSONALIZATION_DATA">
+<span class="target" id="group__cmdcodes_1gab5510d2efdd4dbe8a68fdf7571e8cead"></span><code class="descname">TOCMD_SET_PERSONALIZATION_DATA</code> ((unsigned short)0x0014)<a class="headerlink" href="#c.TOCMD_SET_PERSONALIZATION_DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SET_NEXT_STATE">
+<span class="target" id="group__cmdcodes_1ga8fb5b7fb9b8efae791189a8c80bd7dc7"></span><code class="descname">TOCMD_SET_NEXT_STATE</code> ((unsigned short)0x0015)<a class="headerlink" href="#c.TOCMD_SET_NEXT_STATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_GET_STATE">
+<span class="target" id="group__cmdcodes_1ga95aaa44e28ce72f3cd3797cef7a801f2"></span><code class="descname">TOCMD_GET_STATE</code> ((unsigned short)0x0016)<a class="headerlink" href="#c.TOCMD_GET_STATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_LOCK">
+<span class="target" id="group__cmdcodes_1ga8a46578a964d841b6312cf6360f306c1"></span><code class="descname">TOCMD_LOCK</code> ((unsigned short)0x0017)<a class="headerlink" href="#c.TOCMD_LOCK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_UNLOCK">
+<span class="target" id="group__cmdcodes_1gad01c5b2c981ce58c9711e651aee7d8ac"></span><code class="descname">TOCMD_UNLOCK</code> ((unsigned short)0x0018)<a class="headerlink" href="#c.TOCMD_UNLOCK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SET_AES_KEY">
+<span class="target" id="group__cmdcodes_1ga5e0ca06da3fbed59fe0f35c5fd7af968"></span><code class="descname">TOCMD_SET_AES_KEY</code> ((unsigned short)0x00A7)<a class="headerlink" href="#c.TOCMD_SET_AES_KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SET_HMAC_KEY">
+<span class="target" id="group__cmdcodes_1gad32f5c7d866cf60f1374f26be357b5f8"></span><code class="descname">TOCMD_SET_HMAC_KEY</code> ((unsigned short)0x00A8)<a class="headerlink" href="#c.TOCMD_SET_HMAC_KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SET_CMAC_KEY">
+<span class="target" id="group__cmdcodes_1ga6253bb174850c0444350cd7ca0bad501"></span><code class="descname">TOCMD_SET_CMAC_KEY</code> ((unsigned short)0x00A9)<a class="headerlink" href="#c.TOCMD_SET_CMAC_KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SECLINK_ARC4">
+<span class="target" id="group__cmdcodes_1ga208051a2da2441b5bcb78ab1768d43a4"></span><code class="descname">TOCMD_SECLINK_ARC4</code> ((unsigned short)0xFF00)<a class="headerlink" href="#c.TOCMD_SECLINK_ARC4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SECLINK_ARC4_GET_IV">
+<span class="target" id="group__cmdcodes_1ga5f2b393868ef15a6892f2259ffcd95aa"></span><code class="descname">TOCMD_SECLINK_ARC4_GET_IV</code> ((unsigned short)0xFF01)<a class="headerlink" href="#c.TOCMD_SECLINK_ARC4_GET_IV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SECLINK_ARC4_GET_NEW_KEY">
+<span class="target" id="group__cmdcodes_1ga6fced38f292c20055cd61622e2615151"></span><code class="descname">TOCMD_SECLINK_ARC4_GET_NEW_KEY</code> ((unsigned short)0xFF04)<a class="headerlink" href="#c.TOCMD_SECLINK_ARC4_GET_NEW_KEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SECLINK_AESHMAC">
+<span class="target" id="group__cmdcodes_1ga874c8f118ad799b5179dedcf5c31ba8b"></span><code class="descname">TOCMD_SECLINK_AESHMAC</code> ((unsigned short)0xFF02)<a class="headerlink" href="#c.TOCMD_SECLINK_AESHMAC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SECLINK_AESHMAC_GET_IV">
+<span class="target" id="group__cmdcodes_1gaf202bde6032d4a126bcda995043733cf"></span><code class="descname">TOCMD_SECLINK_AESHMAC_GET_IV</code> ((unsigned short)0xFF03)<a class="headerlink" href="#c.TOCMD_SECLINK_AESHMAC_GET_IV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="define">
+<dt id="c.TOCMD_SECLINK_AESHMAC_GET_NEW_KEYS">
+<span class="target" id="group__cmdcodes_1ga6556b6cf282430c897c908aa36981423"></span><code class="descname">TOCMD_SECLINK_AESHMAC_GET_NEW_KEYS</code> ((unsigned short)0xFF05)<a class="headerlink" href="#c.TOCMD_SECLINK_AESHMAC_GET_NEW_KEYS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

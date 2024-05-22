@@ -1,0 +1,3 @@
+KERNEL=="hidraw*", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea90", MODE="0666"
+KERNEL=="i2c-*", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea90", MODE="0666"
+KERNEL=="i2c-*", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea90", RUN="/bin/chmod 666 /sys/module/hid_cp2112/parameters/response_timeout /sys/module/hid_cp2112/parameters/xfer_status_retries"

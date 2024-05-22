@@ -1,0 +1,302 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Library configuration with autotools &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="I2C wrapper" href="../wrapper/overview.html" />
+    <link rel="prev" title="Windows installation instructions (MinGW)" href="setup_windows_mingw.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Library configuration with autotools</a><ul>
+<li><a class="reference internal" href="#global-settings">Global settings</a><ul>
+<li><a class="reference internal" href="#endianness">Endianness</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#features-settings">Features settings</a><ul>
+<li><a class="reference internal" href="#macro-settings">Macro. settings</a></li>
+<li><a class="reference internal" href="#micro-settings">Micro. settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="library-configuration-with-autotools">
+<span id="settings-autotools"></span><h1>Library configuration with autotools<a class="headerlink" href="#library-configuration-with-autotools" title="Permalink to this headline">¶</a></h1>
+<p>The libTO library allows various settings with different granularity in
+order to customize global settings and select features to be enabled.
+These settings may be important, especially to minimize library memory usage.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Below it is assumed you have read the appropriate libTO
+installation guide.</p>
+</div>
+<div class="section" id="global-settings">
+<h2>Global settings<a class="headerlink" href="#global-settings" title="Permalink to this headline">¶</a></h2>
+<p>The <cite>configure</cite> script accepts the following parameters:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Flag</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>i2c=</td>
+<td>Select the I2C wrapper to use: cp2112,
+raspberrypi, linux_generic, net_bridge
+(default)</td>
+</tr>
+<tr class="row-odd"><td>endian=</td>
+<td>Force endianness: big, little</td>
+</tr>
+<tr class="row-even"><td>seclink=</td>
+<td>Secure link engine to use: arc4, aeshmac,
+none (default)</td>
+</tr>
+<tr class="row-odd"><td>–enable-debug</td>
+<td>Library debug mode (default: disabled)</td>
+</tr>
+<tr class="row-even"><td>i2c_dev=</td>
+<td><strong>ONLY FOR linux_generic WRAPPER</strong> I2C
+device to use (<cite>/dev/i2c-0</cite> for example)</td>
+</tr>
+<tr class="row-odd"><td>io_buffer_size=</td>
+<td>(expert) Customize internal I/O buffer size</td>
+</tr>
+<tr class="row-even"><td>cmd_max_params_nb=</td>
+<td>(expert) Customize maximum number of
+parameters taken by commands, for internal
+library use</td>
+</tr>
+<tr class="row-odd"><td>tls_io_buffer_size=</td>
+<td>(expert) Customize internal TLS I/O buffer
+size</td>
+</tr>
+<tr class="row-even"><td>tls_flight_buffer_size=</td>
+<td>(expert) Customize internal TLS flight
+buffer size</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="endianness">
+<h3>Endianness<a class="headerlink" href="#endianness" title="Permalink to this headline">¶</a></h3>
+<p>The <cite>configure</cite> script should automatically detect if your target system has
+the <cite>endian.h</cite> header file. Else, endianness settings may be got from
+preprocessor pre-defined macros if available.</p>
+<p>But if previous solutions are not available, endianness is going to be detected
+at run time, when <a class="reference internal" href="../api/se.html#c.TO_init" title="TO_init"><code class="xref c c-func docutils literal"><span class="pre">TO_init()</span></code></a> function is called by client application.</p>
+<p>In all cases, if you know your target endianness, you can force it by using the
+<cite>endian</cite> configure option presented above, example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">configure</span> <span class="n">endian</span><span class="o">=</span><span class="n">big</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">configure</span> <span class="n">endian</span><span class="o">=</span><span class="n">little</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="features-settings">
+<h2>Features settings<a class="headerlink" href="#features-settings" title="Permalink to this headline">¶</a></h2>
+<p>It may be interesting to only enable features required by the projet needs, in
+order to minimize library memory usage.</p>
+<div class="section" id="macro-settings">
+<h3>Macro. settings<a class="headerlink" href="#macro-settings" title="Permalink to this headline">¶</a></h3>
+<p>These settings are used to enable or disable large sets of features
+(macroscopic settings). There are two kinds of features:</p>
+<ul class="simple">
+<li>the ones disabled by default, then define the relevant flag to enable</li>
+<li>the ones enabled by default, disabled by defining a flag</li>
+</ul>
+<p>The <cite>configure</cite> script accepts the following parameters:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Flag</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>–enable-lora</td>
+<td>LoRa APIs (default: disabled)</td>
+</tr>
+<tr class="row-odd"><td>–disable-lora-optimized</td>
+<td>LoRa optimized API (default: enabled)</td>
+</tr>
+<tr class="row-even"><td>–enable-tls</td>
+<td>TLS standard APIs (default: disabled)</td>
+</tr>
+<tr class="row-odd"><td>–disable-tls-helper</td>
+<td>TLS handshake helper (default: enabled)</td>
+</tr>
+<tr class="row-even"><td>–disable-tls-optimized</td>
+<td>TLS optimized APIs (default: enabled)</td>
+</tr>
+<tr class="row-odd"><td>–enable-dtls</td>
+<td>DTLS APIs (default: disabled)</td>
+</tr>
+<tr class="row-even"><td>–disable-ecies-helper</td>
+<td>ECIES sequence helper (default: enabled)</td>
+</tr>
+<tr class="row-odd"><td>–disable-TO-info</td>
+<td>Secure Element informations APIs
+(get_sn, get_pn, …)
+(default: enabled)</td>
+</tr>
+<tr class="row-even"><td>–disable-get-random</td>
+<td>Random number generator API (default: enabled)</td>
+</tr>
+<tr class="row-odd"><td>–disable-cert</td>
+<td>Certificate management APIs (default: enabled)</td>
+</tr>
+<tr class="row-even"><td>–disable-signing</td>
+<td>Signing and verification APIs (default: enabled)</td>
+</tr>
+<tr class="row-odd"><td>–disable-aes-encrypt</td>
+<td>AES encryption/decryption APIs (default: enabled)</td>
+</tr>
+<tr class="row-even"><td>–disable-sec-msg</td>
+<td>Secure messaging APIs (default: enabled)</td>
+</tr>
+<tr class="row-odd"><td>–disable-sha256</td>
+<td>SHA256 hash APIs (default: enabled)</td>
+</tr>
+<tr class="row-even"><td>–disable-keys</td>
+<td>Keys management APIs (default: enabled)</td>
+</tr>
+<tr class="row-odd"><td>–disable-fingerprint</td>
+<td>Fingerprint APIs (default: disabled)</td>
+</tr>
+<tr class="row-even"><td>–disable-hmac</td>
+<td>HMAC computation/verification APIs
+(default: enabled)</td>
+</tr>
+<tr class="row-odd"><td>–disable-cmac</td>
+<td>CMAC computation/verification APIs
+(default: enabled)</td>
+</tr>
+<tr class="row-even"><td>–disable-nvm</td>
+<td>NVM secure storage APIs (default: enabled)</td>
+</tr>
+<tr class="row-odd"><td>–disable-status-pio-config</td>
+<td>Secure Element status PIO settings API</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="micro-settings">
+<h3>Micro. settings<a class="headerlink" href="#micro-settings" title="Permalink to this headline">¶</a></h3>
+<p>These settings are used to enable or disable features with a per-API
+granularity (microscopic settings).</p>
+<p>Every API has its own disable flag, to be defined to tell compiler to not build
+the related function.</p>
+<p>Disable flags have the following form: <cite>TO_DISABLE_API_&lt;API_NAME&gt;</cite>.
+For example, <cite>get_serial_number()</cite> API can be disabled by defining the
+<cite>TO_DISABLE_API_GET_SERIAL_NUMBER</cite> flag.</p>
+<p>There are the following exceptions which can not be disabled with a per-API
+granularity because it makes no sense:</p>
+<ul class="simple">
+<li><strong>*_init/update/final()</strong> form APIs, as <cite>sha256_init()</cite>, <cite>sha256_update()</cite>
+and <cite>sha256_final()</cite>, which can be disabled by group using
+<strong>TO_DISABLE_API_&lt;API_NAME&gt;_INIT_UPDATE_FINAL</strong></li>
+<li><strong>LoRa</strong> APIs</li>
+<li><strong>TLS</strong> APIs</li>
+</ul>
+<p>These flags can be used with <cite>configure</cite> script as in the following example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">configure</span> <span class="o">...</span> <span class="n">CFLAGS</span><span class="o">=</span><span class="s1">&#39;-DTO_DISABLE_API_GET_RANDOM&#39;</span>
+</pre></div>
+</div>
+<p>here to disable the random number generator API.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,165 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>I2C wrapper implementation guidelines &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Use CP2112 I2C adapter on Linux" href="cp2112_linux.html" />
+    <link rel="prev" title="I2C wrapper" href="overview.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">I2C wrapper implementation guidelines</a><ul>
+<li><a class="reference internal" href="#timeout">Timeout</a></li>
+<li><a class="reference internal" href="#library-debug-mode">Library debug mode</a></li>
+<li><a class="reference internal" href="#i2c-wrapper-integration">I2C wrapper integration</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="i2c-wrapper-implementation-guidelines">
+<span id="i2c-wrapper-implem-guide"></span><h1>I2C wrapper implementation guidelines<a class="headerlink" href="#i2c-wrapper-implementation-guidelines" title="Permalink to this headline">¶</a></h1>
+<p>To implement an I2C wrapper according to your I2C hardware, please refer to
+<a class="reference internal" href="../api/i2c_wrapper.html#api-i2c-wrapper"><span class="std std-ref">I2C wrapper API</span></a> and implement your own wrapper functions by following
+this API documentation.</p>
+<p>Once your implementation is complete, you should be able to call
+<a class="reference internal" href="../api/se.html#api-to"><span class="std std-ref">Secure Element API</span></a> functions to interact with the TO.</p>
+<div class="section" id="timeout">
+<h2>Timeout<a class="headerlink" href="#timeout" title="Permalink to this headline">¶</a></h2>
+<p>Defining timeouts may be important to avoid blocking your code in case of I2C
+bus communication error with TO.</p>
+<p>So, in your wrapper implementation, it is recommended to define read/write
+timeouts. We suggest to define 5 seconds timeouts, knowing that this value will
+never be reached in normal use.</p>
+</div>
+<div class="section" id="library-debug-mode">
+<h2>Library debug mode<a class="headerlink" href="#library-debug-mode" title="Permalink to this headline">¶</a></h2>
+<p>You may want to enable libTO debug mode to help you implement your I2C
+wrapper. It prints out I2C read and written data on standard output, so you can
+refer to the Secure Element datasheet to compare the printed logs with what is expected
+according to the Secure Element protocol.</p>
+<p>For an MCU project, <strong>TO_DEBUG</strong> preprocessor flag can be defined to enable
+debug mode.
+If you are building the library with Autotools, use <cite>./configure</cite> with
+<cite>–enable-debug</cite> option.</p>
+</div>
+<div class="section" id="i2c-wrapper-integration">
+<h2>I2C wrapper integration<a class="headerlink" href="#i2c-wrapper-integration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="autotools">
+<h3>Autotools<a class="headerlink" href="#autotools" title="Permalink to this headline">¶</a></h3>
+<p>Details below are is interesting for you only if you want to integrate
+your wrapper with library Autotools (Unix or Windows platforms build).
+If it is not the case because you are working with an MCU, skip this
+section.</p>
+<p>First of all, your I2C wrapper implementation should be included into
+the <cite>wrapper</cite> directory.</p>
+<p>Add support for your I2C wrapper into the <cite>configure.ac</cite> file by adding
+a new line after CP2112, like the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>AM_CONDITIONAL(ENABLE_I2C_MYWRAPPER, test x$I2C = mywrapper)
+</pre></div>
+</div>
+<p>Add into the <cite>wrapper/Makefile.am</cite> an entry with the following form:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">ENABLE_I2C_MYWRAPPER</span>
+<span class="n">libi2c_wrapper_la_SOURCES</span> <span class="o">=</span> <span class="n">mywrapper</span><span class="o">.</span><span class="n">c</span>
+<span class="n">endif</span>
+</pre></div>
+</div>
+<p>Do autoreconf and prepare build:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">autoreconf</span> <span class="o">-</span><span class="n">fi</span>
+<span class="n">mkdir</span> <span class="n">build</span> <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="n">build</span>
+</pre></div>
+</div>
+<p>Configure, and select your own wrapper before building:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">../</span><span class="n">configure</span> <span class="n">i2c</span><span class="o">=</span><span class="n">mywrapper</span>
+<span class="n">make</span>
+</pre></div>
+</div>
+<p>And you can check the communications is OK by running:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">examples</span><span class="o">/</span><span class="n">get_sn</span>
+</pre></div>
+</div>
+<p>which should return the Secure Element serial number.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

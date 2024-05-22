@@ -1,0 +1,91 @@
+From aa32823c78d2fb6e12b6dc202c4b027e93886326 Mon Sep 17 00:00:00 2001
+From: Mathieu ABATI <m.abati@trusted-objects.com>
+Date: Thu, 22 Sep 2016 00:59:10 +0200
+Subject: [PATCH 1/1] drivers/hid/hid_cp2112: transfer status retries and
+ response timeout added in sysfs
+
+---
+ drivers/hid/hid-cp2112.c | 22 +++++++++++++++-------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
+index 086d8a5..ddd48da 100644
+--- a/drivers/hid/hid-cp2112.c
++++ b/drivers/hid/hid-cp2112.c
+@@ -2,6 +2,7 @@
+  * hid-cp2112.c - Silicon Labs HID USB to SMBus master bridge
+  * Copyright (c) 2013,2014 Uplogix, Inc.
+  * David Barksdale <dbarksdale@uplogix.com>
++ * Mathieu Abati <m.abati@trusted-objects.com>
+  *
+  * This program is free software; you can redistribute it and/or modify it
+  * under the terms and conditions of the GNU General Public License,
+@@ -138,11 +139,18 @@ struct cp2112_string_report {
+ /* Number of times to request transfer status before giving up waiting for a
+    transfer to complete. This may need to be changed if SMBUS clock, retries,
+    or read/write/scl_low timeout settings are changed. */
+-static const int XFER_STATUS_RETRIES = 10;
++static int xfer_status_retries = 10;
++module_param(xfer_status_retries, int, S_IRUGO | S_IWUSR);
++MODULE_PARM_DESC(xfer_status_retries, "Number of times to request transfer"
++                " status before giving up waiting for a transfer to"
++                " complete.");
+ 
+ /* Time in ms to wait for a CP2112_DATA_READ_RESPONSE or
+    CP2112_TRANSFER_STATUS_RESPONSE. */
+-static const int RESPONSE_TIMEOUT = 50;
++static int response_timeout = 50;
++module_param(response_timeout, int, S_IRUGO | S_IWUSR);
++MODULE_PARM_DESC(response_timeout, "Time in ms to wait for reading a response"
++                " or a transfer status response");
+ 
+ static const struct hid_device_id cp2112_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_CP2112) },
+@@ -314,7 +322,7 @@ static int cp2112_wait(struct cp2112_device *dev, atomic_t *avail)
+ 	 * we can do anything about it anyway.
+ 	 */
+ 	ret = wait_event_interruptible_timeout(dev->wait,
+-		atomic_read(avail), msecs_to_jiffies(RESPONSE_TIMEOUT));
++		atomic_read(avail), msecs_to_jiffies(response_timeout));
+ 	if (-ERESTARTSYS == ret)
+ 		return ret;
+ 	if (!ret)
+@@ -520,7 +528,7 @@ static int cp2112_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs,
+ 		goto power_normal;
+ 	}
+ 
+-	for (retries = 0; retries < XFER_STATUS_RETRIES; ++retries) {
++	for (retries = 0; retries < xfer_status_retries; ++retries) {
+ 		ret = cp2112_xfer_status(dev);
+ 		if (-EBUSY == ret)
+ 			continue;
+@@ -529,7 +537,7 @@ static int cp2112_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs,
+ 		break;
+ 	}
+ 
+-	if (XFER_STATUS_RETRIES <= retries) {
++	if (xfer_status_retries <= retries) {
+ 		hid_warn(hdev, "Transfer timed out, cancelling.\n");
+ 		buf[0] = CP2112_CANCEL_TRANSFER;
+ 		buf[1] = 0x01;
+@@ -677,7 +685,7 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+ 		goto power_normal;
+ 	}
+ 
+-	for (retries = 0; retries < XFER_STATUS_RETRIES; ++retries) {
++	for (retries = 0; retries < xfer_status_retries; ++retries) {
+ 		ret = cp2112_xfer_status(dev);
+ 		if (-EBUSY == ret)
+ 			continue;
+@@ -686,7 +694,7 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+ 		break;
+ 	}
+ 
+-	if (XFER_STATUS_RETRIES <= retries) {
++	if (xfer_status_retries <= retries) {
+ 		hid_warn(hdev, "Transfer timed out, cancelling.\n");
+ 		buf[0] = CP2112_CANCEL_TRANSFER;
+ 		buf[1] = 0x01;
+-- 
+2.10.2
+

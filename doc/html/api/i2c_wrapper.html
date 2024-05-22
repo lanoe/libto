@@ -1,0 +1,278 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>I2C wrapper API &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Library core APIs" href="lib.html" />
+    <link rel="prev" title="Helper API" href="helper.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">I2C wrapper API</a><ul>
+<li><a class="reference internal" href="#types-and-definitions">Types and definitions</a></li>
+<li><a class="reference internal" href="#i2c-bus-setup">I2C bus setup</a></li>
+<li><a class="reference internal" href="#data-transfers">Data transfers</a></li>
+<li><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="i2c-wrapper-api">
+<span id="api-i2c-wrapper"></span><h1>I2C wrapper API<a class="headerlink" href="#i2c-wrapper-api" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">These APIs are <strong>not</strong> to be called externally, only the library
+should rely on them.</p>
+</div>
+<img alt="location into library structure" class="align-right" src="../_images/lib_part_wrapperapi.png" />
+<p>This API is implemented by every libTO I2C wrapper. The following functions
+have to be implemented in order to develop a new wrapper for a new I2C master
+device.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;TO_i2c_wrapper.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<div class="section" id="types-and-definitions">
+<h2>Types and definitions<a class="headerlink" href="#types-and-definitions" title="Permalink to this headline">¶</a></h2>
+<p>The following structure type is used to configure I2C wrapper:</p>
+<dl class="struct">
+<dt id="c.TO_i2c_config_s">
+<span class="target" id="structTO__i2c__config__s"></span><em class="property">struct </em><code class="descname">TO_i2c_config_s</code><a class="headerlink" href="#c.TO_i2c_config_s" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C wrapper configuration. </p>
+<p>To be used through <a class="reference internal" href="#TO__i2c__wrapper_8h_1a8d63486ac928fc6fc5084acb5ecba4b3"><span class="std std-ref">TO_data_config()</span></a>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="variable">
+<dt id="c.TO_i2c_config_s::i2c_addr">
+<span class="target" id="structTO__i2c__config__s_1a4638bccda7315c904704109dd72e6dda"></span>unsigned char <code class="descname">i2c_addr</code><a class="headerlink" href="#c.TO_i2c_config_s::i2c_addr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Device I2C address on 7 bits (MSB=0) </p>
+</dd></dl>
+
+<dl class="variable">
+<dt id="c.TO_i2c_config_s::misc_settings">
+<span class="target" id="structTO__i2c__config__s_1aad27d07ad8ac29413136c7f7412259ab"></span>unsigned char <code class="descname">misc_settings</code><a class="headerlink" href="#c.TO_i2c_config_s::misc_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Misc. device I2C settings bitfield: | RES | RES | RES | RES | RES | RES | RES | last byte NACKed | </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="typedef">
+<dt id="c.TO_i2c_config_t">
+<span class="target" id="TO__i2c__wrapper_8h_1ac85873249ea7e280112f3108963d8845"></span><em class="property">typedef </em>struct <a class="reference internal" href="#c.TO_i2c_config_s" title="TO_i2c_config_s">TO_i2c_config_s</a> <code class="descname">TO_i2c_config_t</code><a class="headerlink" href="#c.TO_i2c_config_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>misc. settings bitfield definitions:</p>
+<dl class="define">
+<dt id="c.TO_CONFIG_NACK_LAST_BYTE">
+<span class="target" id="TO__i2c__wrapper_8h_1afec5734122deb9ac4ba79a896d1b60fa"></span><code class="descname">TO_CONFIG_NACK_LAST_BYTE</code> 0x01<a class="headerlink" href="#c.TO_CONFIG_NACK_LAST_BYTE" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#structTO__i2c__config__s"><span class="std std-ref">TO_i2c_config_s</span></a> misc. setting: last byte is NACKed by remote device </p>
+</dd></dl>
+
+</div>
+<div class="section" id="i2c-bus-setup">
+<h2>I2C bus setup<a class="headerlink" href="#i2c-bus-setup" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="c.TO_data_init">
+<span class="target" id="TO__i2c__wrapper_8h_1ad761c7948d13d0524a93c0c639352b66"></span>int <code class="descname">TO_data_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_data_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize Secure Element communication bus. </p>
+<p>Initializes I2C bus for Secure Element communications.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if initialization was successful, else TO_ERROR </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_data_fini">
+<span class="target" id="TO__i2c__wrapper_8h_1a65f81ac51706df8d13f53e460e3e0c10"></span>int <code class="descname">TO_data_fini</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_data_fini" title="Permalink to this definition">¶</a></dt>
+<dd><p>Terminate Secure Element communication bus. </p>
+<p>Reset (stop) I2C bus used for Secure Element communications.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if reset was successful, else TO_ERROR </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_data_config">
+<span class="target" id="TO__i2c__wrapper_8h_1a8d63486ac928fc6fc5084acb5ecba4b3"></span>int <code class="descname">TO_data_config</code><span class="sig-paren">(</span>const  <a class="reference internal" href="#c.TO_i2c_config_t" title="TO_i2c_config_t">TO_i2c_config_t</a>  *<em>&nbsp;config</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_data_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C configuration (optional function) </p>
+<p>
+Take given I2C configuration and apply it on the I2C wrapper. If the function returns successfully, it means the configuration has been applied and taken into account. The wrapper must NOT assume this function will be called, and must run correctly even if this function is never used.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">config</span></code>: I2C configuration to use</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>This function is optional, and even if enabled by TO_I2C_WRAPPER_CONFIG it can still return TO_OK without doing anything. It is left to the wrapper developer discretion. This function is not called internally by TO library.</p>
+<p>See <a class="reference internal" href="#structTO__i2c__config__s"><span class="std std-ref">TO_i2c_config_s</span></a>.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if configuration has been applied, else TO_ERROR </dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>This function uses the following structure to receive settings:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">TO_data_config() API is not mandatory, if you don’t need it do
+not define TO_I2C_WRAPPER_CONFIG in your project preprocessor flags.</p>
+</div>
+</div>
+<div class="section" id="data-transfers">
+<h2>Data transfers<a class="headerlink" href="#data-transfers" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="c.TO_data_read">
+<span class="target" id="TO__i2c__wrapper_8h_1a65ba96009f1b9bc3e433e1bf6a8dd3e0"></span>int <code class="descname">TO_data_read</code><span class="sig-paren">(</span>void *<em>&nbsp;data</em>, unsigned int<em>&nbsp;length</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_data_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read data from Secure Element on I2C bus. </p>
+<p>
+Reads spacified amount of data from the Secure Element on I2C bus. This function returns when data has been read and is available in the data buffer, or if an error occured. The condition start have to be sent only one time to read the full Secure Element response, the reading can not be divided.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Buffer to store recieved data </li>
+<li><code class="docutils literal"><span class="pre">length</span></code>: Amount of data to read in bytes</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if data has been read sucessfully TO_DEVICE_READ_ERROR: error reading data from Secure Element TO_ERROR if an internal error has occured </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_data_write">
+<span class="target" id="TO__i2c__wrapper_8h_1a86709911cf4a31fb5f51dfb5c7eb8e8b"></span>int <code class="descname">TO_data_write</code><span class="sig-paren">(</span>const void *<em>&nbsp;data</em>, unsigned int<em>&nbsp;length</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_data_write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write data to Secure Element on I2C bus. </p>
+<p>
+Writes specified amount of data to the Secure Element on I2C bus. This function returns when all data in the buffer has been written, or if an error occured. The condition start have to be sent only one time to write the full Secure Element command, the writing can not be divided.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">data</span></code>: Buffer containing data to send </li>
+<li><code class="docutils literal"><span class="pre">length</span></code>: Amount of data to send in bytes</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if data has been written sucessfully TO_DEVICE_WRITE_ERROR: error writing data to Secure Element TO_ERROR if an internal error has occured </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="miscellaneous">
+<h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="c.TO_data_last_command_duration">
+<span class="target" id="TO__i2c__wrapper_8h_1ad1023aede4d05a0e8554ff371bbb2d60"></span>int <code class="descname">TO_data_last_command_duration</code><span class="sig-paren">(</span>unsigned int *<em>&nbsp;duration</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_data_last_command_duration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get last command duration (from I2C send to I2C receive) </p>
+<p>
+Measure the delay of the last executed command with MCU point of view. This function is optional, if implemented you have to define TO_I2C_WRAPPER_LAST_COMMAND_DURATION in your project in order to use it through <a class="reference internal" href="se.html#group__i2crw_1gacc780462d56f8d9b450e32e3bf0bccca"><span class="std std-ref">TO_last_command_duration()</span></a> API.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">duration</span></code>: Pointer to store last command duration in microseconds</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>This function should only be called after a successful <a class="reference internal" href="se.html#group__i2crw_1ga687103101777d9afb127f0217e93f379"><span class="std std-ref">TO_read()</span></a> call. If it is called after a failed <a class="reference internal" href="se.html#group__i2crw_1ga687103101777d9afb127f0217e93f379"><span class="std std-ref">TO_read()</span></a>, or after a <a class="reference internal" href="se.html#group__i2crw_1ga27990214e239b02bb98be0ae730672d1"><span class="std std-ref">TO_write()</span></a> call, the result is unspecified and may be irrelevant.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if last command duration is available TO_ERROR if an internal error has occured </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

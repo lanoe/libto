@@ -1,0 +1,132 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TO library migration guide from 3.x.x to 4.x.x &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TO library migration guide from 2.x.x to 3.x.x" href="migration_from_2.x.x_to_3.x.x.html" />
+    <link rel="prev" title="TO library migration guide from 4.0.x to 4.1.x" href="migration_from_4.0.x_to_4.1.x.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">TO library migration guide from 3.x.x to 4.x.x</a><ul>
+<li><a class="reference internal" href="#renamed-apis">Renamed APIs</a></li>
+<li><a class="reference internal" href="#preprocessor-flags">Preprocessor flags</a></li>
+<li><a class="reference internal" href="#error-codes">Error codes</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="to-library-migration-guide-from-3-x-x-to-4-x-x">
+<h1>TO library migration guide from 3.x.x to 4.x.x<a class="headerlink" href="#to-library-migration-guide-from-3-x-x-to-4-x-x" title="Permalink to this headline">¶</a></h1>
+<p>The following changes are to be taken into account to update from 3.x.x to
+4.x.x.</p>
+<div class="section" id="renamed-apis">
+<h2>Renamed APIs<a class="headerlink" href="#renamed-apis" title="Permalink to this headline">¶</a></h2>
+<p>The following header files have been renamed:</p>
+<ul class="simple">
+<li><strong>include/to136.h</strong> to <strong>include/TO.h</strong></li>
+<li><strong>include/to136_helper.h</strong> to <strong>include/TO_helper.h</strong></li>
+<li><strong>include/to136_defs.h</strong> to <strong>TO_defs.h</strong></li>
+<li><strong>include/to136_i2c_wrapper.h</strong> to <strong>include/TO_i2c_wrapper.h</strong></li>
+</ul>
+<p><strong>TO136_…()</strong> functions have been renamed to <strong>TO_…()</strong>.</p>
+<p><strong>TO136_…</strong> definitions have been renamed to <strong>TO_…</strong>.</p>
+<p><strong>to136_…</strong> structures, types and enums have been renamed to <strong>TO_…</strong>.</p>
+</div>
+<div class="section" id="preprocessor-flags">
+<h2>Preprocessor flags<a class="headerlink" href="#preprocessor-flags" title="Permalink to this headline">¶</a></h2>
+<p><strong>ENABLE_…/DISABLE_…</strong> flags have been renamed to
+<strong>TO_ENABLE_…/TO_DISABLE_…</strong>.</p>
+<p><em>TO_USE_…*</em> flags have been renamed to <strong>TO_ENABLE_…</strong>.</p>
+<p>Removed <strong>USE_ECIES_…_SIGNATURE</strong> flags.</p>
+</div>
+<div class="section" id="error-codes">
+<h2>Error codes<a class="headerlink" href="#error-codes" title="Permalink to this headline">¶</a></h2>
+<p><strong>TO_OK</strong> (previously TO136_OK) have its value changed from <strong>1</strong> to
+<strong>0x0000</strong>.
+This change was motivated to always keep LSB free to code Secure Element error
+codes.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,216 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Windows installation instructions (MinGW) &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Library configuration with autotools" href="settings.html" />
+    <link rel="prev" title="Windows installation instructions (MSYS2)" href="setup_windows_msys2.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Windows installation instructions (MinGW)</a><ul>
+<li><a class="reference internal" href="#mingw">MinGW</a></li>
+<li><a class="reference internal" href="#i2c-adapter">I2C adapter</a></li>
+<li><a class="reference internal" href="#library-configuration">Library configuration</a></li>
+<li><a class="reference internal" href="#build-and-install">Build and install</a></li>
+<li><a class="reference internal" href="#environment-variables">Environment variables</a></li>
+<li><a class="reference internal" href="#test-the-library">Test the library</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="windows-installation-instructions-mingw">
+<span id="setup-win-mingw"></span><h1>Windows installation instructions (MinGW)<a class="headerlink" href="#windows-installation-instructions-mingw" title="Permalink to this headline">¶</a></h1>
+<p>In order to work with a Secure Element from a Windows PC using MinGW, please
+follow the installation instructions below.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The recommended Windows installation environment is MSYS2, read
+<a class="reference internal" href="setup_windows_msys2.html#setup-win-msys2"><span class="std std-ref">Windows installation instructions (MSYS2)</span></a>. Continue with this guide only if you really want to
+use MinGW.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The following prerequisites are expected in this article:</p>
+<ul class="last simple">
+<li>a StarterKit or a Secure Element soldered onto a development board</li>
+<li>an I2C device master connected to the TO</li>
+</ul>
+</div>
+<div class="section" id="mingw">
+<h2>MinGW<a class="headerlink" href="#mingw" title="Permalink to this headline">¶</a></h2>
+<p>Download and install MinGW from <a class="reference external" href="http://www.mingw.org/">mingw.org</a>. You need
+at least to select from <cite>Basic Setup</cite>: <cite>mingw-developer-toolkit</cite>,
+<cite>mingw32-base</cite> and <cite>msys-base</cite>.</p>
+<p>Download <a class="reference external" href="https://sourceforge.net/projects/pkgconfiglite">pkg-config-lite</a>
+and install it into your MinGW directory.</p>
+<p>Download and install Python from <a class="reference external" href="https://www.python.org">python.org</a>, choose
+custom installation, ensure the installer defines environment variables and
+includes binaries into the <cite>PATH</cite>, and set installation path to
+<cite>C:\MinGW\opt\python3</cite>.</p>
+</div>
+<div class="section" id="i2c-adapter">
+<h2>I2C adapter<a class="headerlink" href="#i2c-adapter" title="Permalink to this headline">¶</a></h2>
+<p>The library relies on an <a class="reference internal" href="../wrapper/overview.html#i2c-wrapper"><span class="std std-ref">I2C wrapper</span></a> to interact with the
+I2C master device.</p>
+<p>For Windows, you have a CP2112 I2C wrapper already available with the library,
+this is the adapter used by the StarterKit. To use it, just use the
+<cite>i2c=cp2112</cite> parameter with the <cite>configure</cite> script, at the <a class="reference internal" href="#library-configuration">Library
+configuration</a> step below.</p>
+<p>If you want to use another adapter, you have to implement its support in the
+library, read <a class="reference internal" href="../wrapper/implementation_guidelines.html#i2c-wrapper-implem-guide"><span class="std std-ref">I2C wrapper implementation guidelines</span></a>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">A functional I2C wrapper is mandatory to use the library.</p>
+</div>
+</div>
+<div class="section" id="library-configuration">
+<h2>Library configuration<a class="headerlink" href="#library-configuration" title="Permalink to this headline">¶</a></h2>
+<p>From MSYS shell, prepare autotools:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">autoreconf</span> <span class="o">-</span><span class="n">fi</span>
+<span class="n">mkdir</span> <span class="n">build</span> <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="n">build</span>
+</pre></div>
+</div>
+<p>Configure the project:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">../</span><span class="n">configure</span> <span class="n">i2c</span><span class="o">=</span><span class="n">cp2112</span>
+</pre></div>
+</div>
+<p>configure script accepts several settings parameters, for details read
+<a class="reference internal" href="settings.html#settings-autotools"><span class="std std-ref">Library configuration with autotools</span></a>.</p>
+<p>You can also use:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">../</span><span class="n">configure</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span>
+</pre></div>
+</div>
+<p>if you want to install into your standard system paths instead of into
+<cite>/usr/local</cite>.</p>
+</div>
+<div class="section" id="build-and-install">
+<h2>Build and install<a class="headerlink" href="#build-and-install" title="Permalink to this headline">¶</a></h2>
+<p>Build the project from the previously created <cite>build</cite> directory:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">j</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>and install:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">install</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="environment-variables">
+<h2>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h2>
+<p>By default, everything is installed into <cite>/usr/local</cite> MinGW subdirectories, if
+you have not set the <cite>–prefix</cite> configure argument. In this case, be sure the
+following variables are defined:</p>
+<ul class="simple">
+<li><cite>PYTHONPATH</cite> should contain <cite>/usr/local/lib/site-packages/</cite></li>
+<li><cite>PATH</cite> should contain <cite>/usr/local/bin</cite> and <cite>/usr/local/lib</cite></li>
+</ul>
+<p>or, if you used <cite>–prefix=/usr</cite>:</p>
+<ul class="simple">
+<li><cite>PYTHONPATH</cite> should contain <cite>/usr/lib/site-packages/</cite></li>
+<li><cite>PATH</cite> should contain <cite>/usr/bin</cite> and <cite>/usr/lib</cite></li>
+</ul>
+<p>consider adding this to your <cite>~/.bashrc</cite>.</p>
+</div>
+<div class="section" id="test-the-library">
+<h2>Test the library<a class="headerlink" href="#test-the-library" title="Permalink to this headline">¶</a></h2>
+<p>With a Secure Element connected to the PC, through a StarterKit (CP2112) for
+example, run <cite>TOsh.py</cite> shell with <cite>get_sn</cite> or the <cite>get_sn</cite> example from
+MSYS2 MinGW 32-bits shell.</p>
+<p>With <cite>get_sn</cite> example program:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ get_sn
+Secure Element initialized
+Secure Element serial number: 00 00 01 00 00 00 01 A0
+</pre></div>
+</div>
+<p>and with <cite>TOsh.py</cite>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ TOsh.py
+Welcome to the Secure Element shell.
+Type help or ? to list commands.
+Secure Element % get_sn
+00000100000001a0
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

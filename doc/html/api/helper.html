@@ -1,0 +1,484 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Helper API &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="I2C wrapper API" href="i2c_wrapper.html" />
+    <link rel="prev" title="Secure Element API" href="se.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Helper API</a><ul>
+<li><a class="reference internal" href="#ecies-sequence">ECIES sequence</a><ul>
+<li><a class="reference internal" href="#authenticate-to">Authenticate TO</a></li>
+<li><a class="reference internal" href="#authenticate-remote">Authenticate remote</a></li>
+<li><a class="reference internal" href="#secure-messaging">Secure messaging</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tls-handshake">TLS handshake</a><ul>
+<li><a class="reference internal" href="#handshake">Handshake</a></li>
+<li><a class="reference internal" href="#send-message">Send message</a></li>
+<li><a class="reference internal" href="#send-callback">Send callback</a></li>
+<li><a class="reference internal" href="#receive-message">Receive message</a></li>
+<li><a class="reference internal" href="#receive-callback">Receive callback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="helper-api">
+<span id="api-helper"></span><h1>Helper API<a class="headerlink" href="#helper-api" title="Permalink to this headline">¶</a></h1>
+<img alt="location into library structure" class="align-right" src="../_images/lib_part_helper.png" />
+<p>These APIs are designed to make some complex Secure Element operations simpler.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;TO_helper.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<div class="section" id="ecies-sequence">
+<h2>ECIES sequence<a class="headerlink" href="#ecies-sequence" title="Permalink to this headline">¶</a></h2>
+<p>The following functions are an easy-to-use ECIES sequence abstraction. They are
+to be called successively to complete the sequence. ECIES is a cipher suite
+standardized by ISO 18033.</p>
+<p>Steps:</p>
+<ul class="simple">
+<li>authenticate TO</li>
+<li>authenticate remote device against TO</li>
+<li>prepare secure messaging</li>
+</ul>
+<p>The two first steps are for mutual authentication between remote device and
+TO, to prevent man-in-the-middle attacks when messaging.</p>
+<p>To complete the ECIES sequence, execute the functions below, in order.</p>
+<p>To understand what are ‘short’ and ‘standalone’ certificates, please see
+Datasheet - Certificates description.</p>
+<div class="section" id="authenticate-to">
+<h3>Authenticate TO<a class="headerlink" href="#authenticate-to" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.TO_helper_ecies_seq_auth_TO">
+<span class="target" id="TO__helper_8h_1a9bedd62122776e96848378f3bc4785df"></span>int <code class="descname">TO_helper_ecies_seq_auth_TO</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;certificate_index</em>, uint8_t<em>&nbsp;challenge[TO_CHALLENGE_SIZE]</em>, uint8_t<em>&nbsp;TO_certificate[sizeof(TO_cert_short_t)]</em>, uint8_t<em>&nbsp;challenge_signature[TO_SIGNATURE_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_ecies_seq_auth_TO" title="Permalink to this definition">¶</a></dt>
+<dd><p>ECIES sequence (1st step): authenticate Secure Element. </p>
+<p>
+This is the ECIES sequence first step, which aims to authenticate Secure Element. It provides a challenge to Secure Element, and get back its certificate and the challenge signed using the private key associated to the certificate.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">certificate_index</span></code>: Index of the Secure Element certificate to use </li>
+<li><code class="docutils literal"><span class="pre">challenge</span></code>: Challenge (randomly generated) to be provided to the Secure Element </li>
+<li><code class="docutils literal"><span class="pre">TO_certificate</span></code>: Short certificate returned by Secure Element </li>
+<li><code class="docutils literal"><span class="pre">challenge_signature</span></code>: Signature of the challenge by Secure Element</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Refer to Secure Element Datasheet Application Notes - Authenticate Secure Element (and also optimized scheme).</p>
+<p>Before call you need to:<ul class="simple">
+<li>randomly generate a challenge After call you need to:</li>
+<li>check return value (see below)</li>
+<li>verify Secure Element certificate signature using CA public key</li>
+<li>verify challenge signature using Secure Element certificate public key if previous steps are validated, continue with the next ECIES step: <a class="reference internal" href="#TO__helper_8h_1acc3150ae782f11472022168718802782"><span class="std std-ref">TO_helper_ecies_seq_auth_remote_1()</span></a> to authenticate the remote device.</li>
+</ul>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if this step is passed successfully. </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="authenticate-remote">
+<h3>Authenticate remote<a class="headerlink" href="#authenticate-remote" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.TO_helper_ecies_seq_auth_remote_1">
+<span class="target" id="TO__helper_8h_1acc3150ae782f11472022168718802782"></span>int <code class="descname">TO_helper_ecies_seq_auth_remote_1</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;ca_pubkey_index</em>, uint8_t<em>&nbsp;remote_certificate[sizeof(TO_cert_standalone_t)]</em>, uint8_t<em>&nbsp;challenge[TO_CHALLENGE_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_ecies_seq_auth_remote_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>ECIES sequence (2nd step): authenticate remote device against Secure Element (part 1) </p>
+<p>
+This is the ECIES sequence second step, which aims to authenticate remote device (server or other connected object). This first part provides remote device certificate to Secure Element, and get back a random challenge which is going to be used later to authenticate remote device.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">ca_pubkey_index</span></code>: Index of Certificate Authority public key </li>
+<li><code class="docutils literal"><span class="pre">remote_certificate</span></code>: Remote device standalone certificate </li>
+<li><code class="docutils literal"><span class="pre">challenge</span></code>: Challenge returned by Secure Element to authenticate remote device</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>There is only one remote certificate at a time. If several shared keys are needed, we can overwrite remote certificate after shared keys computing.</p>
+<p>Refer to Secure Element Datasheet Application Notes - Authenticate Remote Device.</p>
+<p>Before call you need to:<ul class="simple">
+<li>have completed previous ECIES sequence steps</li>
+<li>have the remote device certificate After call you need to:</li>
+<li>check return value (see below)</li>
+<li>sign the returned challenge using the remote device certificate private key if previous steps are validated, continue with <a class="reference internal" href="#TO__helper_8h_1a7bfcebb75ef01d889dec865227b90e69"><span class="std std-ref">TO_helper_ecies_seq_auth_remote_2()</span></a> to finalize remote device authentication.</li>
+</ul>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if this step is passed successfully, else:<ul class="simple">
+<li>TORSP_BAD_SIGNATURE: the remote device certificate CA signature is invalid </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_helper_ecies_seq_auth_remote_2">
+<span class="target" id="TO__helper_8h_1a7bfcebb75ef01d889dec865227b90e69"></span>int <code class="descname">TO_helper_ecies_seq_auth_remote_2</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;challenge_signature[TO_SIGNATURE_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_ecies_seq_auth_remote_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>ECIES sequence (2nd step): authenticate remote device against Secure Element (part 2) </p>
+<p>
+This is the ECIES sequence second step, which aims to authenticate remote device (server or other connected object). This second part provides challenge signed using remote device certificate private key.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">challenge_signature</span></code>: Challenge signed using remote device certificate private key</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Refer to Secure Element Datasheet Application Notes - Authenticate Remote Device.</p>
+<p>Before call you need to:<ul class="simple">
+<li>have completed previous ECIES sequence steps</li>
+<li>compute the challenge signature After call you need to:</li>
+<li>check return value (see below) if previous steps are validated, continue with <a class="reference internal" href="#TO__helper_8h_1a2398aab1d637ef0549b19d2da4bbc094"><span class="std std-ref">TO_helper_ecies_seq_secure_messaging()</span></a>.</li>
+</ul>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if this step is passed successfully, else:<ul class="simple">
+<li>TORSP_BAD_SIGNATURE: the challenge signature is invalid </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="secure-messaging">
+<h3>Secure messaging<a class="headerlink" href="#secure-messaging" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.TO_helper_ecies_seq_secure_messaging">
+<span class="target" id="TO__helper_8h_1a2398aab1d637ef0549b19d2da4bbc094"></span>int <code class="descname">TO_helper_ecies_seq_secure_messaging</code><span class="sig-paren">(</span>uint8_t<em>&nbsp;remote_pubkey_index</em>, uint8_t<em>&nbsp;ecc_keypair_index</em>, uint8_t<em>&nbsp;remote_eph_pubkey[TO_ECC_PUB_KEYSIZE]</em>, uint8_t<em>&nbsp;remote_eph_pubkey_signature[TO_SIGNATURE_SIZE]</em>, uint8_t<em>&nbsp;TO_eph_pubkey[TO_ECC_PUB_KEYSIZE]</em>, uint8_t<em>&nbsp;TO_eph_pubkey_signature[TO_SIGNATURE_SIZE]</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_ecies_seq_secure_messaging" title="Permalink to this definition">¶</a></dt>
+<dd><p>ECIES sequence (3rd step): prepare secure data exchange. </p>
+<p>
+This is the ECIES sequence third step, which aims to prepare secure messaging. Server and connected object will be able to securely exchange data. It provides remote device ephemeral public key signed using remote device certificate private key, and get back Secure Element ephemeral public key.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">remote_pubkey_index</span></code>: Index where the public key will be stored </li>
+<li><code class="docutils literal"><span class="pre">ecc_keypair_index</span></code>: Index of the ECC key pair to renew </li>
+<li><code class="docutils literal"><span class="pre">remote_eph_pubkey</span></code>: Remote device ephemeral public key </li>
+<li><code class="docutils literal"><span class="pre">remote_eph_pubkey_signature</span></code>: Remote device ephemeral public key signature </li>
+<li><code class="docutils literal"><span class="pre">TO_eph_pubkey</span></code>: Returned Secure Element ephemeral public key </li>
+<li><code class="docutils literal"><span class="pre">TO_eph_pubkey_signature</span></code>: Secure Element ephemeral public key signature</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Secure Element public keys, AES keys, and HMAC keys have the same index to use them from Secure Element APIs.</p>
+<p>Refer to Secure Element Datasheet Application Notes - Secure Messaging.</p>
+<p>Before call you need to:<ul class="simple">
+<li>have completed previous ECIES sequence steps</li>
+<li>generate ephemeral key pair</li>
+<li>sign the ephemeral public key using remote device certificate private key After call you need to:</li>
+<li>check return value (see below)</li>
+<li>check Secure Element ephemeral public key signature using Secure Element certificate public key</li>
+<li>compute shared secret using remote device and Secure Element ephemeral public keys</li>
+<li>derive shared secret with SHA256 to get AES and HMAC keys</li>
+</ul>
+</p>
+<p>If previous steps are validated, AES and HMAC keys can be used for secure messaging.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if this step is passed successfully, else:<ul class="simple">
+<li>TORSP_BAD_SIGNATURE: the remote device public key signature is invalid </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="tls-handshake">
+<h2>TLS handshake<a class="headerlink" href="#tls-handshake" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">The following function is an easy-to-use TLS handshake abstraction.</div>
+<div class="line">It only needs a function to send, and a function to receive data.</div>
+<div class="line">Calling this function will do all the steps of the TLS handshake.</div>
+</div>
+<div class="section" id="handshake">
+<h3>Handshake<a class="headerlink" href="#handshake" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.TO_helper_tls_handshake_init">
+<span class="target" id="TO__helper_8h_1a649051eb6198def8436f9fb63ac00b1e"></span>int <code class="descname">TO_helper_tls_handshake_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_tls_handshake_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize TLS handshake. </p>
+<p>This function initialize TLS handshake. It configures the Secure Element and initialize static envrionment.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if initialization succeed, else TO_ERROR </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_helper_tls_handshake">
+<span class="target" id="TO__helper_8h_1acc92c737149d7110033f23510fe2cd9a"></span>int <code class="descname">TO_helper_tls_handshake</code><span class="sig-paren">(</span>void *<em>&nbsp;ctx</em>, <a class="reference internal" href="#c.TO_helper_tls_handshake_send_func" title="TO_helper_tls_handshake_send_func">TO_helper_tls_handshake_send_func</a><em>&nbsp;send_func</em>, <a class="reference internal" href="#c.TO_helper_tls_handshake_receive_func" title="TO_helper_tls_handshake_receive_func">TO_helper_tls_handshake_receive_func</a><em>&nbsp;receive_func</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_tls_handshake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do TLS handshake. </p>
+<p>
+This function does all the steps of a TLS handshake. It encapsulates TO payloads from optimized API in a TLS record, and send it on the network through given function. It decapsulates TLS records received from the network and send it to TO. This function uses <code class="docutils literal"><span class="pre">TO_helper_tls_handshake_init</span></code> and <code class="docutils literal"><span class="pre">TO_helper_tls_handshake_step</span></code>.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">ctx</span></code>: Opaque context to forward to given functions </li>
+<li><code class="docutils literal"><span class="pre">send_func</span></code>: Function to send on network </li>
+<li><code class="docutils literal"><span class="pre">receive_func</span></code>: Function to receive from network</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if data has been sent successfully, else TO_ERROR </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_helper_tls_handshake_step">
+<span class="target" id="TO__helper_8h_1aee01e09c6f5fd879f55ce7484d17eebb"></span>int <code class="descname">TO_helper_tls_handshake_step</code><span class="sig-paren">(</span>void *<em>&nbsp;ctx</em>, <a class="reference internal" href="#c.TO_helper_tls_handshake_send_func" title="TO_helper_tls_handshake_send_func">TO_helper_tls_handshake_send_func</a><em>&nbsp;send_func</em>, <a class="reference internal" href="#c.TO_helper_tls_handshake_receive_func" title="TO_helper_tls_handshake_receive_func">TO_helper_tls_handshake_receive_func</a><em>&nbsp;receive_func</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_tls_handshake_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do TLS handshake step. </p>
+<p>
+This function does one step of a TLS handshake. It encapsulates TO payloads from optimized API in a TLS record, and send it on the network through given function. It decapsulates TLS records received from the network and send it to TO.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">ctx</span></code>: Opaque context to forward to given functions </li>
+<li><code class="docutils literal"><span class="pre">send_func</span></code>: Function to send on network </li>
+<li><code class="docutils literal"><span class="pre">receive_func</span></code>: Function to receive from network</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_AGAIN if intermediate step suceed, TO_OK if last step succeed, else TO_ERROR </dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>Once handshake is done, these 2 functions will allow to send and receive with
+TLS encryption using just negociated session, and associated callbacks.</p>
+</div>
+<div class="section" id="send-message">
+<h3>Send message<a class="headerlink" href="#send-message" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.TO_helper_tls_send_message">
+<span class="target" id="TO__helper_8h_1afee65ce47d29e54885f1d2a7aa9ce74f"></span>int <code class="descname">TO_helper_tls_send_message</code><span class="sig-paren">(</span>uint8_t *<em>&nbsp;msg</em>, uint32_t<em>&nbsp;msg_len</em>, void *<em>&nbsp;ctx</em>, <a class="reference internal" href="#c.TO_helper_tls_handshake_send_func" title="TO_helper_tls_handshake_send_func">TO_helper_tls_handshake_send_func</a><em>&nbsp;send_func</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_tls_send_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send TLS encrypted message. </p>
+<p>
+This function uses TLS handshake keys to encrypt and send a message on the network through given function.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">msg</span></code>: Message </li>
+<li><code class="docutils literal"><span class="pre">msg_len</span></code>: Message length </li>
+<li><code class="docutils literal"><span class="pre">ctx</span></code>: Opaque context to forward to given functions </li>
+<li><code class="docutils literal"><span class="pre">send_func</span></code>: Function to send on network</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if message has been sent successfully, else TO_ERROR </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="send-callback">
+<h3>Send callback<a class="headerlink" href="#send-callback" title="Permalink to this headline">¶</a></h3>
+<dl class="typedef">
+<dt id="c.TO_helper_tls_handshake_send_func">
+<span class="target" id="TO__helper_8h_1a459ebd975ebc56b261f3867d4a7382a4"></span><em class="property">typedef </em>int<code class="descname">(* TO_helper_tls_handshake_send_func)</code><span class="sig-paren">(</span>void<em>&nbsp;*ctx</em>, const uint8_t<em>&nbsp;*data</em>, const uint32_t<em>&nbsp;len</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_tls_handshake_send_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handshake helper network send function. </p>
+<p>
+This function is used by “TO_helper_tls_handshake” to send data on the network.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">ctx</span></code>: Opaque context given to “TO_helper_tls_handshake” </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data to send </li>
+<li><code class="docutils literal"><span class="pre">len</span></code>: Length of data</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if data has been sent successfully, else TO_ERROR </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="receive-message">
+<h3>Receive message<a class="headerlink" href="#receive-message" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.TO_helper_tls_receive_message">
+<span class="target" id="TO__helper_8h_1a223c6eed2716f725dbcf817830460eed"></span>int <code class="descname">TO_helper_tls_receive_message</code><span class="sig-paren">(</span>uint8_t *<em>&nbsp;msg</em>, uint32_t<em>&nbsp;max_msg_len</em>, uint32_t *<em>&nbsp;msg_len</em>, void *<em>&nbsp;ctx</em>, <a class="reference internal" href="#c.TO_helper_tls_handshake_receive_func" title="TO_helper_tls_handshake_receive_func">TO_helper_tls_handshake_receive_func</a><em>&nbsp;receive_func</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_tls_receive_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive TLS encrypted message. </p>
+<p>
+This function uses given function to receive a message from the network and decrypts it with TLS handshake keys. *<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">msg</span></code>: Message output buffer </li>
+<li><code class="docutils literal"><span class="pre">max_msg_len</span></code>: Message output buffer length </li>
+<li><code class="docutils literal"><span class="pre">msg_len</span></code>: Receive message length </li>
+<li><code class="docutils literal"><span class="pre">ctx</span></code>: Opaque context to forward to given functions </li>
+<li><code class="docutils literal"><span class="pre">receive_func</span></code>: Function to receive from network</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if message has been sent successfully, else TO_ERROR </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.TO_helper_tls_receive_message_with_timeout">
+<span class="target" id="TO__helper_8h_1a35476944c375aec6ceefae2488de99a1"></span>int <code class="descname">TO_helper_tls_receive_message_with_timeout</code><span class="sig-paren">(</span>uint8_t *<em>&nbsp;msg</em>, uint32_t<em>&nbsp;max_msg_len</em>, uint32_t *<em>&nbsp;msg_len</em>, int32_t<em>&nbsp;timeout</em>, void *<em>&nbsp;ctx</em>, <a class="reference internal" href="#c.TO_helper_tls_handshake_receive_func" title="TO_helper_tls_handshake_receive_func">TO_helper_tls_handshake_receive_func</a><em>&nbsp;receive_func</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_tls_receive_message_with_timeout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive TLS encrypted message with timeout. </p>
+<p>
+This function uses given function to receive a message from the network and decrypts it with TLS handshake keys. *<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">msg</span></code>: Message output buffer </li>
+<li><code class="docutils literal"><span class="pre">max_msg_len</span></code>: Message output buffer length </li>
+<li><code class="docutils literal"><span class="pre">msg_len</span></code>: Receive message length </li>
+<li><code class="docutils literal"><span class="pre">timeout</span></code>: Receive timeout in milliseconds (-1 for no timeout) </li>
+<li><code class="docutils literal"><span class="pre">ctx</span></code>: Opaque context to forward to given functions </li>
+<li><code class="docutils literal"><span class="pre">receive_func</span></code>: Function to receive from network</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if message has been received successfully, TO_TIMEOUT if given timeout has been exceeded, else TO_ERROR </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="receive-callback">
+<h3>Receive callback<a class="headerlink" href="#receive-callback" title="Permalink to this headline">¶</a></h3>
+<dl class="typedef">
+<dt id="c.TO_helper_tls_handshake_receive_func">
+<span class="target" id="TO__helper_8h_1a52f3c2773ef6688455ee9513ccc36fe6"></span><em class="property">typedef </em>int<code class="descname">(* TO_helper_tls_handshake_receive_func)</code><span class="sig-paren">(</span>void<em>&nbsp;*ctx</em>, uint8_t<em>&nbsp;*data</em>, const uint32_t<em>&nbsp;len</em>, uint32_t<em>&nbsp;*read_len</em>, int32_t<em>&nbsp;timeout</em><span class="sig-paren">)</span><a class="headerlink" href="#c.TO_helper_tls_handshake_receive_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handshake helper network receive function. </p>
+<p>
+This function is used by “TO_helper_tls_handshake” to receive data from the network.<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">ctx</span></code>: Opaque context given to “TO_helper_tls_handshake” </li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Data output </li>
+<li><code class="docutils literal"><span class="pre">len</span></code>: Length of data to read </li>
+<li><code class="docutils literal"><span class="pre">read_len</span></code>: Length of data read </li>
+<li><code class="docutils literal"><span class="pre">timeout</span></code>: Receive timeout in milliseconds (-1 for no timeout)</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>TO_OK if data has been sent successfully, else:<ul class="simple">
+<li>TO_TIMEOUT: Receive timed out</li>
+<li>TO_ERROR: Other error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

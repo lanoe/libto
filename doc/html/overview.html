@@ -1,0 +1,170 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>libTO overview &#8212; libTO 4.6.4 (doc Pa/L/Ls/T/Ts) documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.6.4 (doc Pa/L/Ls/T/Ts)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/custom.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Linux installation instructions" href="autotools_env/setup_linux.html" />
+    <link rel="prev" title="Trusted-Objects Secure Element library documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">release 4.6.4<br />doc Pa/L/Ls/T/Ts</p>
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">libTO overview</a><ul>
+<li><a class="reference internal" href="#overall-architecture">Overall architecture</a></li>
+<li><a class="reference internal" href="#library-files-tree">Library files tree</a></li>
+<li><a class="reference internal" href="#limitations">Limitations</a><ul>
+<li><a class="reference internal" href="#multi-process-environments">Multi-process environments</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="libto-overview">
+<h1>libTO overview<a class="headerlink" href="#libto-overview" title="Permalink to this headline">¶</a></h1>
+<p>The libTO is to be integrated as part of your software to provide to your
+application an interface to easily deal with Secure Element features. It aims
+to help developers to work with TO, as an abstraction layer between its API and
+I2C communications.</p>
+<p>The library is designed to be able to run on MCUs, as on Linux embedded
+hardware. Dynamic allocation is not used by the library, and it tries to use
+standard C APIs.</p>
+<div class="section" id="overall-architecture">
+<h2>Overall architecture<a class="headerlink" href="#overall-architecture" title="Permalink to this headline">¶</a></h2>
+<p>Below is detailed the library architecture.</p>
+<img src="_static/lib_architecture.png" width="500" height="379" border="0" usemap="#map" />
+
+<map name="map">
+<!-- #$-:Image map file created by GIMP Image Map plug-in -->
+<!-- #$-:GIMP Image Map plug-in by Maurits Rijk -->
+<!-- #$-:Please do not edit lines starting with "#$" -->
+<!-- #$VERSION:2.3 -->
+<!-- #$AUTHOR:Unknown -->
+<area shape="rect" coords="73,0,298,75" alt="Secure Element Helper API" href="api/helper.html" />
+<area shape="poly" coords="297,77,72,77,71,0,1,0,1,150,297,150" alt="Secure Element API" href="api/se.html" />
+<area shape="rect" coords="1,151,297,226" alt="libTO core" href="api/lib.html" />
+<area shape="rect" coords="0,228,298,302" alt="I2C wrapper API" href="api/i2c_wrapper.html" />
+<area shape="rect" coords="0,304,298,378" alt="I2C wrapper" href="wrapper/overview.html" />
+</map>
+<p>(you can click the image to obtain details about library different
+parts)</p>
+<p>Two developer’s APIs are available to use from your application:
+<a class="reference internal" href="api/se.html#api-to"><span class="std std-ref">Secure Element API</span></a> and <a class="reference internal" href="api/helper.html#api-helper"><span class="std std-ref">Helper API</span></a>.</p>
+<p>These APIs are using library internal mechanisms to abstract TO
+communication protocol. However, this internal layer provides <a class="reference internal" href="api/lib.html#api-lib"><span class="std std-ref">Library core APIs</span></a>,
+which you may want to use for debugging or advanced uses.</p>
+<p>The communication flow can (optionally) rely on a Secure Link protocol, which
+aims to encrypt and authenticate communication between Secure Element and MCU.
+If needed, request documentation about Secure Link to Trusted Objects.</p>
+<p>Finally, everything relies on an <a class="reference internal" href="wrapper/overview.html#i2c-wrapper"><span class="std std-ref">I2C wrapper</span></a>, which is hardware
+dependent, internally accessed through the <a class="reference internal" href="api/i2c_wrapper.html#api-i2c-wrapper"><span class="std std-ref">I2C wrapper API</span></a>.</p>
+</div>
+<div class="section" id="library-files-tree">
+<h2>Library files tree<a class="headerlink" href="#library-files-tree" title="Permalink to this headline">¶</a></h2>
+<p>The library files tree structure is the following:</p>
+<ul class="simple">
+<li><strong>/include:</strong> headers providing library APIs, see <a class="reference internal" href="index.html#apis"><span class="std std-ref">Provided APIs</span></a></li>
+<li><strong>/src:</strong> library sources</li>
+<li><strong>/wrapper:</strong> I2C wrappers, to abstract Secure Element I2C communications, a
+<cite>.C</cite> file is provided for every supported platform, and you are free to
+implement your own, see <a class="reference internal" href="wrapper/overview.html#i2c-wrapper"><span class="std std-ref">I2C wrapper</span></a></li>
+<li><strong>/examples:</strong> some examples to use the library from your project</li>
+</ul>
+</div>
+<div class="section" id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="multi-process-environments">
+<h3>Multi-process environments<a class="headerlink" href="#multi-process-environments" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Due to the underlying I2C bus, the library is <strong>not</strong> designed to
+be used simultaneously by different processes, so doing that may cause
+undefined behavior.</p>
+</div>
+<p>If you need to use the library from different processes or execution threads,
+we recommend to embed the library into a dedicated process to handle
+concurrency, on which the other ones rely.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Trusted Objects.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
